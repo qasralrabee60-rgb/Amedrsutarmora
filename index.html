@@ -92,17 +92,14 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">পাসওয়ার্ড</label>
-                    <input type="password" id="login-password" placeholder="আপনার পাসওয়ার্ড দিন" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
+                    <input type="password" id="login-password" onkeypress="if(event.key==='Enter') handleUserLogin()" placeholder="আপনার পাসওয়ার্ড দিন" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
                 </div>
                 <button onclick="handleUserLogin()" class="w-full py-3 bg-village-700 hover:bg-village-800 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
                     <span>প্রবেশ করুন</span> <i class="fa-solid fa-arrow-right"></i>
                 </button>
 
-                <div class="pt-4 border-t border-gray-100">
-                    <button onclick="handleOneClickAdminLogin()" class="w-full py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-shield-halved text-amber-600"></i>
-                        <span>One-Click Admin Login (গ্রাম অ্যাডমিন প্যানেল)</span>
-                    </button>
+                <div class="pt-3 border-t border-gray-100 text-center">
+                    <p class="text-xs text-gray-500">অ্যাকাউন্ট নেই? উপরে <button type="button" onclick="switchAuthTab('register')" class="font-extrabold text-village-700 underline">নতুন নিবন্ধন</button> ট্যাবে ক্লিক করে যুক্ত হন।</p>
                 </div>
             </div>
 
@@ -722,6 +719,13 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // অ্যাডমিন লগইন তথ্য (আপনি চাইলে এখান থেকে পাসওয়ার্ড পরিবর্তন করতে পারেন)
+        const ADMIN_CREDENTIALS = {
+            email: "admin@sutarmora.com",
+            phone: "01700000000",
+            password: "admin1234"
+        };
+
         const appId = 'amader-sutarmora-live';
         const _k1 = "AIzaSyCi92D9rsbG_";
         const _k2 = "uZFXH2ZA9L8i3t56QnYBNc";
@@ -1064,17 +1068,20 @@
             const iden = document.getElementById('login-identifier').value.trim().toLowerCase();
             const pass = document.getElementById('login-password').value;
             if (!iden || !pass) { showToast("আইডি ও পাসওয়ার্ড দিন।", "warning"); return; }
+
+            // সুরক্ষিত অ্যাডমিন লগইন যাচাই
+            if ((iden === ADMIN_CREDENTIALS.email.toLowerCase() || iden === ADMIN_CREDENTIALS.phone) && pass === ADMIN_CREDENTIALS.password) {
+                currentUserProfile = { id: 'admin_sutarmora', name: 'গ্রাম অ্যাডমিন (সুতারমুড়া)', para: 'মধ্য পাড়া', role: 'admin', status: 'approved', facePhoto: 'https://placehold.co/100x100/14532d/fbbf24?text=ADMIN' };
+                enterMainApp();
+                showToast("অ্যাডমিন প্যানেলে স্বাগতম!", "success");
+                return;
+            }
+
             const found = allUsers.find(u => ((u.email && u.email.toLowerCase() === iden) || u.phone === iden) && u.password === pass);
-            if (!found) { showToast("তথ্য সঠিক নয়।", "error"); return; }
+            if (!found) { showToast("ইমেইল/মোবাইল অথবা পাসওয়ার্ড সঠিক নয়।", "error"); return; }
             currentUserProfile = found;
             enterMainApp();
             showToast(`স্বাগতম, ${found.name}!`, "success");
-        };
-
-        window.handleOneClickAdminLogin = function() {
-            currentUserProfile = { id: 'admin_sutarmora', name: 'গ্রাম অ্যাডমিন (সুতারমুড়া)', para: 'মধ্য পাড়া', role: 'admin', status: 'approved', facePhoto: 'https://placehold.co/100x100/14532d/fbbf24?text=ADMIN' };
-            enterMainApp();
-            showToast("অ্যাডমিন প্যানেলে স্বাগতম!", "success");
         };
 
         window.handleLogout = function() {
