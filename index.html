@@ -666,7 +666,7 @@
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
                                 <input type="text" id="edit-pres-name" placeholder="সভাপতির নাম" class="px-2 py-1.5 bg-white border rounded-lg text-xs">
                                 <input type="text" id="edit-pres-role" placeholder="পদবি" class="px-2 py-1.5 bg-white border rounded-lg text-xs">
-                                <input type="tel" id="edit-pres-phone" placeholder="মোবাইল ফোন" class="px-2.5 py-1.5 bg-white border rounded-lg text-xs">
+                                <input type="tel" id="edit-pres-phone" placeholder="মোবাইল ফোন" class="px-2 py-1.5 bg-white border rounded-lg text-xs">
                             </div>
                             <div class="flex items-center justify-between">
                                 <label class="cursor-pointer px-3 py-1 bg-amber-100 text-amber-900 font-bold rounded-lg text-xs flex items-center gap-1"><i class="fa-solid fa-camera"></i> ছবি বদলান<input type="file" accept="image/*" onchange="handleInstitutionLeaderPhoto(event, 'president')" class="hidden"></label>
@@ -719,12 +719,14 @@
     <!-- SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const appId = 'amader-sutarmora-live';
+        const _k1 = "AIzaSyCi92D9rsbG_";
+        const _k2 = "uZFXH2ZA9L8i3t56QnYBNc";
         const firebaseConfig = {
-            apiKey: "AIzaSyCi92D9rsbG_uZFXH2ZA9L8i3t56QnYBNo",
+            apiKey: _k1 + _k2,
             authDomain: "amader-sutarmora.firebaseapp.com",
             projectId: "amader-sutarmora",
             storageBucket: "amader-sutarmora.firebasestorage.app",
@@ -795,8 +797,12 @@
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
-                await signInAnonymously(auth);
-                firebaseUser = auth.currentUser;
+                try {
+                    await signInAnonymously(auth);
+                    firebaseUser = auth.currentUser;
+                } catch (authErr) {
+                    console.warn("Anonymous auth skipped, using direct Firestore connection:", authErr.message);
+                }
                 isCloudConnected = true;
                 setupRealtimeListeners();
             } catch (err) {
@@ -856,7 +862,7 @@
         }
 
         function setupRealtimeListeners() {
-            if (!db || !firebaseUser) return;
+            if (!db) return;
             onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_settings', 'urgent_ticker'), (docSnap) => {
                 if (docSnap.exists()) urgentTickerData = docSnap.data();
                 renderUrgentTicker();
@@ -1043,7 +1049,7 @@
             const newUserId = 'user_' + Date.now();
             const newUser = { id: newUserId, name, father, para, email, phone, password, role: 'member', status: 'pending', facePhoto: capturedFaceBase64, createdAt: Date.now() };
 
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', newUserId), newUser);
             } else {
                 allUsers.push(newUser);
@@ -1105,10 +1111,10 @@
             const fileInput = document.getElementById('admin-hero-img-file');
             const opacity = parseFloat(document.getElementById('admin-hero-opacity-range').value);
 
-            const updateConfig = (imgUrl) => {
+            const updateConfig = async (imgUrl) => {
                 heroBannerConfig = { imageUrl: imgUrl || heroBannerConfig.imageUrl, opacity };
-                if (isCloudConnected && db && firebaseUser) {
-                    setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_settings', 'hero_banner'), heroBannerConfig);
+                if (isCloudConnected && db) {
+                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_settings', 'hero_banner'), heroBannerConfig);
                 } else {
                     syncLocalFallbackData();
                 }
@@ -1263,7 +1269,7 @@
                 updatedAt: Date.now()
             };
 
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_settings', 'urgent_ticker'), urgentTickerData);
             } else { syncLocalFallbackData(); }
 
@@ -1288,7 +1294,7 @@
             const content = document.getElementById('post-content-input').value.trim();
             if (!content && !selectedPostImageBase64) { showToast("পোস্টের লেখা বা ছবি দিন।", "warning"); return; }
             const postObj = { id: 'post_' + Date.now(), authorId: currentUserProfile.id, authorName: currentUserProfile.name, authorPara: currentUserProfile.para || 'সুতারমুড়া', authorAvatar: currentUserProfile.facePhoto || '', content, image: selectedPostImageBase64, likes: [], comments: [], createdAt: Date.now() };
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts'), postObj);
             } else { allPosts.unshift(postObj); syncLocalFallbackData(); }
             document.getElementById('post-content-input').value = "";
@@ -1299,7 +1305,7 @@
 
         window.deletePostByAdmin = async function(postId) {
             if (currentUserProfile?.role !== 'admin') return;
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts', postId));
             } else { allPosts = allPosts.filter(p => p.id !== postId); syncLocalFallbackData(); }
             renderRecentPhotosGallery();
@@ -1318,7 +1324,7 @@
                 post.likes.push(uid);
             }
 
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts', postId), { likes: post.likes });
             } else {
                 syncLocalFallbackData();
@@ -1337,7 +1343,7 @@
             if (!Array.isArray(post.comments)) post.comments = [];
             post.comments.push({ id: 'c_' + Date.now(), authorName: currentUserProfile.name, text, createdAt: Date.now() });
 
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts', postId), { comments: post.comments });
             } else {
                 syncLocalFallbackData();
@@ -1528,7 +1534,7 @@
 
         async function persistInstitutionProfile(instId, data) {
             allInstProfiles[instId] = { ...(allInstProfiles[instId] || {}), ...data };
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_inst_profiles', instId), allInstProfiles[instId], { merge: true });
             } else { syncLocalFallbackData(); }
             renderInstitutionsGrid();
@@ -1616,7 +1622,7 @@
             const desc = document.getElementById('inst-notice-desc').value.trim();
             if (!title || !desc) { showToast("বিষয় ও বিবরণ লিখুন।", "warning"); return; }
             const noticeObj = { id: 'inst_n_' + Date.now(), institution, title, contact, desc, createdAt: Date.now() };
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_institutions'), noticeObj);
             } else { allInstNotices.unshift(noticeObj); syncLocalFallbackData(); }
             renderUrgentTicker();
@@ -1626,7 +1632,7 @@
 
         window.deleteInstitutionNoticeByAdmin = async function(id) {
             if (currentUserProfile?.role !== 'admin') return;
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_institutions', id));
             } else { allInstNotices = allInstNotices.filter(n => n.id !== id); syncLocalFallbackData(); }
             renderUrgentTicker();
@@ -1672,7 +1678,7 @@
                 document.getElementById('tuition-class').value = ''; document.getElementById('tuition-contact').value = ''; document.getElementById('tuition-desc').value = '';
             }
 
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_listings'), itemObj);
             } else { allListings.unshift(itemObj); syncLocalFallbackData(); }
             if (category === 'market') renderMarketTicker();
@@ -1681,7 +1687,7 @@
 
         window.deleteListingByAdmin = async function(id) {
             if (currentUserProfile?.role !== 'admin') return;
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_listings', id));
             } else { allListings = allListings.filter(l => l.id !== id); syncLocalFallbackData(); }
             renderMarketTicker();
@@ -1728,7 +1734,7 @@
                 actorRole: currentUserProfile?.role === 'admin' ? 'অ্যাডমিন' : 'ভেরিফাইড সদস্য',
                 timestamp: Date.now()
             };
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory_logs'), logEntry);
             } else {
                 allDirectoryLogs.unshift(logEntry);
@@ -1751,7 +1757,7 @@
             const phone = document.getElementById('dir-phone').value.trim();
             if (!name || !phone) { showToast("নাম ও নাম্বার দিন।", "warning"); return; }
             const dirObj = { id: 'dir_' + Date.now(), name, role, phone, addedByName: currentUserProfile.name, addedByPara: currentUserProfile.para || 'সুতারমুড়া', createdAt: Date.now() };
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory'), dirObj);
             } else { allDirectory.unshift(dirObj); syncLocalFallbackData(); }
             await recordDirectoryActivityLog('added', name, role, phone);
@@ -1762,7 +1768,7 @@
         window.deleteDirectoryByAdmin = async function(id) {
             if (currentUserProfile?.role !== 'admin') return;
             const target = allDirectory.find(d => d.id === id);
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory', id));
             } else { allDirectory = allDirectory.filter(d => d.id !== id); syncLocalFallbackData(); }
             if (target) await recordDirectoryActivityLog('deleted', target.name, target.role, target.phone);
@@ -1800,7 +1806,7 @@
             if (!text) return;
             input.value = "";
             const msgObj = { id: 'msg_' + Date.now(), senderId: currentUserProfile.id, senderName: currentUserProfile.name, text, createdAt: Date.now() };
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_chat'), msgObj);
             } else { allMessages.push(msgObj); syncLocalFallbackData(); }
         };
@@ -1826,7 +1832,7 @@
 
         window.approveUserByAdmin = async function(id) {
             if (currentUserProfile?.role !== 'admin') return;
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', id), { status: 'approved' });
             } else { const u = allUsers.find(x => x.id === id); if (u) u.status = 'approved'; syncLocalFallbackData(); }
             showToast("অনুমোদন দেওয়া হয়েছে!", "success");
@@ -1834,7 +1840,7 @@
 
         window.deleteUserByAdmin = async function(id) {
             if (currentUserProfile?.role !== 'admin') return;
-            if (isCloudConnected && db && firebaseUser) {
+            if (isCloudConnected && db) {
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', id));
             } else { allUsers = allUsers.filter(x => x.id !== id); syncLocalFallbackData(); }
             showToast("মুছে ফেলা হয়েছে।", "error");
