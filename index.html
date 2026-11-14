@@ -1,500 +1,505 @@
 <!DOCTYPE html>
-<html lang="bn" class="h-full">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আমাদের সুতারমুড়া — ডিজিটাল গ্রাম কমিউনিটি</title>
-    <!-- Tailwind CSS -->
+    <title>আমাদের সুতারমুড়া — গ্রাম ও প্রবাসীদের মিলনমেলা</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Kalpurush & Noto Sans Bengali Fonts -->
-    <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['"Kalpurush"', '"Noto Sans Bengali"', 'Inter', 'sans-serif'],
-                        kalpurush: ['"Kalpurush"', '"Noto Sans Bengali"', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['"Hind Siliguri"', 'sans-serif'] },
                     colors: {
-                        village: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            200: '#bbf7d0',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            800: '#166534',
-                            900: '#14532d',
-                        },
-                        gold: {
-                            50: '#fffbeb',
-                            100: '#fef3c7',
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
-                        }
+                        village: { 50: '#f0fdf4', 100: '#dcfce7', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d', 950: '#052e16' },
+                        gold: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' }
                     }
                 }
             }
         }
     </script>
     <style>
-        html, body, input, select, textarea, button, span, p, h1, h2, h3, h4, a, div, label, th, td {
-            font-family: 'Kalpurush', 'Noto Sans Bengali', 'Inter', sans-serif !important;
-        }
-        body {
-            background-color: #f3f6f4;
-        }
-        .font-kalpurush-title {
-            font-family: 'Kalpurush', 'Noto Sans Bengali', sans-serif !important;
-        }
-        .font-mono {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #16a34a;
-            border-radius: 10px;
-        }
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        @keyframes pulse-border {
-            0%, 100% { border-color: #22c55e; }
-            50% { border-color: #f59e0b; }
-        }
-        .face-scanner-ring {
-            animation: pulse-border 2s infinite;
-        }
-        .ticker-wrapper {
-            overflow: hidden;
-            white-space: nowrap;
-            position: relative;
-        }
-        .ticker-track {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee-scroll 32s linear infinite;
-        }
-        .ticker-track-market {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee-scroll 26s linear infinite;
-        }
-        .ticker-wrapper:hover .ticker-track,
-        .ticker-wrapper:active .ticker-track,
-        .ticker-wrapper:hover .ticker-track-market,
-        .ticker-wrapper:active .ticker-track-market {
-            animation-play-state: paused;
-        }
-        @keyframes marquee-scroll {
-            0% { transform: translateX(0); }
+        body { font-family: 'Hind Siliguri', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes tickerMarquee {
+            0% { transform: translateX(0%); }
             100% { transform: translateX(-100%); }
+        }
+        .animate-ticker {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: tickerMarquee 32s linear infinite;
+        }
+        .animate-market-ticker {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: tickerMarquee 36s linear infinite;
+        }
+        .ticker-bar-container:hover .animate-ticker,
+        .ticker-bar-container:hover .animate-market-ticker {
+            animation-play-state: paused;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col text-gray-800">
+<body class="bg-stone-100 text-gray-800 antialiased selection:bg-village-600 selection:text-white">
 
+    <!-- টোস্ট নোটিফিকেশন -->
     <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
-    <div id="global-loader" class="fixed inset-0 bg-village-900/95 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-white">
-        <div class="w-16 h-16 border-4 border-gold-400 border-t-transparent rounded-full animate-spin mb-4"></div>
-        <h2 class="text-2xl font-bold tracking-wide">আমাদের সুতারমুড়া</h2>
-        <p class="text-base text-green-200 mt-1">কমিউনিটি প্ল্যাটফর্ম প্রস্তুত হচ্ছে...</p>
+    <!-- গ্লোবাল লোডার -->
+    <div id="global-loader" class="fixed inset-0 bg-village-950/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-white">
+        <div class="w-12 h-12 border-4 border-gold-400 border-t-transparent rounded-full animate-spin mb-3"></div>
+        <h2 class="text-lg font-bold tracking-wide">আমাদের সুতারমুড়া</h2>
+        <p class="text-xs text-green-200 mt-1">সার্ভার ও ক্লাউড ডাটাবেস সংযুক্ত হচ্ছে...</p>
     </div>
 
-    <!-- ১. লগইন এবং নিবন্ধন স্ক্রিন -->
-    <div id="auth-screen" class="hidden min-h-screen bg-gradient-to-br from-village-900 via-village-800 to-emerald-900 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden border border-green-100">
-            <div class="relative bg-village-900 p-6 text-center text-white overflow-hidden" style="background-image: linear-gradient(to bottom, rgba(20, 83, 45, 0.85), rgba(20, 83, 45, 0.95)), url('https://placehold.co/600x400/166534/ffffff?text=Sutarmora+Village'); background-size: cover; background-position: center;">
-                <div class="absolute top-3 right-3">
-                    <label class="cursor-pointer px-2.5 py-1 bg-black/40 hover:bg-black/60 text-white rounded-lg text-[11px] font-bold backdrop-blur-xs transition flex items-center gap-1">
-                        <i class="fa-solid fa-camera"></i> ছবি বদলান
-                        <input type="file" accept="image/*" onchange="handleAuthHeaderPhoto(event)" class="hidden">
-                    </label>
+    <!-- ১. লগইন এবং রেজিস্ট্রেশন স্ক্রিন -->
+    <div id="auth-screen" class="hidden min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-village-950 via-village-900 to-emerald-950">
+        <div class="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border border-village-700/30">
+            <!-- হেডার -->
+            <div class="relative bg-village-900 text-white p-6 text-center overflow-hidden" style="background-image: linear-gradient(to bottom, rgba(20, 83, 45, 0.88), rgba(20, 83, 45, 0.96)), url('https://images.unsplash.com/photo-1544717305-2782549b5136?q=90&w=1000&auto=format&fit=crop'); background-size: cover; background-position: center;">
+                <label class="absolute top-3 right-3 cursor-pointer bg-black/50 hover:bg-black/75 text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/25 flex items-center gap-1 transition" title="ছবি পরিবর্তন করুন">
+                    <i class="fa-solid fa-camera text-gold-400"></i> ছবি বদলান
+                    <input type="file" accept="image/*" onchange="handleAuthHeaderPhoto(event)" class="hidden">
+                </label>
+                <div class="w-14 h-14 bg-gold-400 text-village-950 rounded-2xl flex items-center justify-center mx-auto mb-2.5 shadow-lg">
+                    <i class="fa-solid fa-mosque text-2xl"></i>
                 </div>
-                <div class="w-14 h-14 bg-gold-400 text-village-950 rounded-2xl flex items-center justify-center mx-auto mb-2.5 shadow-lg text-2xl font-black">
-                    <i class="fa-solid fa-tree-city"></i>
-                </div>
-                <h1 class="text-3xl font-extrabold tracking-tight font-kalpurush-title">আমাদের সুতারমুড়া</h1>
-                <p class="text-sm text-green-100 mt-0.5">আমাদের গ্রাম, আমাদের পরিবার — ভেরিফায়েড কমিউনিটি</p>
+                <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">আমাদের সুতারমুড়া</h1>
+                <p class="text-green-200 text-xs mt-0.5">গ্রাম ও প্রবাসীদের নিরাপদ ডিজিটাল প্ল্যাটফর্ম</p>
             </div>
 
-            <div class="flex border-b border-gray-200 bg-gray-50 p-1.5 gap-1">
+            <!-- ট্যাব বাটন -->
+            <div class="flex border-b border-gray-200 bg-gray-50 p-1.5 gap-1.5">
                 <button id="tab-login-btn" onclick="switchAuthTab('login')" class="flex-1 py-2.5 text-sm font-bold rounded-xl bg-white text-village-800 shadow-sm transition">
                     <i class="fa-solid fa-right-to-bracket mr-1"></i> লগইন করুন
                 </button>
                 <button id="tab-register-btn" onclick="switchAuthTab('register')" class="flex-1 py-2.5 text-sm font-bold rounded-xl text-gray-500 hover:text-village-700 transition">
-                    <i class="fa-solid fa-user-plus mr-1"></i> নতুন সদস্য নিবন্ধন
+                    <i class="fa-solid fa-user-plus mr-1"></i> নতুন নিবন্ধন
                 </button>
             </div>
 
             <!-- লগইন ফর্ম -->
             <div id="login-form-box" class="p-6 space-y-4">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">ইমেইল অথবা মোবাইল নাম্বার</label>
-                    <input type="text" id="login-identifier" placeholder="আপনার ইমেইল বা মোবাইল নাম্বার দিন" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-500">
+                    <label class="block text-xs font-bold text-gray-700 mb-1">ইমেইল অথবা মোবাইল নাম্বার</label>
+                    <input type="text" id="login-identifier" placeholder="example@gmail.com বা 017XXXXXXXX" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">পাসওয়ার্ড</label>
-                    <input type="password" id="login-password" placeholder="আপনার পাসওয়ার্ড দিন" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-500">
+                    <label class="block text-xs font-bold text-gray-700 mb-1">পাসওয়ার্ড</label>
+                    <input type="password" id="login-password" placeholder="আপনার পাসওয়ার্ড দিন" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
                 </div>
-                <button onclick="handleUserLogin()" class="w-full bg-village-700 hover:bg-village-800 text-white font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-base">
-                    <span>প্রবেশ করুন (Login)</span>
-                    <i class="fa-solid fa-arrow-right"></i>
+                <button onclick="handleUserLogin()" class="w-full py-3 bg-village-700 hover:bg-village-800 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
+                    <span>প্রবেশ করুন</span> <i class="fa-solid fa-arrow-right"></i>
                 </button>
 
                 <div class="pt-4 border-t border-gray-100">
-                    <button onclick="handleOneClickAdminLogin()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-village-950 font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        <span>অ্যাডমিন লগইন (১-ক্লিক প্রবেশ)</span>
+                    <button onclick="handleOneClickAdminLogin()" class="w-full py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-shield-halved text-amber-600"></i>
+                        <span>One-Click Admin Login (গ্রাম অ্যাডমিন প্যানেল)</span>
                     </button>
                 </div>
             </div>
 
-            <!-- নিবন্ধন ফর্ম -->
-            <div id="register-form-box" class="hidden p-5 space-y-3.5 max-h-[78vh] overflow-y-auto">
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">আপনার পূর্ণ নাম *</label>
-                    <input type="text" id="reg-name" placeholder="আপনার নাম লিখুন" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm">
-                </div>
+            <!-- রেজিস্ট্রেশন ফর্ম -->
+            <div id="register-form-box" class="hidden p-5 sm:p-6 space-y-3.5 max-h-[75vh] overflow-y-auto">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-1">পিতার নাম *</label>
-                        <input type="text" id="reg-father" placeholder="পিতার নাম লিখুন" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm">
+                        <label class="block text-xs font-bold text-gray-700 mb-1">পূর্ণ নাম *</label>
+                        <input type="text" id="reg-name" placeholder="যেমন: মো: আব্দুল করিম" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-village-600 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-1">পাড়া / মহল্লা *</label>
-                        <select id="reg-para" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm">
-                            <option value="উত্তর পাড়া">উত্তর পাড়া</option>
-                            <option value="দক্ষিণ পাড়া">দক্ষিণ পাড়া</option>
-                            <option value="পূর্ব পাড়া">পূর্ব পাড়া</option>
-                            <option value="পশ্চিম পাড়া">পশ্চিম পাড়া</option>
-                            <option value="মধ্য পাড়া">মধ্য পাড়া</option>
-                            <option value="আলগা বাড়ী">আলগা বাড়ী</option>
-                            <option value="দৌলতপুর">দৌলতপুর</option>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">পিতার নাম *</label>
+                        <input type="text" id="reg-father" placeholder="যেমন: মো: রহিম উদ্দিন" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-village-600 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">পাড়া / বর্তমান অবস্থান *</label>
+                        <select id="reg-para" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-village-600 focus:outline-none">
+                            <option value="উত্তর পাড়া">উত্তর পাড়া</option>
+                            <option value="দক্ষিণ পাড়া">দক্ষিণ পাড়া</option>
+                            <option value="পূর্ব পাড়া">পূর্ব পাড়া</option>
+                            <option value="পশ্চিম পাড়া">পশ্চিম পাড়া</option>
+                            <option value="মধ্য পাড়া">মধ্য পাড়া</option>
+                            <option value="নতুন পাড়া">নতুন পাড়া</option>
+                            <option value="প্রবাসী (বিদেশ)">প্রবাসী (বিদেশ)</option>
                         </select>
                     </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">মোবাইল নাম্বার *</label>
+                        <input type="tel" id="reg-phone" placeholder="017XXXXXXXX" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-village-600 focus:outline-none">
+                    </div>
                 </div>
 
-                <div class="bg-blue-50/70 border border-blue-200 rounded-2xl p-3.5 space-y-2.5">
-                    <div class="flex items-center justify-between">
-                        <label class="text-sm font-extrabold text-blue-900"><i class="fa-solid fa-envelope-circle-check mr-1"></i> ইমেইল ওটিপি (Email OTP) যাচাই *</label>
-                        <span id="email-verified-badge" class="hidden px-2.5 py-0.5 bg-green-600 text-white text-xs font-bold rounded-full">✓ ভেরিফাইড</span>
-                    </div>
+                <!-- ইমেইল ভেরিফিকেশন -->
+                <div class="bg-green-50/70 p-3 rounded-2xl border border-green-200 space-y-2">
+                    <label class="block text-xs font-bold text-village-900">ইমেইল ও ইনস্ট্যান্ট OTP ভেরিফিকেশন *</label>
                     <div class="flex gap-2">
-                        <input type="email" id="reg-email" placeholder="আপনার ইমেইল (example@gmail.com)" class="flex-1 px-3 py-2 bg-white border border-blue-200 rounded-xl text-sm">
-                        <button type="button" id="btn-send-email-otp" onclick="sendEmailOTP()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl">OTP পাঠান</button>
+                        <input type="email" id="reg-email" placeholder="আপনার ইমেইল লিখুন" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none">
+                        <button type="button" onclick="sendEmailOTP()" id="btn-send-otp" class="px-3 py-2 bg-village-700 hover:bg-village-800 text-white text-xs font-bold rounded-xl whitespace-nowrap transition">
+                            OTP কোড নিন
+                        </button>
                     </div>
-                    <div id="otp-verify-section" class="hidden space-y-2 pt-1">
-                        <div class="bg-white border border-green-300 rounded-xl p-2.5 text-xs text-gray-800 flex items-center justify-between">
-                            <span id="otp-hint-text">কোড পাঠানো হয়েছে।</span>
-                            <span id="otp-instant-code-badge" class="font-mono font-extrabold text-sm bg-green-100 text-green-800 px-2.5 py-0.5 rounded-lg"></span>
+                    <div id="otp-verify-section" class="hidden space-y-1.5 pt-1">
+                        <div class="flex items-center justify-between bg-amber-100 border border-amber-300 px-3 py-1.5 rounded-xl text-xs">
+                            <span class="font-bold text-amber-950">আপনার ভেরিফিকেশন কোড:</span>
+                            <span id="otp-instant-code-badge" class="font-black text-sm text-red-700 tracking-widest bg-white px-2.5 py-0.5 rounded-lg border border-amber-400">------</span>
                         </div>
                         <div class="flex gap-2">
-                            <input type="text" id="reg-otp-input" maxlength="6" placeholder="৬ সংখ্যার OTP দিন" class="flex-1 px-3 py-2 bg-white border border-blue-300 rounded-xl text-sm font-mono text-center">
-                            <button type="button" onclick="verifyEmailOTP()" class="px-4 py-2 bg-village-700 text-white text-xs font-bold rounded-xl">যাচাই করুন</button>
+                            <input type="text" id="reg-otp-input" maxlength="6" placeholder="উপরের কোডটি লিখুন" class="flex-1 px-3 py-2 bg-white border border-amber-300 rounded-xl text-sm font-bold text-center tracking-widest">
+                            <button type="button" onclick="verifyEmailOTP()" class="px-4 py-2 bg-gold-500 hover:bg-gold-600 text-village-950 text-xs font-extrabold rounded-xl transition">যাচাই</button>
                         </div>
                     </div>
+                    <p id="email-verified-badge" class="hidden text-xs font-bold text-green-700"><i class="fa-solid fa-circle-check"></i> ইমেইল সফলভাবে ভেরিফাই হয়েছে!</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-1">মোবাইল নাম্বার *</label>
-                        <input type="tel" id="reg-phone" placeholder="017XXXXXXXX" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm">
+                <!-- লাইভ ফেস স্ক্যান -->
+                <div class="bg-stone-50 p-3 rounded-2xl border border-stone-200 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-bold text-gray-800"><i class="fa-solid fa-camera text-village-600 mr-1"></i> ফেস স্ক্যান / সেলফি ভেরিফিকেশন *</label>
                     </div>
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-1">পাসওয়ার্ড *</label>
-                        <input type="password" id="reg-password" placeholder="পাসওয়ার্ড" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm">
+                    <div class="relative w-32 h-32 mx-auto rounded-2xl overflow-hidden bg-gray-900 border-2 border-dashed border-village-600 flex items-center justify-center">
+                        <video id="face-video" autoplay playsinline class="hidden w-full h-full object-cover"></video>
+                        <img id="face-preview" class="hidden w-full h-full object-cover" alt="Face Preview">
+                        <div id="camera-placeholder" class="text-center p-2 text-gray-400">
+                            <i class="fa-solid fa-user-astronaut text-2xl mb-1 text-village-500"></i>
+                            <p class="text-[10px]">ক্যামেরা চালু করুন বা ছবি দিন</p>
+                        </div>
+                        <canvas id="face-canvas" class="hidden"></canvas>
                     </div>
-                </div>
-
-                <div class="border-2 border-dashed border-village-300 rounded-2xl p-3 bg-village-50/50 text-center">
-                    <p class="text-sm font-bold text-village-800 mb-2"><i class="fa-solid fa-face-viewfinder mr-1"></i> বাধ্যতামূলক লাইভ ফেস স্ক্যান *</p>
-                    <div id="camera-container" class="relative w-32 h-32 mx-auto rounded-full overflow-hidden bg-gray-900 border-4 face-scanner-ring shadow-inner flex items-center justify-center">
-                        <video id="face-video" autoplay playsinline class="w-full h-full object-cover hidden"></video>
-                        <img id="face-preview" src="" alt="Face" class="w-full h-full object-cover hidden">
-                        <div id="camera-placeholder" class="text-gray-400 text-xs p-2"><i class="fa-solid fa-user-shield text-2xl mb-1 block text-village-500"></i>ক্যামেরা চালু করুন</div>
-                    </div>
-                    <canvas id="face-canvas" class="hidden"></canvas>
-                    <div class="mt-2.5 flex flex-wrap justify-center gap-2">
-                        <button type="button" id="btn-start-cam" onclick="startFaceCamera()" class="px-3 py-1.5 bg-village-700 text-white text-xs font-bold rounded-lg">ক্যামেরা চালু</button>
-                        <button type="button" id="btn-capture-face" onclick="captureFaceSnapshot()" class="hidden px-3 py-1.5 bg-amber-500 text-village-950 text-xs font-bold rounded-lg">ছবি তুলুন</button>
-                        <button type="button" id="btn-retake-face" onclick="startFaceCamera()" class="hidden px-3 py-1.5 bg-gray-600 text-white text-xs font-bold rounded-lg">আবার তুলুন</button>
-                        <label class="cursor-pointer px-3 py-1.5 bg-white border border-gray-300 text-gray-700 text-xs font-bold rounded-lg">ছবি আপলোড<input type="file" accept="image/*" capture="user" onchange="handleFallbackFaceUpload(event)" class="hidden"></label>
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <button type="button" id="btn-start-cam" onclick="startFaceCamera()" class="px-3 py-1.5 bg-village-700 text-white text-xs font-bold rounded-xl"><i class="fa-solid fa-video mr-1"></i> ক্যামেরা</button>
+                        <button type="button" id="btn-capture-face" onclick="captureFaceSnapshot()" class="hidden px-3 py-1.5 bg-gold-500 text-village-950 text-xs font-extrabold rounded-xl"><i class="fa-solid fa-camera mr-1"></i> ছবি তুলুন</button>
+                        <button type="button" id="btn-retake-face" onclick="startFaceCamera()" class="hidden px-3 py-1.5 bg-gray-600 text-white text-xs font-bold rounded-xl">পুনরায়</button>
+                        <label class="cursor-pointer px-3 py-1.5 bg-white border border-gray-300 text-gray-700 text-xs font-bold rounded-xl">
+                            <i class="fa-solid fa-upload mr-1"></i> ছবি আপলোড
+                            <input type="file" accept="image/*" capture="user" onchange="handleFallbackFaceUpload(event)" class="hidden">
+                        </label>
                     </div>
                 </div>
 
-                <button onclick="handleUserRegister()" class="w-full bg-village-700 hover:bg-village-800 text-white font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-base">
-                    <i class="fa-solid fa-check-circle"></i><span>নিবন্ধন সম্পন্ন করুন</span>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">পাসওয়ার্ড তৈরি করুন *</label>
+                    <input type="password" id="reg-password" placeholder="কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm">
+                </div>
+
+                <button onclick="handleUserRegister()" class="w-full py-3 bg-village-700 hover:bg-village-800 text-white font-bold rounded-xl shadow-lg text-sm">
+                    নিবন্ধন জমা দিন
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ২. মূল অ্যাপ্লিকেশন স্ক্রিন -->
-    <div id="main-app" class="hidden flex-1 flex flex-col">
-        <header class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
-            <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
+    <!-- ২. মূল অ্যাপ্লিকেশন ড্যাশবোর্ড -->
+    <div id="main-app" class="hidden min-h-screen flex flex-col">
+        
+        <!-- টপ নেভিগেশন বার -->
+        <header class="sticky top-0 z-40 bg-village-900 text-white shadow-md border-b border-village-800">
+            <div class="max-w-6xl mx-auto px-3 sm:px-4 h-14 flex items-center justify-between gap-2">
                 <div class="flex items-center gap-2 cursor-pointer" onclick="switchMainTab('feed')">
-                    <div class="w-9 h-9 bg-village-700 text-gold-400 rounded-xl flex items-center justify-center text-lg shadow-sm">
-                        <i class="fa-solid fa-tree-city"></i>
+                    <div class="w-9 h-9 bg-gold-400 text-village-950 rounded-xl flex items-center justify-center shadow">
+                        <i class="fa-solid fa-mosque text-base"></i>
                     </div>
                     <div>
-                        <h1 class="text-lg sm:text-xl font-extrabold text-village-900 leading-tight font-kalpurush-title">আমাদের সুতারমুড়া</h1>
-                        <p class="text-[11px] font-bold text-village-700">আমাদের গ্রাম, আমাদের পরিবার</p>
+                        <h1 class="text-base sm:text-lg font-extrabold leading-tight tracking-tight">আমাদের সুতারমুড়া</h1>
+                        <p class="text-[10px] text-green-300 leading-none">আমাদের গ্রাম, আমাদের পরিবার</p>
                     </div>
                 </div>
+
                 <div class="flex items-center gap-2">
-                    <div class="hidden sm:flex items-center gap-2 bg-village-50 border border-village-200 px-2.5 py-1 rounded-full">
-                        <img id="header-user-avatar" src="https://placehold.co/100x100/166534/ffffff?text=U" alt="User" class="w-6 h-6 rounded-full object-cover border border-village-500">
-                        <div class="text-left">
-                            <p id="header-user-name" class="text-xs font-bold text-gray-800 leading-none">সদস্য</p>
-                            <span id="header-user-role" class="text-[10px] font-semibold text-village-700">ভেরিফাইড সদস্য</span>
+                    <div class="flex items-center gap-2 bg-village-800/90 px-2.5 py-1 rounded-full border border-village-700">
+                        <img id="header-user-avatar" src="https://placehold.co/100x100/166534/ffffff?text=U" alt="User" class="w-6 h-6 rounded-full object-cover border border-gold-400">
+                        <div class="hidden sm:block text-left">
+                            <p id="header-user-name" class="text-xs font-bold leading-none">সদস্য</p>
+                            <span id="header-user-role" class="text-[10px] text-gold-400 font-semibold">যাচাইকৃত</span>
                         </div>
                     </div>
-                    <button onclick="handleLogout()" class="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl text-xs font-bold transition flex items-center gap-1">
-                        <i class="fa-solid fa-right-from-bracket"></i><span>লগআউট</span>
+                    <button onclick="handleLogout()" title="লগআউট" class="w-8 h-8 rounded-full bg-red-600/20 hover:bg-red-600 text-red-200 hover:text-white flex items-center justify-center transition">
+                        <i class="fa-solid fa-right-from-bracket text-xs"></i>
                     </button>
                 </div>
             </div>
 
-            <nav class="bg-village-800 text-white">
-                <div class="max-w-6xl mx-auto px-2 sm:px-4 flex items-center gap-1.5 py-1.5 overflow-x-auto no-scrollbar">
-                    <button onclick="switchMainTab('feed')" id="nav-feed" class="nav-btn active-nav px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap bg-gold-400 text-village-950 shadow-sm transition flex items-center gap-1"><i class="fa-solid fa-house"></i> হোম ও ফিড</button>
-                    <button onclick="switchMainTab('institutions')" id="nav-institutions" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-mosque"></i> গ্রামের প্রতিষ্ঠান</button>
-                    <button onclick="switchMainTab('chat')" id="nav-chat" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-comments"></i> লাইভ চ্যাট</button>
-                    <button onclick="switchMainTab('jobs')" id="nav-jobs" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-briefcase"></i> কাজ ও চাকরি</button>
-                    <button onclick="switchMainTab('market')" id="nav-market" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-basket-shopping"></i> হাট-বাজার</button>
-                    <button onclick="switchMainTab('tuition')" id="nav-tuition" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-graduation-cap"></i> টিউশনি</button>
-                    <button onclick="switchMainTab('directory')" id="nav-directory" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-address-book"></i> ডিরেক্টরি</button>
-                    <button onclick="switchMainTab('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-extrabold whitespace-nowrap bg-red-600 text-white hover:bg-red-700 shadow-sm transition flex items-center gap-1 ml-auto"><i class="fa-solid fa-shield-halved"></i> অ্যাডমিন <span id="admin-pending-badge" class="bg-white text-red-700 text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span></button>
+            <!-- মেনু ট্যাব -->
+            <nav class="bg-village-950/75 border-t border-village-800/80 overflow-x-auto no-scrollbar">
+                <div class="max-w-6xl mx-auto px-2 sm:px-4 flex items-center gap-1 py-1.5">
+                    <button onclick="switchMainTab('feed')" id="nav-feed" class="nav-btn active-nav px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap bg-gold-400 text-village-950 shadow-sm transition flex items-center gap-1">
+                        <i class="fa-solid fa-house"></i> <span>হোম ও খবর</span>
+                    </button>
+                    <button onclick="switchMainTab('institutions')" id="nav-institutions" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1">
+                        <i class="fa-solid fa-school"></i> <span>স্কুল ও মসজিদ</span>
+                    </button>
+                    <button onclick="switchMainTab('jobs')" id="nav-jobs" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1">
+                        <i class="fa-solid fa-briefcase"></i> <span>চাকরি</span>
+                    </button>
+                    <button onclick="switchMainTab('market')" id="nav-market" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1">
+                        <i class="fa-solid fa-basket-shopping"></i> <span>হাট-বাজার</span>
+                    </button>
+                    <button onclick="switchMainTab('tuition')" id="nav-tuition" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1">
+                        <i class="fa-solid fa-book-open-reader"></i> <span>টিউশনি</span>
+                    </button>
+                    <button onclick="switchMainTab('chat')" id="nav-chat" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1">
+                        <i class="fa-solid fa-comments"></i> <span>আড্ডা</span>
+                    </button>
+                    <button onclick="switchMainTab('directory')" id="nav-directory" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1">
+                        <i class="fa-solid fa-address-book"></i> <span>ডিরেক্টরি</span>
+                    </button>
+                    <button onclick="switchMainTab('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-extrabold whitespace-nowrap bg-red-600 text-white hover:bg-red-700 shadow-sm transition flex items-center gap-1 ml-auto">
+                        <i class="fa-solid fa-user-shield"></i> <span>অ্যাডমিন</span>
+                        <span id="admin-pending-badge" class="bg-white text-red-700 text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span>
+                    </button>
                 </div>
             </nav>
 
-            <!-- ১ম লাইন: জরুরি ঘোষণা (বিনা বাটনে সরাসরি ক্লিকযোগ্য) -->
-            <div id="urgent-ticker-bar" onclick="openTickerEditorModal()" class="bg-gradient-to-r from-red-700 via-red-600 to-amber-700 text-white border-t border-red-400/40 shadow-inner transition-colors duration-300 cursor-pointer" title="জরুরি ঘোষণা দিতে এখানে ক্লিক করুন">
-                <div class="max-w-6xl mx-auto px-2 sm:px-4 py-2 flex items-center gap-2">
-                    <span id="ticker-category-badge" class="shrink-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-gold-400 text-village-950 text-xs sm:text-sm font-extrabold shadow-xs">
-                        <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+            <!-- জরুরি ঘোষণা চলমান হেডলাইন বার -->
+            <div id="urgent-ticker-bar" onclick="openTickerEditorModal()" title="ঘোষণা যুক্ত করতে ক্লিক করুন" class="ticker-bar-container bg-gradient-to-r from-red-700 via-red-600 to-amber-700 text-white border-t border-red-400/40 shadow-inner transition-colors duration-300 cursor-pointer">
+                <div class="max-w-6xl mx-auto flex items-center h-9 sm:h-10">
+                    <div class="bg-village-950 text-gold-400 px-3 sm:px-3.5 h-full flex items-center gap-1.5 font-extrabold text-xs sm:text-sm shrink-0 z-10 shadow-md">
+                        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                        <i class="fa-solid fa-bullhorn text-gold-400"></i>
                         <span id="ticker-badge-label">জরুরি ঘোষণা</span>
-                    </span>
-                    <div class="ticker-wrapper flex-1 text-sm sm:text-base font-bold tracking-wide">
-                        <div id="ticker-marquee-text" class="ticker-track">রামপুর উচ্চ বিদ্যালয়ে সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের বার্ষিক ক্রীড়া প্রতিযোগিতা ও সাংস্কৃতিক অনুষ্ঠান আগামী বৃহস্পতিবার সকাল ১০টায় অনুষ্ঠিত হবে।</div>
                     </div>
+                    <div class="flex-1 overflow-hidden relative h-full flex items-center">
+                        <div id="ticker-marquee-text" class="animate-ticker text-xs sm:text-sm font-bold tracking-wide text-white">
+                            রামপুর উচ্চ বিদ্যালয়ে সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের বার্ষিক ক্রীড়া প্রতিযোগিতা ও সাংস্কৃতিক অনুষ্ঠান আগামী বৃহস্পতিবার সকাল ১০টায় অনুষ্ঠিত হবে।
+                        </div>
+                    </div>
+                    <button type="button" onclick="event.stopPropagation(); openTickerEditorModal()" title="নতুন ঘোষণা লিখুন" class="bg-black/45 hover:bg-black/75 text-gold-300 px-2.5 sm:px-3.5 h-full text-xs font-extrabold flex items-center gap-1 shrink-0 z-10 border-l border-white/20 transition">
+                        <i class="fa-solid fa-plus-circle"></i> <span class="hidden sm:inline">ঘোষণা দিন</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- ২য় লাইন: হাট-বাজার বিজ্ঞাপন বার (বিনা বাটনে সরাসরি ক্লিকযোগ্য) -->
-            <div id="market-ad-ticker-bar" onclick="switchMainTab('market')" class="bg-gradient-to-r from-emerald-900 via-village-800 to-teal-900 text-emerald-50 border-t border-emerald-500/30 cursor-pointer" title="বিজ্ঞাপন দিতে এখানে ক্লিক করুন">
-                <div class="max-w-6xl mx-auto px-2 sm:px-4 py-1.5 flex items-center gap-2">
-                    <span class="shrink-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-emerald-400 text-village-950 text-xs sm:text-sm font-extrabold shadow-xs">
-                        <i class="fa-solid fa-basket-shopping"></i><span>বিজ্ঞাপন</span>
-                    </span>
-                    <div class="ticker-wrapper flex-1 text-sm sm:text-base font-bold tracking-wide">
-                        <div id="market-ticker-marquee-text" class="ticker-track-market">গ্রামের হাট-বাজারে তাজা সবজি, পুকুরের মাছ, দেশি মুরগি ও ঘরে উৎপাদিত পণ্য বিক্রি করতে ক্লিক করুন — সাথে সাথেই এখানে প্রদর্শিত হবে!</div>
+            <!-- হাট-বাজার লাইভ পণ্য বিক্রয় চলমান হেডলাইন বার -->
+            <div id="market-ticker-bar" onclick="switchMainTab('market')" title="হাট-বাজার পাতায় যেতে ক্লিক করুন" class="ticker-bar-container bg-gradient-to-r from-emerald-900 via-teal-800 to-village-900 text-white border-t border-emerald-400/30 shadow-inner cursor-pointer">
+                <div class="max-w-6xl mx-auto flex items-center h-8 sm:h-9">
+                    <div class="bg-amber-500 text-village-950 px-2.5 sm:px-3.5 h-full flex items-center gap-1.5 font-extrabold text-[11px] sm:text-xs shrink-0 z-10 shadow-md">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        <span>হাট-বাজার</span>
                     </div>
+                    <div class="flex-1 overflow-hidden relative h-full flex items-center">
+                        <div id="market-ticker-marquee-text" class="animate-market-ticker text-xs sm:text-sm font-bold tracking-wide text-emerald-50">
+                            গ্রামের হাট-বাজারে তাজা সবজি, পুকুরের মাছ, দেশি মুরগি ও ঘরে উৎপাদিত পণ্য বিক্রি করতে ক্লিক করুন — সাথে সাথেই এখানে প্রদর্শিত হবে!
+                        </div>
+                    </div>
+                    <button type="button" onclick="event.stopPropagation(); switchMainTab('market')" class="bg-black/40 hover:bg-black/70 text-amber-300 px-2.5 sm:px-3 h-full text-[11px] sm:text-xs font-extrabold flex items-center gap-1 shrink-0 z-10 border-l border-white/15 transition">
+                        <i class="fa-solid fa-tag"></i> <span class="hidden sm:inline">পণ্য দিন</span>
+                    </button>
                 </div>
             </div>
         </header>
 
-        <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-4 space-y-4">
-            <!-- পেন্ডিং ইউজার সতর্কতা বার্তা -->
-            <div id="pending-warning-banner" class="hidden bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row items-start gap-3">
-                <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center shrink-0 text-lg"><i class="fa-regular fa-clock"></i></div>
-                <div class="flex-1 text-sm">
-                    <h3 class="font-extrabold text-gray-900">আপনার প্রোফাইল ও ফেস স্ক্যান বর্তমানে অ্যাডমিন যাচাইয়ের অপেক্ষায় (Pending) রয়েছে</h3>
-                    <p class="text-gray-700 mt-0.5 leading-relaxed">অ্যাডমিন অনুমোদন না দেওয়া পর্যন্ত আপনি নতুন পোস্ট বা মন্তব্য করতে পারবেন না। তবে আপনি সব দেখতে পারবেন।</p>
-                    <span class="inline-block mt-2 px-3 py-0.5 bg-amber-500 text-village-950 font-extrabold text-xs rounded-full">শুধুমাত্র দেখার অনুমতি</span>
-                </div>
-            </div>
+        <!-- পেন্ডিং মেম্বার সতর্কবার্তা ব্যানার -->
+        <div id="pending-warning-banner" class="hidden bg-amber-500 text-village-950 px-4 py-2 text-center text-xs sm:text-sm font-bold shadow">
+            <i class="fa-solid fa-clock mr-1"></i> আপনার অ্যাকাউন্টটি অ্যাডমিনের অনুমোদনের অপেক্ষায় আছে। অনুমোদনের পর পোস্ট করতে পারবেন।
+        </div>
 
-            <!-- হিরো ব্যানার (ছোট করা হয়েছে) -->
-            <section id="hero-banner" class="relative rounded-2xl overflow-hidden shadow-md border border-village-500/40 bg-village-900 text-white p-4 sm:p-6" style="background-image: linear-gradient(to right, rgba(20, 83, 45, var(--banner-overlay-opacity, 0.75)), rgba(4, 120, 87, var(--banner-overlay-opacity, 0.75))), url('https://images.unsplash.com/photo-1544717305-2782549b5136?q=90&w=1400&auto=format&fit=crop'); background-size: cover; background-position: center;">
-                <div class="absolute top-2 right-2 z-20">
-                    <button id="btn-hero-settings-trigger" onclick="openHeroSettingsModal()" class="hidden px-2.5 py-1 bg-black/60 hover:bg-black/80 text-white rounded-lg text-[11px] font-bold backdrop-blur-sm transition flex items-center gap-1 shadow">
-                        <i class="fa-solid fa-sliders"></i> ব্যানার বদলান
-                    </button>
-                </div>
-                <div class="relative z-10 max-w-2xl space-y-2">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-village-900 border border-gold-400 text-xs sm:text-sm font-extrabold shadow">
-                        <i class="fa-solid fa-heart text-red-600"></i> আমাদের গ্রাম, আমাদের পরিবার
-                    </span>
-                    <h2 class="font-kalpurush-title text-2xl sm:text-3xl font-bold text-white leading-tight">
-                        একসাথে গড়ি আমাদের সুতারমুড়া
-                    </h2>
-                    <p class="text-xs sm:text-sm text-emerald-100 font-medium">
-                        “ঐক্য, ভ্রাতৃত্ব ও পারস্পরিক সহযোগিতায় গড়ে উঠুক আমাদের আদর্শ সুতারমুড়া”
-                    </p>
-                </div>
-            </section>
+        <!-- মেইন কন্টেন্ট এরিয়া -->
+        <main class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-4 space-y-5">
 
-            <!-- ট্যাব ১: হোম ও ফিড -->
+            <!-- ট্যাব ১: হোম ও গ্রামের খবর -->
             <div id="view-feed" class="tab-view space-y-4">
-                <!-- সাম্প্রতিক পোস্ট করা ছবির ছোট হরিজন্টাল গ্যালারি -->
-                <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 space-y-2">
-                    <h4 class="text-xs sm:text-sm font-extrabold text-village-900 flex items-center gap-1.5"><i class="fa-solid fa-images text-village-600"></i> সাম্প্রতিক পোস্ট করা ছবিসমূহ</h4>
-                    <div id="recent-photos-gallery" class="flex gap-2 overflow-x-auto no-scrollbar py-1">
+                <!-- হিরো ব্যানার -->
+                <div id="hero-banner" class="relative rounded-3xl p-4 sm:p-6 text-white shadow-lg overflow-hidden bg-village-900 transition-all duration-300" style="background-image: linear-gradient(to right, rgba(20, 83, 45, 0.75), rgba(4, 120, 87, 0.75)), url('https://images.unsplash.com/photo-1544717305-2782549b5136?q=90&w=1400&auto=format&fit=crop'); background-size: cover; background-position: center;">
+                    <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="max-w-xl">
+                            <span class="inline-block px-2.5 py-0.5 bg-gold-400 text-village-950 text-xs font-extrabold rounded-full mb-1.5 shadow-sm">সুতারমুড়া গ্রাম কমিউনিটি</span>
+                            <h2 class="text-lg sm:text-2xl font-extrabold leading-snug drop-shadow">গ্রামের প্রিয়জনদের সাথে যুক্ত থাকুন সবসময়</h2>
+                            <p class="text-green-50 text-xs sm:text-sm mt-1 drop-shadow">গ্রামের দৈনন্দিন খবর, ছবি, উন্নয়নমূলক কাজ ও জরুরি তথ্য শেয়ার করুন।</p>
+                        </div>
+                        <button id="btn-hero-settings-trigger" onclick="openHeroSettingsModal()" class="hidden self-start sm:self-center px-3 py-1.5 bg-black/50 hover:bg-black/75 text-gold-300 text-xs font-bold rounded-xl border border-white/25 flex items-center gap-1.5 backdrop-blur-xs transition">
+                            <i class="fa-solid fa-image"></i> ব্যানার ছবি সেটিংস
+                        </button>
+                    </div>
+                </div>
+
+                <!-- নতুন পোস্ট তৈরি বক্স -->
+                <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-gray-100 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm sm:text-base font-extrabold text-village-900 flex items-center gap-1.5">
+                            <i class="fa-solid fa-pen-to-square text-village-600"></i> নতুন পোস্ট লিখুন বা ছবি শেয়ার করুন
+                        </h3>
+                        <span id="post-permission-badge" class="text-[11px] font-bold text-green-700 bg-green-50 px-2.5 py-0.5 rounded-full">সক্রিয় সদস্য</span>
+                    </div>
+                    <textarea id="post-content-input" rows="3" placeholder="সুতারমুড়া গ্রামের কোনো খবর, অনুষ্ঠান বা ছবি সম্পর্কে লিখুন..." class="w-full p-3 bg-gray-50 border border-gray-200 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600"></textarea>
+                    
+                    <div id="post-image-preview-box" class="hidden relative w-full max-w-xs rounded-2xl overflow-hidden border border-gray-200">
+                        <img id="post-image-preview" src="" alt="Preview" class="w-full h-36 object-cover">
+                        <button onclick="clearPostImage()" class="absolute top-2 right-2 w-6 h-6 bg-red-600 text-white rounded-full text-xs flex items-center justify-center shadow">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-100">
+                        <div class="flex items-center gap-2">
+                            <label class="cursor-pointer flex items-center gap-1.5 px-3.5 py-2 bg-green-50 hover:bg-green-100 text-village-800 text-xs font-bold rounded-xl transition">
+                                <i class="fa-solid fa-image text-village-600"></i>
+                                <span>ছবি যোগ করুন</span>
+                                <input type="file" id="post-image-input" accept="image/*" onchange="handlePostImageSelect(event)" class="hidden">
+                            </label>
+                            <button type="button" onclick="openTickerEditorModal()" class="flex items-center gap-1.5 px-3 py-2 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold rounded-xl transition">
+                                <i class="fa-solid fa-bullhorn"></i>
+                                <span>জরুরি ঘোষণা</span>
+                            </button>
+                        </div>
+                        <button onclick="submitNewPost()" class="px-5 py-2 bg-village-700 hover:bg-village-800 text-white text-xs sm:text-sm font-bold rounded-xl shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-paper-plane"></i> <span>পোস্ট করুন</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- গ্রামের সাম্প্রতিক ছবি গ্যালারি -->
+                <div class="bg-white rounded-3xl p-4 shadow-sm border border-gray-100 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs sm:text-sm font-extrabold text-village-900 flex items-center gap-1.5">
+                            <i class="fa-solid fa-images text-village-600"></i> গ্রামের সাম্প্রতিক ছবি
+                        </h3>
+                    </div>
+                    <div id="recent-photos-gallery" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
                         <p class="text-xs text-gray-400">কোনো ছবি নেই।</p>
                     </div>
                 </div>
 
-                <div id="create-post-card" class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-sm sm:text-base font-extrabold text-gray-800 flex items-center gap-1.5"><i class="fa-solid fa-pen-to-square text-village-600"></i> গ্রামের খবর বা ছবি পোস্ট করুন</h3>
-                        <span id="post-permission-badge" class="px-2.5 py-0.5 bg-green-100 text-village-800 text-xs font-bold rounded-full"><i class="fa-solid fa-shield-check mr-1"></i> ভেরিফাইড</span>
-                    </div>
-                    <textarea id="post-content-input" rows="2" placeholder="সুতারমুড়া গ্রামের খবর বা পরামর্শ লিখুন..." class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-village-500 focus:outline-none"></textarea>
-                    
-                    <div id="post-image-preview-box" class="hidden mt-2 relative inline-block">
-                        <img id="post-image-preview" src="" alt="Preview" class="max-h-36 rounded-xl border border-gray-200">
-                        <button onclick="clearPostImage()" class="absolute top-1 right-1 w-6 h-6 bg-red-600 text-white rounded-full flex items-center justify-center text-[10px] shadow"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-
-                    <div class="mt-2.5 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-100">
-                        <label class="cursor-pointer px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5"><i class="fa-solid fa-image text-village-600"></i> ছবি<input type="file" id="post-image-input" accept="image/*" onchange="handlePostImageSelect(event)" class="hidden"></label>
-                        <button onclick="submitNewPost()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-1"><i class="fa-solid fa-paper-plane"></i> পোস্ট প্রকাশ</button>
-                    </div>
-                </div>
-
+                <!-- পোস্ট ফিড লিস্ট -->
                 <div id="posts-feed-list" class="space-y-4"></div>
             </div>
 
-            <!-- ট্যাব ২: গ্রামের প্রতিষ্ঠানসমূহ ও রামপুর উচ্চ বিদ্যালয় -->
+            <!-- ট্যাব ২: স্কুল, মাদ্রাসা ও মসজিদ -->
             <div id="view-institutions" class="hidden tab-view space-y-4">
-                <div class="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border border-village-200">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-gray-100 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-3">
                         <div>
-                            <h3 class="text-lg sm:text-xl font-extrabold text-village-900 flex items-center gap-1.5"><i class="fa-solid fa-mosque text-village-600"></i> সুতারমুড়ার শিক্ষাপ্রতিষ্ঠানসমূহ ও মসজিদ</h3>
-                            <p class="text-xs sm:text-sm text-gray-500 mt-0.5">রামপুর উচ্চ বিদ্যালয়, মসজিদ, মাদ্রাসা ও প্রাথমিক বিদ্যালয়ের সময়সূচি, শিক্ষক ও পরিচালনা কমিটির তথ্য।</p>
+                            <h3 class="text-base sm:text-lg font-extrabold text-village-900"><i class="fa-solid fa-landmark text-village-600 mr-1.5"></i> সুতারমুড়া গ্রামের শিক্ষা ও ধর্মীয় প্রতিষ্ঠানসমূহ</h3>
+                            <p class="text-xs text-gray-500">যেকোনো প্রতিষ্ঠানের কার্ডে ক্লিক করে সময়সূচি, প্রধান ও শিক্ষকদের তথ্য এডিট করুন।</p>
                         </div>
-                        <span class="px-3 py-0.5 bg-village-100 text-village-800 text-xs font-extrabold rounded-full self-start sm:self-center">৭টি প্রতিষ্ঠান</span>
                     </div>
-                    <div id="institutions-cards-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4"></div>
+
+                    <div id="institutions-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 </div>
 
-                <div id="institution-post-box" class="bg-white rounded-2xl p-4 shadow-sm border border-gray-200 space-y-2.5">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                        <h4 class="text-sm sm:text-base font-extrabold text-village-900"><i class="fa-solid fa-clipboard-list text-village-600 mr-1"></i> রামপুর উচ্চ বিদ্যালয় বা প্রতিষ্ঠানের নোটিশ দিন</h4>
-                        <span class="text-[11px] font-bold text-red-700 bg-red-50 px-2.5 py-0.5 rounded-full">হেডলাইনের ঘোষণায়ও দেখাবে</span>
-                    </div>
+                <!-- প্রতিষ্ঠানের জরুরি নোটিশ প্রকাশ -->
+                <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-gray-100 space-y-3">
+                    <h3 class="text-sm sm:text-base font-extrabold text-village-900"><i class="fa-solid fa-bullhorn text-gold-600 mr-1"></i> প্রতিষ্ঠানের জরুরি নোটিশ প্রকাশ করুন (হেডলাইনেও চলবে)</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                        <select id="inst-select" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-semibold">
-                            <option value="রামপুর উচ্চ বিদ্যালয়">রামপুর উচ্চ বিদ্যালয়</option>
-                            <option value="সুতারমুড়া কেন্দ্রীয় জামে মসজিদ">সুতারমুড়া কেন্দ্রীয় জামে মসজিদ</option>
-                            <option value="সুতারমুড়া সৈয়দপুর চৌমুহনী জামে মসজিদ">সুতারমুড়া সৈয়দপুর চৌমুহনী জামে মসজিদ</option>
-                            <option value="সুতারমুড়া সরকারি প্রাথমিক বিদ্যালয়">সুতারমুড়া সরকারি প্রাথমিক বিদ্যালয়</option>
-                            <option value="সুতারমুড়া আইডিয়াল একাডেমি">সুতারমুড়া আইডিয়াল একাডেমি</option>
-                            <option value="সুতারমুড়া হাফিজিয়া মাদ্রাসা ও এতিমখানা">সুতারমুড়া হাফিজিয়া মাদ্রাসা ও এতিমখানা</option>
-                            <option value="সুতারমুড়া সয়েরা খাতুন মহিলা মাদ্রাসা">সুতারমুড়া সয়েরা খাতুন মহিলা মাদ্রাসা</option>
+                        <select id="inst-select" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold">
+                            <option value="রামপুর উচ্চ বিদ্যালয়">রামপুর উচ্চ বিদ্যালয়</option>
+                            <option value="সুতারমুড়া কেন্দ্রীয় জামে মসজিদ">সুতারমুড়া কেন্দ্রীয় জামে মসজিদ</option>
+                            <option value="সুতারমুড়া সৈয়দপুর চৌমুহনী জামে মসজিদ">সুতারমুড়া সৈয়দপুর চৌমুহনী জামে মসজিদ</option>
+                            <option value="সুতারমুড়া সরকারি প্রাথমিক বিদ্যালয়">সুতারমুড়া সরকারি প্রাথমিক বিদ্যালয়</option>
+                            <option value="সুতারমুড়া আইডিয়াল একাডেমি">সুতারমুড়া আইডিয়াল একাডেমি</option>
+                            <option value="সুতারমুড়া হাফিজিয়া মাদ্রাসা ও এতিমখানা">সুতারমুড়া হাফিজিয়া মাদ্রাসা ও এতিমখানা</option>
+                            <option value="সুতারমুড়া সয়েরা খাতুন মহিলা মাদ্রাসা">সুতারমুড়া সয়েরা খাতুন মহিলা মাদ্রাসা</option>
                         </select>
-                        <input type="text" id="inst-notice-title" placeholder="বিষয় (যেমন: বার্ষিক ক্রীড়া)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
-                        <input type="text" id="inst-contact" placeholder="দায়িত্বশীল শিক্ষকের নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="inst-notice-title" placeholder="নোটিশের বিষয়" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="inst-contact" placeholder="যোগাযোগ নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
                     </div>
-                    <textarea id="inst-notice-desc" rows="2" placeholder="বিস্তারিত প্রোগ্রাম, তারিখ বা সময় লিখুন..." class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
-                    <button onclick="submitInstitutionNotice()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white text-xs font-bold rounded-xl shadow transition"><i class="fa-solid fa-paper-plane mr-1"></i> নোটিশ প্রকাশ করুন</button>
+                    <textarea id="inst-notice-desc" rows="2" placeholder="নোটিশের বিস্তারিত বিবরণ লিখুন..." class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
+                    <button onclick="submitInstitutionNotice()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white text-xs font-bold rounded-xl shadow transition">নোটিশ প্রকাশ করুন</button>
                 </div>
+
                 <div id="institution-notices-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
-            <!-- ট্যাব ৩: লাইভ কমিউনিটি চ্যাট -->
-            <div id="view-chat" class="hidden tab-view">
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-[65vh]">
-                    <div class="bg-village-800 text-white px-4 py-3 flex items-center justify-between">
-                        <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></span><div><h3 class="text-sm sm:text-base font-bold">সুতারমুড়া লাইভ চ্যাট রুম</h3><p class="text-[11px] text-green-200">ভেরিফাইড সদস্যদের রিয়েল-টাইম বার্তা</p></div></div>
-                        <i class="fa-solid fa-comments text-gold-400 text-lg"></i>
-                    </div>
-                    <div id="chat-messages-box" class="flex-1 p-3 overflow-y-auto space-y-2.5 bg-village-50/40 text-xs sm:text-sm"></div>
-                    <div class="p-2.5 bg-white border-t border-gray-200 flex items-center gap-2">
-                        <input type="text" id="chat-input" onkeypress="if(event.key==='Enter') sendChatMessage()" placeholder="সবার সাথে কথা বলুন..." class="flex-1 px-3.5 py-2.5 bg-gray-100 rounded-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-500">
-                        <button onclick="sendChatMessage()" class="w-10 h-10 bg-village-700 hover:bg-village-800 text-white rounded-full flex items-center justify-center shadow transition shrink-0"><i class="fa-solid fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ট্যাব ৪: কাজ ও কর্মসংস্থান -->
-            <div id="view-jobs" class="hidden tab-view space-y-3">
-                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-                    <h3 class="text-base font-extrabold text-gray-800 mb-2.5"><i class="fa-solid fa-briefcase text-blue-600 mr-1"></i> কাজ ও কর্মসংস্থান বিজ্ঞপ্তি দিন</h3>
+            <!-- ট্যাব ৩: চাকরি ও কাজ -->
+            <div id="view-jobs" class="hidden tab-view space-y-4">
+                <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-gray-100 space-y-3">
+                    <h3 class="text-base font-extrabold text-village-900"><i class="fa-solid fa-briefcase text-blue-600 mr-1.5"></i> চাকরি ও কাজের বিজ্ঞাপন</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                        <select id="job-type" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
-                            <option value="লোক প্রয়োজন (কাজ করাতে চাই)">লোক প্রয়োজন (কাজ করাতে চাই)</option>
-                            <option value="কাজ খুঁজছি (কাজ করতে চাই)">কাজ খুঁজছি (কাজ করতে চাই)</option>
+                        <select id="job-type" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold">
+                            <option value="কাজের লোক প্রয়োজন">কাজের লোক প্রয়োজন</option>
+                            <option value="চাকরি খুঁজছি">চাকরি খুঁজছি</option>
+                            <option value="বিদেশে কর্মসংস্থান">বিদেশে কর্মসংস্থান</option>
                         </select>
-                        <input type="text" id="job-title" placeholder="কাজের ধরন (যেমন: রাজমিস্ত্রি)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
-                        <input type="text" id="job-contact" placeholder="মোবাইল নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="job-title" placeholder="পদের নাম বা কাজের ধরন" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="job-contact" placeholder="যোগাযোগের মোবাইল নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
                     </div>
-                    <textarea id="job-desc" rows="2" placeholder="বিস্তারিত বিবরণ লিখুন..." class="w-full mt-2.5 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
-                    <button onclick="submitListing('jobs')" class="mt-2.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow transition">বিজ্ঞপ্তি পোস্ট করুন</button>
+                    <textarea id="job-desc" rows="2" placeholder="বেতন, যোগ্যতা ও বিস্তারিত..." class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
+                    <button onclick="submitListing('jobs')" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow transition">বিজ্ঞাপন দিন</button>
                 </div>
                 <div id="jobs-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
-            <!-- ট্যাব ৫: গ্রামের হাট-বাজার -->
-            <div id="view-market" class="hidden tab-view space-y-3">
-                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2.5">
-                        <h3 class="text-base font-extrabold text-gray-800"><i class="fa-solid fa-basket-shopping text-emerald-600 mr-1"></i> গ্রামের হাট-বাজারে পণ্য বিক্রি করুন</h3>
-                        <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full">বিজ্ঞাপন দিলে নিচের লাইনেও চলবে</span>
+            <!-- ট্যাব ৪: গ্রামের হাট-বাজার -->
+            <div id="view-market" class="hidden tab-view space-y-4">
+                <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-gray-100 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h3 class="text-base font-extrabold text-village-900"><i class="fa-solid fa-basket-shopping text-emerald-600 mr-1.5"></i> গ্রামের হাট-বাজার (কেনা-বেচা)</h3>
+                        <span class="px-2.5 py-0.5 bg-amber-100 text-amber-900 text-[11px] font-bold rounded-full">✓ পোস্ট করলে উপরের হেডলাইনেও চলবে</span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                        <input type="text" id="market-item" placeholder="পণ্যের নাম (যেমন: দেশি মুরগি)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
-                        <input type="text" id="market-price" placeholder="দাম (যেমন: ৩৫০ টাকা কেজি)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
-                        <input type="text" id="market-contact" placeholder="মোবাইল নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="market-item" placeholder="পণ্যের নাম (যেমন: দেশি মুরগি, তাজা মাছ)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="market-price" placeholder="দাম (যেমন: ৫০০ টাকা কেজি)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="market-contact" placeholder="বিক্রেতার মোবাইল নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
                     </div>
-                    <textarea id="market-desc" rows="2" placeholder="পরিমাণ ও ঠিকানা লিখুন..." class="w-full mt-2.5 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
-                    <button onclick="submitListing('market')" class="mt-2.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition">হাট-বাজারে পোস্ট করুন</button>
+                    <textarea id="market-desc" rows="2" placeholder="পণ্যের বিবরণ ও ঠিকানা..." class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
+                    <button onclick="submitListing('market')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition">পণ্য পোস্ট করুন</button>
                 </div>
                 <div id="market-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
-            <!-- ট্যাব ৬: শিক্ষা ও টিউশনি -->
-            <div id="view-tuition" class="hidden tab-view space-y-3">
-                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-                    <h3 class="text-base font-extrabold text-gray-800 mb-2.5"><i class="fa-solid fa-graduation-cap text-purple-600 mr-1"></i> শিক্ষা ও টিউশনি তথ্য দিন</h3>
+            <!-- ট্যাব ৫: টিউশনি -->
+            <div id="view-tuition" class="hidden tab-view space-y-4">
+                <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-gray-100 space-y-3">
+                    <h3 class="text-base font-extrabold text-village-900"><i class="fa-solid fa-book-open-reader text-purple-600 mr-1.5"></i> গৃহশিক্ষক ও টিউশনি তথ্য</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                        <select id="tuition-type" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
-                            <option value="শিক্ষক প্রয়োজন (পড়তে চাই)">শিক্ষক প্রয়োজন (পড়তে চাই)</option>
-                            <option value="টিউশনি করাতে চাই (শিক্ষক)">টিউশনি করাতে চাই (শিক্ষক)</option>
+                        <select id="tuition-type" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold">
+                            <option value="গৃহশিক্ষক প্রয়োজন">গৃহশিক্ষক প্রয়োজন</option>
+                            <option value="পড়াতে আগ্রহী (শিক্ষক)">পড়াতে আগ্রহী (শিক্ষক)</option>
                         </select>
-                        <input type="text" id="tuition-class" placeholder="শ্রেণি ও বিষয় (যেমন: ৮ম শ্রেণি, গণিত)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="tuition-class" placeholder="শ্রেণি ও বিষয়" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
                         <input type="text" id="tuition-contact" placeholder="মোবাইল নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
                     </div>
-                    <textarea id="tuition-desc" rows="2" placeholder="সময় ও ঠিকানা লিখুন..." class="w-full mt-2.5 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
-                    <button onclick="submitListing('tuition')" class="mt-2.5 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl shadow transition">টিউশনি পোস্ট করুন</button>
+                    <textarea id="tuition-desc" rows="2" placeholder="অবস্থান ও সময়..." class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
+                    <button onclick="submitListing('tuition')" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl shadow transition">পোস্ট করুন</button>
                 </div>
                 <div id="tuition-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
-            <!-- ট্যাব ৭: গ্রামের ডিরেক্টরি -->
-            <div id="view-directory" class="hidden tab-view space-y-3">
-                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-3">
-                    <div>
-                        <h3 class="text-base font-extrabold text-gray-800 mb-0.5"><i class="fa-solid fa-address-book text-amber-600 mr-1"></i> সুতারমুড়া জরুরি ডিরেক্টরি</h3>
-                        <p class="text-xs text-gray-500">মুরুব্বি, ডাক্তার, ইমাম, চালক ও স্বেচ্ছাসেবীদের জরুরি নাম্বার।</p>
+            <!-- ট্যাব ৬: আড্ডা -->
+            <div id="view-chat" class="hidden tab-view">
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[70vh]">
+                    <div class="bg-village-800 text-white px-4 py-2.5 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></span>
+                            <h3 class="text-sm font-bold">সুতারমুড়া গ্রাম ও প্রবাসী আড্ডা ঘর</h3>
+                        </div>
+                        <span class="text-[11px] text-green-200">লাইভ চ্যাট</span>
                     </div>
+                    <div id="chat-messages-box" class="flex-1 p-4 overflow-y-auto space-y-3 bg-stone-50"></div>
+                    <div class="p-2.5 bg-white border-t border-gray-200 flex gap-2">
+                        <input type="text" id="chat-input" onkeypress="if(event.key==='Enter') sendChatMessage()" placeholder="বার্তা লিখুন..." class="flex-1 px-3.5 py-2 bg-gray-100 rounded-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
+                        <button onclick="sendChatMessage()" class="w-9 h-9 bg-village-700 hover:bg-village-800 text-white rounded-full flex items-center justify-center shadow transition">
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ট্যাব ৭: গ্রাম ডিরেক্টরি -->
+            <div id="view-directory" class="hidden tab-view space-y-4">
+                <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-gray-100 space-y-3.5">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            <h3 class="text-base font-extrabold text-village-900 flex items-center gap-1.5"><i class="fa-solid fa-address-book text-amber-600"></i> সুতারমুড়া জরুরি নাম্বার ও গ্রাম ডিরেক্টরি</h3>
+                            <p class="text-xs text-gray-500">গ্রামের গুরুত্বপূর্ণ ব্যক্তিবর্গ ও জরুরি সেবাপ্রদানকারীদের নাম্বার যুক্ত করুন।</p>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
                         <input type="text" id="dir-name" placeholder="ব্যক্তির নাম" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
                         <select id="dir-role" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium">
                             <option value="গ্রামের মুরুব্বি / জনপ্রতিনিধি">গ্রামের মুরুব্বি / জনপ্রতিনিধি</option>
                             <option value="গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী">গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী</option>
                             <option value="মসজিদের ইমাম / খতিব">মসজিদের ইমাম / খতিব</option>
-                            <option value="গাড়ি / অ্যাম্বুলেন্স চালক">গাড়ি / অ্যাম্বুলেন্স চালক</option>
-                            <option value="ইলেকট্রিশিয়ান / মিস্ত্রি">ইলেকট্রিশিয়ান / মিস্ত্রি</option>
+                            <option value="গাড়ি / অ্যাম্বুলেন্স চালক">গাড়ি / অ্যাম্বুলেন্স চালক</option>
+                            <option value="ইলেকট্রিশিয়ান / মিস্ত্রি">ইলেকট্রিশিয়ান / মিস্ত্রি</option>
                             <option value="দৈনন্দিন কাজে সাহায্যকারী">দৈনন্দিন কাজে সাহায্যকারী</option>
                             <option value="স্বেচ্ছাসেবী">স্বেচ্ছাসেবী</option>
                             <option value="শিক্ষক / শিক্ষিকা">শিক্ষক / শিক্ষিকা</option>
@@ -508,8 +513,8 @@
                         <button onclick="setDirectoryFilter('গ্রামের মুরুব্বি / জনপ্রতিনিধি')" data-dir-filter="গ্রামের মুরুব্বি / জনপ্রতিনিধি" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">মুরুব্বি</button>
                         <button onclick="setDirectoryFilter('গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী')" data-dir-filter="গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">ডাক্তার</button>
                         <button onclick="setDirectoryFilter('মসজিদের ইমাম / খতিব')" data-dir-filter="মসজিদের ইমাম / খতিব" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">ইমাম</button>
-                        <button onclick="setDirectoryFilter('গাড়ি / অ্যাম্বুলেন্স চালক')" data-dir-filter="গাড়ি / অ্যাম্বুলেন্স চালক" class="dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">গাড়ি</button>
-                        <button onclick="setDirectoryFilter('ইলেকট্রিশিয়ান / মিস্ত্রি')" data-dir-filter="ইলেকট্রিশিয়ান / মিস্ত্রি" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">মিস্ত্রি</button>
+                        <button onclick="setDirectoryFilter('গাড়ি / অ্যাম্বুলেন্স চালক')" data-dir-filter="গাড়ি / অ্যাম্বুলেন্স চালক" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">গাড়ি</button>
+                        <button onclick="setDirectoryFilter('ইলেকট্রিশিয়ান / মিস্ত্রি')" data-dir-filter="ইলেকট্রিশিয়ান / মিস্ত্রি" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">মিস্ত্রি</button>
                         <button onclick="setDirectoryFilter('শিক্ষক / শিক্ষিকা')" data-dir-filter="শিক্ষক / শিক্ষিকা" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">শিক্ষক</button>
                     </div>
                 </div>
@@ -573,9 +578,9 @@
                         <label class="block font-bold text-gray-700 mb-1">ঘোষণার ধরন / ব্যাজ</label>
                         <select id="modal-ticker-type" class="w-full px-3 py-2 bg-gray-50 border rounded-xl font-bold text-gray-800">
                             <option value="জরুরি ঘোষণা">জরুরি ঘোষণা</option>
-                            <option value="উন্নয়নমূলক ঘোষণা">উন্নয়নমূলক ঘোষণা</option>
-                            <option value="রামপুর উচ্চ বিদ্যালয়">রামপুর উচ্চ বিদ্যালয়</option>
-                            <option value="মৃত্যু ও জানাজা সংবাদ">মৃত্যু ও জানাজা সংবাদ (দোয়া সহ)</option>
+                            <option value="উন্নয়নমূলক ঘোষণা">উন্নয়নমূলক ঘোষণা</option>
+                            <option value="রামপুর উচ্চ বিদ্যালয়">রামপুর উচ্চ বিদ্যালয়</option>
+                            <option value="মৃত্যু ও জানাজা সংবাদ">মৃত্যু ও জানাজা সংবাদ (দোয়া সহ)</option>
                             <option value="জরুরি সেবা ও রক্তদান">জরুরি সেবা ও রক্তদান</option>
                         </select>
                     </div>
@@ -591,7 +596,7 @@
             </div>
         </div>
 
-        <!-- প্রতিষ্ঠান বিস্তারিত ও সময়সূচি, শিক্ষক, সভাপতি এডিট মডাল -->
+        <!-- প্রতিষ্ঠান বিস্তারিত ও সময়সূচি, শিক্ষক, সভাপতি এডিট মডাল -->
         <div id="institution-detail-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
             <div class="bg-white rounded-3xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl border border-village-200 space-y-4 my-auto max-h-[92vh] overflow-y-auto text-xs sm:text-sm">
                 <div class="flex items-start justify-between gap-3 border-b pb-3">
@@ -603,23 +608,23 @@
                     <button onclick="closeInstitutionModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center shrink-0"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
-                <!-- প্রতিষ্ঠানের সময়সূচি কার্ড -->
+                <!-- প্রতিষ্ঠানের সময়সূচি কার্ড -->
                 <div class="bg-gradient-to-br from-blue-50 via-white to-emerald-50 border-2 border-blue-200 rounded-2xl p-3.5 space-y-2.5">
                     <div class="flex items-center justify-between">
-                        <h4 class="font-extrabold text-blue-950 flex items-center gap-1.5"><i class="fa-solid fa-clock text-blue-700"></i> প্রতিষ্ঠানের সময়সূচি আপডেট</h4>
+                        <h4 class="font-extrabold text-blue-950 flex items-center gap-1.5"><i class="fa-solid fa-clock text-blue-700"></i> প্রতিষ্ঠানের সময়সূচি আপডেট</h4>
                         <span class="px-2 py-0.5 bg-green-100 text-village-900 text-[11px] font-bold rounded-full">✓ সম্পাদনাযোগ্য</span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div>
-                            <label class="block font-bold text-gray-700 mb-0.5">ক্লাস / অফিস সময়সূচি</label>
+                            <label class="block font-bold text-gray-700 mb-0.5">ক্লাস / অফিস সময়সূচি</label>
                             <input type="text" id="edit-schedule-main" placeholder="সকাল ১০:০০ — বিকাল ৪:০০" class="w-full px-3 py-2 bg-white border rounded-xl">
                         </div>
                         <div>
-                            <label class="block font-bold text-gray-700 mb-0.5">নামাজের জামাত বা বিশেষ সময়</label>
+                            <label class="block font-bold text-gray-700 mb-0.5">নামাজের জামাত বা বিশেষ সময়</label>
                             <input type="text" id="edit-schedule-prayer" placeholder="জোহর ১:৩০, আসর ৪:১৫" class="w-full px-3 py-2 bg-white border rounded-xl">
                         </div>
                     </div>
-                    <button onclick="saveInstitutionSchedule()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white font-extrabold rounded-xl shadow transition"><i class="fa-solid fa-floppy-disk mr-1"></i> সময়সূচি সংরক্ষণ</button>
+                    <button onclick="saveInstitutionSchedule()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white font-extrabold rounded-xl shadow transition"><i class="fa-solid fa-floppy-disk mr-1"></i> সময়সূচি সংরক্ষণ</button>
                 </div>
 
                 <!-- প্রধান ও সভাপতি তথ্য এডিট কার্ড -->
@@ -634,7 +639,6 @@
                                 <a id="modal-head-phone-link" href="#" class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-600 text-white font-bold rounded text-xs"><i class="fa-solid fa-phone"></i> <span id="modal-head-phone">নাম্বার নেই</span></a>
                             </div>
                         </div>
-                        <!-- অ্যাডমিন বা এডিট ফর্ম -->
                         <div id="admin-edit-head-box" class="pt-2 border-t border-emerald-200/70 space-y-2">
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
                                 <input type="text" id="edit-head-name" placeholder="প্রধানের নাম" class="px-2 py-1.5 bg-white border rounded-lg text-xs">
@@ -658,7 +662,6 @@
                                 <a id="modal-pres-phone-link" href="#" class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-amber-600 text-white font-bold rounded text-xs"><i class="fa-solid fa-phone"></i> <span id="modal-pres-phone">নাম্বার নেই</span></a>
                             </div>
                         </div>
-                        <!-- অ্যাডমিন বা এডিট ফর্ম -->
                         <div id="admin-edit-pres-box" class="pt-2 border-t border-amber-200/70 space-y-2">
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
                                 <input type="text" id="edit-pres-name" placeholder="সভাপতির নাম" class="px-2 py-1.5 bg-white border rounded-lg text-xs">
@@ -680,7 +683,7 @@
                     </div>
                     <div class="bg-white p-2.5 rounded-xl border border-village-200 grid grid-cols-1 sm:grid-cols-4 gap-2">
                         <input type="text" id="new-teacher-name" placeholder="শিক্ষকের নাম" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
-                        <input type="text" id="new-teacher-role" placeholder="পদবি/বিষয়" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
+                        <input type="text" id="new-teacher-role" placeholder="পদবি/বিষয়" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
                         <input type="tel" id="new-teacher-phone" placeholder="ফোন নাম্বার" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
                         <button onclick="addInstitutionTeacher()" class="px-3 py-1.5 bg-village-700 text-white font-bold rounded-lg text-xs"><i class="fa-solid fa-plus mr-1"></i> শিক্ষক যুক্ত করুন</button>
                     </div>
@@ -694,7 +697,7 @@
                     </div>
                     <div class="bg-white p-2.5 rounded-xl border border-amber-200 grid grid-cols-1 sm:grid-cols-4 gap-2">
                         <input type="text" id="new-comm-name" placeholder="সদস্যের নাম" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
-                        <input type="text" id="new-comm-role" placeholder="পদবি (যেমন: ক্যাশিয়ার)" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
+                        <input type="text" id="new-comm-role" placeholder="পদবি (যেমন: ক্যাশিয়ার)" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
                         <input type="tel" id="new-comm-phone" placeholder="ফোন নাম্বার" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
                         <button onclick="addInstitutionCommitteeMember()" class="px-3 py-1.5 bg-amber-600 text-white font-bold rounded-lg text-xs"><i class="fa-solid fa-plus mr-1"></i> কমিটি সদস্য যুক্ত</button>
                     </div>
@@ -705,9 +708,9 @@
 
         <footer class="bg-white border-t border-gray-200 py-4 px-4 text-center mt-auto">
             <div class="max-w-4xl mx-auto space-y-1.5 text-xs sm:text-sm">
-                <p class="font-extrabold text-village-800">আমাদের সুতারমুড়া — আমাদের গ্রাম, আমাদের পরিবার</p>
+                <p class="font-extrabold text-village-800">আমাদের সুতারমুড়া — আমাদের গ্রাম, আমাদের পরিবার</p>
                 <div class="bg-amber-50/90 border border-amber-200 rounded-2xl px-3 py-2 text-[11px] sm:text-xs text-gray-700 leading-relaxed">
-                    <span class="font-extrabold text-red-700"><i class="fa-solid fa-triangle-exclamation mr-1"></i> সতর্কবার্তা:</span> এটি গ্রামবাসীর সেবামূলক উন্মুক্ত প্ল্যাটফর্ম। যেকোনো পোস্ট বা লেনদেনের সম্পূর্ণ দায়দায়িত্ব সংশ্লিষ্ট ব্যক্তির।
+                    <span class="font-extrabold text-red-700"><i class="fa-solid fa-triangle-exclamation mr-1"></i> সতর্কবার্তা:</span> এটি গ্রামবাসীর সেবামূলক উন্মুক্ত প্ল্যাটফর্ম। যেকোনো পোস্ট বা লেনদেনের সম্পূর্ণ দায়দায়িত্ব সংশ্লিষ্ট ব্যক্তির।
                 </div>
             </div>
         </footer>
@@ -719,17 +722,16 @@
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'amader-sutamura-live';
-        let firebaseConfig = null;
-
-        try {
-            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                firebaseConfig = JSON.parse(__firebase_config);
-            } else {
-                const savedConfig = localStorage.getItem('sutarmora_custom_firebase');
-                if (savedConfig) firebaseConfig = JSON.parse(savedConfig);
-            }
-        } catch (e) {}
+        const appId = 'amader-sutarmora-live';
+        const firebaseConfig = {
+            apiKey: "AIzaSyCi92D9rsbG_uZFXH2ZA9L8i3t56QnYBNo",
+            authDomain: "amader-sutarmora.firebaseapp.com",
+            projectId: "amader-sutarmora",
+            storageBucket: "amader-sutarmora.firebasestorage.app",
+            messagingSenderId: "348953045532",
+            appId: "1:348953045532:web:7854eb6a1d7d38236c4dd9",
+            measurementId: "G-EHPN6M2FTF"
+        };
 
         let db = null;
         let auth = null;
@@ -747,10 +749,10 @@
         let activeInstitutionId = null;
 
         let urgentTickerData = {
-            category: 'রামপুর উচ্চ বিদ্যালয়',
-            text: 'রামপুর উচ্চ বিদ্যালয়ে সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের বার্ষিক ক্রীড়া প্রতিযোগিতা ও সাংস্কৃতিক অনুষ্ঠান আগামী বৃহস্পতিবার সকাল ১০টায় অনুষ্ঠিত হবে।',
+            category: 'রামপুর উচ্চ বিদ্যালয়',
+            text: 'রামপুর উচ্চ বিদ্যালয়ে সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের বার্ষিক ক্রীড়া প্রতিযোগিতা ও সাংস্কৃতিক অনুষ্ঠান আগামী বৃহস্পতিবার সকাল ১০টায় অনুষ্ঠিত হবে।',
             publisherName: 'গ্রাম অ্যাডমিন',
-            publisherPara: 'মধ্য পাড়া',
+            publisherPara: 'মধ্য পাড়া',
             publisherPhone: '',
             updatedAt: Date.now()
         };
@@ -761,13 +763,13 @@
         };
 
         const DEFAULT_INSTITUTIONS = [
-            { id: 'inst_rampur_high', badge: 'মাধ্যমিক উচ্চ বিদ্যালয়', theme: 'indigo', icon: 'fa-school-flag', name: 'রামপুর উচ্চ বিদ্যালয়', location: 'রামপুর / সুতারমুড়া সংলগ্ন', schedule: 'ক্লাস সময়: সকাল ১০:০০ — বিকাল ৪:০০', prayerSchedule: 'বিরতি ও প্রার্থনা: দুপুর ১:০০ টা', description: 'আমাদের সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের উচ্চ শিক্ষার প্রধান মাধ্যমিক বিদ্যালয়।', headRoleDefault: 'প্রধান শিক্ষক' },
-            { id: 'inst_central_mosque', badge: 'জামে মসজিদ — ১', theme: 'emerald', icon: 'fa-mosque', name: 'সুতারমুড়া কেন্দ্রীয় জামে মসজিদ', location: 'মধ্যপাড়া, সুতারমুড়া', schedule: 'জুমার খুতবা: দুপুর ১:০০ মিনিট', prayerSchedule: 'পাঁচ ওয়াক্ত জামাত: সুনির্দিষ্ট সময়ে', description: 'গ্রামের মুসল্লিদের প্রধান জামাত ও জুমার নামাজের কেন্দ্রস্থল।', headRoleDefault: 'খতিব ও পেশ ইমাম' },
-            { id: 'inst_syedpur_mosque', badge: 'জামে মসজিদ — ২', theme: 'teal', icon: 'fa-mosque', name: 'সুতারমুড়া সৈয়দপুর চৌমুহনী জামে মসজিদ', location: 'পশ্চিম পাড়া, সুতারমুড়া', schedule: 'জুমার খুতবা: দুপুর ১:০০ মিনিট', prayerSchedule: 'পাঁচ ওয়াক্ত জামাত: সুনির্দিষ্ট সময়ে', description: 'পশ্চিম পাড়া ও আশপাশের এলাকার মুসল্লিদের জামে মসজিদ।', headRoleDefault: 'খতিব ও পেশ ইমাম' },
-            { id: 'inst_govt_primary', badge: 'সরকারি প্রাথমিক বিদ্যালয়', theme: 'blue', icon: 'fa-school', name: 'সুতারমুড়া সরকারি প্রাথমিক বিদ্যালয়', location: 'মধ্যপাড়া, সুতারমুড়া', schedule: 'পাঠদান: সকাল ৯:০০ — বিকাল ৪:০০', prayerSchedule: 'ছুটি ও অন্যান্য কার্যক্রম: নির্ধারিত সময়ে', description: 'গ্রামের শিশুদের প্রাথমিক শিক্ষার মূল সরকারি বিদ্যাপীঠ।', headRoleDefault: 'প্রধান শিক্ষক' },
-            { id: 'inst_ideal_academy', badge: 'কিন্ডারগার্টেন ও প্রাথমিক', theme: 'purple', icon: 'fa-child-reaching', name: 'সুতারমুড়া আইডিয়াল একাডেমি', location: 'সুতারমুড়া', schedule: 'ক্লাস: সকাল ৮:৩০ — দুপুর ১২:৩০', prayerSchedule: 'সহশিক্ষা ও বিরতি: নির্ধারিত সময়ে', description: 'কোমলমতি শিশুদের আধুনিক ও যত্নশীল শিক্ষার আদর্শ কিন্ডারগার্টেন।', headRoleDefault: 'অধ্যক্ষ / প্রধান শিক্ষক' },
-            { id: 'inst_hafizia_madrasa', badge: 'হাফিজিয়া মাদ্রাসা ও এতিমখানা', theme: 'amber', icon: 'fa-book-quran', name: 'সুতারমুড়া হাফিজিয়া মাদ্রাসা ও এতিমখানা', location: 'সুতারমুড়া', schedule: 'হিফজুল কুরআন বিভাগ: সকাল ৮:০০ — বিকাল ৫:০০', prayerSchedule: 'নামাজ ও তিলাওয়াত: নিয়মিত জামাত', description: 'পবিত্র কুরআন হিফজ বিভাগ এবং অসহায় এতিম শিশুদের আবাসিক প্রতিষ্ঠান।', headRoleDefault: 'মুহতামিম / প্রধান শিক্ষক' },
-            { id: 'inst_sayera_khatun', badge: 'মহিলা ও প্রাক-প্রাথমিক ধর্মীয় শিক্ষা', theme: 'rose', icon: 'fa-book-open', name: 'সুতারমুড়া সয়েরা খাতুন মহিলা মাদ্রাসা', location: 'সুতারমুড়া', schedule: 'ক্লাস সময়: সকাল ৯:০০ — দুপুর ১২:০০', prayerSchedule: 'দোয়া ও তালিম: নির্ধারিত সময়ে', description: 'গ্রামের শিশু ও ছাত্রীদের জন্য প্রাক-প্রাথমিক ধর্মীয় শিক্ষা প্রতিষ্ঠান।', headRoleDefault: 'প্রধান শিক্ষিকা / মুহতামিম' }
+            { id: 'inst_rampur_high', badge: 'মাধ্যমিক উচ্চ বিদ্যালয়', theme: 'indigo', icon: 'fa-school-flag', name: 'রামপুর উচ্চ বিদ্যালয়', location: 'রামপুর / সুতারমুড়া সংলগ্ন', schedule: 'ক্লাস সময়: সকাল ১০:০০ — বিকাল ৪:০০', prayerSchedule: 'বিরতি ও প্রার্থনা: দুপুর ১:০০ টা', description: 'আমাদের সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের উচ্চ শিক্ষার প্রধান মাধ্যমিক বিদ্যালয়।', headRoleDefault: 'প্রধান শিক্ষক' },
+            { id: 'inst_central_mosque', badge: 'জামে মসজিদ — ১', theme: 'emerald', icon: 'fa-mosque', name: 'সুতারমুড়া কেন্দ্রীয় জামে মসজিদ', location: 'মধ্যপাড়া, সুতারমুড়া', schedule: 'জুমার খুতবা: দুপুর ১:০০ মিনিট', prayerSchedule: 'পাঁচ ওয়াক্ত জামাত: সুনির্দিষ্ট সময়ে', description: 'গ্রামের মুসল্লিদের প্রধান জামাত ও জুমার নামাজের কেন্দ্রস্থল।', headRoleDefault: 'খতিব ও পেশ ইমাম' },
+            { id: 'inst_syedpur_mosque', badge: 'জামে মসজিদ — ২', theme: 'teal', icon: 'fa-mosque', name: 'সুতারমুড়া সৈয়দপুর চৌমুহনী জামে মসজিদ', location: 'পশ্চিম পাড়া, সুতারমুড়া', schedule: 'জুমার খুতবা: দুপুর ১:০০ মিনিট', prayerSchedule: 'পাঁচ ওয়াক্ত জামাত: সুনির্দিষ্ট সময়ে', description: 'পশ্চিম পাড়া ও আশপাশের এলাকার মুসল্লিদের জামে মসজিদ।', headRoleDefault: 'খতিব ও পেশ ইমাম' },
+            { id: 'inst_govt_primary', badge: 'সরকারি প্রাথমিক বিদ্যালয়', theme: 'blue', icon: 'fa-school', name: 'সুতারমুড়া সরকারি প্রাথমিক বিদ্যালয়', location: 'মধ্যপাড়া, সুতারমুড়া', schedule: 'পাঠদান: সকাল ৯:০০ — বিকাল ৪:০০', prayerSchedule: 'ছুটি ও অন্যান্য কার্যক্রম: নির্ধারিত সময়ে', description: 'গ্রামের শিশুদের প্রাথমিক শিক্ষার মূল সরকারি বিদ্যাপীঠ।', headRoleDefault: 'প্রধান শিক্ষক' },
+            { id: 'inst_ideal_academy', badge: 'কিন্ডারগার্টেন ও প্রাথমিক', theme: 'purple', icon: 'fa-child-reaching', name: 'সুতারমুড়া আইডিয়াল একাডেমি', location: 'সুতারমুড়া', schedule: 'ক্লাস: সকাল ৮:৩০ — দুপুর ১২:৩০', prayerSchedule: 'সহশিক্ষা ও বিরতি: নির্ধারিত সময়ে', description: 'কোমলমতি শিশুদের আধুনিক ও যত্নশীল শিক্ষার আদর্শ কিন্ডারগার্টেন।', headRoleDefault: 'অধ্যক্ষ / প্রধান শিক্ষক' },
+            { id: 'inst_hafizia_madrasa', badge: 'হাফিজিয়া মাদ্রাসা ও এতিমখানা', theme: 'amber', icon: 'fa-book-quran', name: 'সুতারমুড়া হাফিজিয়া মাদ্রাসা ও এতিমখানা', location: 'সুতারমুড়া', schedule: 'হিফজুল কুরআন বিভাগ: সকাল ৮:০০ — বিকাল ৫:০০', prayerSchedule: 'নামাজ ও তিলাওয়াত: নিয়মিত জামাত', description: 'পবিত্র কুরআন হিফজ বিভাগ এবং অসহায় এতিম শিশুদের আবাসিক প্রতিষ্ঠান।', headRoleDefault: 'মুহতামিম / প্রধান শিক্ষক' },
+            { id: 'inst_sayera_khatun', badge: 'মহিলা ও প্রাক-প্রাথমিক ধর্মীয় শিক্ষা', theme: 'rose', icon: 'fa-book-open', name: 'সুতারমুড়া সয়েরা খাতুন মহিলা মাদ্রাসা', location: 'সুতারমুড়া', schedule: 'ক্লাস সময়: সকাল ৯:০০ — দুপুর ১২:০০', prayerSchedule: 'দোয়া ও তালিম: নির্ধারিত সময়ে', description: 'গ্রামের শিশু ও ছাত্রীদের জন্য প্রাক-প্রাথমিক ধর্মীয় শিক্ষা প্রতিষ্ঠান।', headRoleDefault: 'প্রধান শিক্ষিকা / মুহতামিম' }
         ];
 
         let generatedEmailOTP = "";
@@ -790,22 +792,15 @@
 
         async function initAppSystem() {
             try {
-                if (firebaseConfig && firebaseConfig.apiKey) {
-                    const app = initializeApp(firebaseConfig);
-                    auth = getAuth(app);
-                    db = getFirestore(app);
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                    firebaseUser = auth.currentUser;
-                    isCloudConnected = true;
-                    setupRealtimeListeners();
-                } else {
-                    loadLocalFallbackData();
-                }
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                await signInAnonymously(auth);
+                firebaseUser = auth.currentUser;
+                isCloudConnected = true;
+                setupRealtimeListeners();
             } catch (err) {
+                console.error("Firebase Connection Error:", err);
                 loadLocalFallbackData();
             } finally {
                 document.getElementById('global-loader').classList.add('hidden');
@@ -872,19 +867,19 @@
             });
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users'), (snapshot) => {
                 allUsers = [];
-                snapshot.forEach(d => allUsers.push({ id: d.id, ...d.data() }));
+                snapshot.forEach(d => allUsers.push({ ...d.data(), id: d.id }));
                 renderAdminPanel();
             });
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts'), (snapshot) => {
                 allPosts = [];
-                snapshot.forEach(d => allPosts.push({ id: d.id, ...d.data() }));
+                snapshot.forEach(d => allPosts.push({ ...d.data(), id: d.id }));
                 allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 renderRecentPhotosGallery();
                 renderPostsFeed();
             });
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_institutions'), (snapshot) => {
                 allInstNotices = [];
-                snapshot.forEach(d => allInstNotices.push({ id: d.id, ...d.data() }));
+                snapshot.forEach(d => allInstNotices.push({ ...d.data(), id: d.id }));
                 allInstNotices.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 renderInstitutionNotices();
                 renderUrgentTicker();
@@ -897,26 +892,26 @@
             });
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_listings'), (snapshot) => {
                 allListings = [];
-                snapshot.forEach(d => allListings.push({ id: d.id, ...d.data() }));
+                snapshot.forEach(d => allListings.push({ ...d.data(), id: d.id }));
                 allListings.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 renderListings();
                 renderMarketTicker();
             });
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory'), (snapshot) => {
                 allDirectory = [];
-                snapshot.forEach(d => allDirectory.push({ id: d.id, ...d.data() }));
+                snapshot.forEach(d => allDirectory.push({ ...d.data(), id: d.id }));
                 allDirectory.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 renderDirectory();
             });
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory_logs'), (snapshot) => {
                 allDirectoryLogs = [];
-                snapshot.forEach(d => allDirectoryLogs.push({ id: d.id, ...d.data() }));
+                snapshot.forEach(d => allDirectoryLogs.push({ ...d.data(), id: d.id }));
                 allDirectoryLogs.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
                 renderAdminPanel();
             });
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_chat'), (snapshot) => {
                 allMessages = [];
-                snapshot.forEach(d => allMessages.push({ id: d.id, ...d.data() }));
+                snapshot.forEach(d => allMessages.push({ ...d.data(), id: d.id }));
                 allMessages.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
                 renderChatMessages();
             });
@@ -928,7 +923,7 @@
             compressImageFile(file, 800, (base64) => {
                 const headerBox = document.querySelector('#auth-screen .relative.bg-village-900');
                 if (headerBox) headerBox.style.backgroundImage = `linear-gradient(to bottom, rgba(20, 83, 45, 0.85), rgba(20, 83, 45, 0.95)), url('${base64}')`;
-                showToast("লগইন হেডার ছবি বদলানো হয়েছে!", "success");
+                showToast("লগইন হেডার ছবি বদলানো হয়েছে!", "success");
             });
         };
 
@@ -963,7 +958,7 @@
 
         window.verifyEmailOTP = function() {
             const entered = document.getElementById('reg-otp-input').value.trim();
-            if (!generatedEmailOTP || entered !== generatedEmailOTP) { showToast("OTP সঠিক নয়।", "error"); return; }
+            if (!generatedEmailOTP || entered !== generatedEmailOTP) { showToast("OTP সঠিক নয়।", "error"); return; }
             isEmailVerified = true;
             document.getElementById('email-verified-badge').classList.remove('hidden');
             document.getElementById('otp-verify-section').classList.add('hidden');
@@ -980,7 +975,7 @@
                 video.classList.remove('hidden'); preview.classList.add('hidden'); placeholder.classList.add('hidden');
                 document.getElementById('btn-start-cam').classList.add('hidden');
                 document.getElementById('btn-capture-face').classList.remove('hidden');
-            } catch (e) { showToast("ক্যামেরা চালু করা যায়নি। ছবি আপলোড ব্যবহার করুন।", "warning"); }
+            } catch (e) { showToast("ক্যামেরা চালু করা যায়নি। ছবি আপলোড ব্যবহার করুন।", "warning"); }
         };
         function stopFaceCamera() { if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; } }
 
@@ -1012,7 +1007,7 @@
                 document.getElementById('btn-start-cam').classList.add('hidden');
                 document.getElementById('btn-capture-face').classList.add('hidden');
                 document.getElementById('btn-retake-face').classList.remove('hidden');
-                showToast("ছবি সংযুক্ত হয়েছে!", "success");
+                showToast("ছবি সংযুক্ত হয়েছে!", "success");
             });
         };
 
@@ -1056,22 +1051,22 @@
             }
             currentUserProfile = newUser;
             enterMainApp();
-            showToast("নিবন্ধন সম্পন্ন হয়েছে!", "success");
+            showToast("নিবন্ধন সম্পন্ন হয়েছে!", "success");
         };
 
         window.handleUserLogin = function() {
             const iden = document.getElementById('login-identifier').value.trim().toLowerCase();
             const pass = document.getElementById('login-password').value;
-            if (!iden || !pass) { showToast("আইডি ও পাসওয়ার্ড দিন।", "warning"); return; }
+            if (!iden || !pass) { showToast("আইডি ও পাসওয়ার্ড দিন।", "warning"); return; }
             const found = allUsers.find(u => ((u.email && u.email.toLowerCase() === iden) || u.phone === iden) && u.password === pass);
-            if (!found) { showToast("তথ্য সঠিক নয়।", "error"); return; }
+            if (!found) { showToast("তথ্য সঠিক নয়।", "error"); return; }
             currentUserProfile = found;
             enterMainApp();
             showToast(`স্বাগতম, ${found.name}!`, "success");
         };
 
         window.handleOneClickAdminLogin = function() {
-            currentUserProfile = { id: 'admin_sutarmora', name: 'গ্রাম অ্যাডমিন (সুতারমুড়া)', para: 'মধ্য পাড়া', role: 'admin', status: 'approved', facePhoto: 'https://placehold.co/100x100/14532d/fbbf24?text=ADMIN' };
+            currentUserProfile = { id: 'admin_sutarmora', name: 'গ্রাম অ্যাডমিন (সুতারমুড়া)', para: 'মধ্য পাড়া', role: 'admin', status: 'approved', facePhoto: 'https://placehold.co/100x100/14532d/fbbf24?text=ADMIN' };
             enterMainApp();
             showToast("অ্যাডমিন প্যানেলে স্বাগতম!", "success");
         };
@@ -1081,7 +1076,7 @@
             currentUserProfile = null;
             document.getElementById('main-app').classList.add('hidden');
             document.getElementById('auth-screen').classList.remove('hidden');
-            showToast("লগআউট হয়েছে।", "success");
+            showToast("লগআউট হয়েছে।", "success");
         };
 
         function enterMainApp() {
@@ -1118,7 +1113,7 @@
                     syncLocalFallbackData();
                 }
                 renderHeroBanner();
-                showToast("হিরো ব্যানার আপডেট করা হয়েছে!", "success");
+                showToast("হিরো ব্যানার আপডেট করা হয়েছে!", "success");
             };
 
             if (fileInput.files && fileInput.files[0]) {
@@ -1149,7 +1144,7 @@
                 pendingBanner.classList.add('hidden'); adminNav.classList.add('hidden'); heroSettingsBtn?.classList.add('hidden');
                 postBadge.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> অনুমোদিত সদস্য';
             } else {
-                roleEl.textContent = '⏳ অনুমোদনের অপেক্ষায়';
+                roleEl.textContent = '⏳ অনুমোদনের অপেক্ষায়';
                 pendingBanner.classList.remove('hidden'); adminNav.classList.add('hidden'); heroSettingsBtn?.classList.add('hidden');
                 postBadge.innerHTML = '<i class="fa-regular fa-clock mr-1"></i> অপেক্ষমাণ';
             }
@@ -1158,7 +1153,7 @@
         function checkWritePermission() {
             if (!currentUserProfile) return false;
             if (currentUserProfile.role === 'admin' || currentUserProfile.status === 'approved') return true;
-            showToast("অ্যাডমিন অনুমোদন না দেওয়া পর্যন্ত এই কাজ করতে পারবেন না।", "warning");
+            showToast("অ্যাডমিন অনুমোদন না দেওয়া পর্যন্ত এই কাজ করতে পারবেন না।", "warning");
             return false;
         }
 
@@ -1189,9 +1184,9 @@
             bar.className = "ticker-bar-container text-white border-t shadow-inner transition-colors duration-300 cursor-pointer ";
             if (category.includes('মৃত্যু')) {
                 bar.classList.add('bg-gradient-to-r', 'from-gray-900', 'via-zinc-800', 'to-neutral-900', 'border-zinc-700');
-            } else if (category.includes('উন্নয়নমূলক')) {
+            } else if (category.includes('উন্নয়নমূলক')) {
                 bar.classList.add('bg-gradient-to-r', 'from-emerald-700', 'via-village-700', 'to-teal-800', 'border-emerald-400/40');
-            } else if (category.includes('রামপুর উচ্চ বিদ্যালয়')) {
+            } else if (category.includes('রামপুর উচ্চ বিদ্যালয়')) {
                 bar.classList.add('bg-gradient-to-r', 'from-indigo-700', 'via-blue-700', 'to-sky-800', 'border-indigo-400/40');
             } else if (category.includes('সেবা ও রক্তদান')) {
                 bar.classList.add('bg-gradient-to-r', 'from-amber-600', 'via-orange-600', 'to-yellow-700', 'border-amber-400/40');
@@ -1206,11 +1201,11 @@
 
             const parts = [];
             if (isDeathNotice && isWithinTwoDays) {
-                const pubName = urgentTickerData.publisherName ? ` [প্রকাশক: ${urgentTickerData.publisherName}, ${urgentTickerData.publisherPara || 'সুতারমুড়া'}${urgentTickerData.publisherPhone ? ', ফোন: ' + urgentTickerData.publisherPhone : ''}]` : '';
-                parts.push(` إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ — গভীর শোক সংবাদ: ${urgentTickerData.text}${pubName}   •••   দোয়া: إنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ — হে আল্লাহ, মরহুমকে জান্নাতুল ফেরদৌস নসিব করুন এবং শোকসন্তপ্ত পরিবারকে ধৈর্য ধারণ করার তৌফিক দান করুন। (اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ)`);
+                const pubName = urgentTickerData.publisherName ? ` [প্রকাশক: ${urgentTickerData.publisherName}, ${urgentTickerData.publisherPara || 'সুতারমুড়া'}${urgentTickerData.publisherPhone ? ', ফোন: ' + urgentTickerData.publisherPhone : ''}]` : '';
+                parts.push(` إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ — গভীর শোক সংবাদ: ${urgentTickerData.text}${pubName}   •••   দোয়া: إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ — হে আল্লাহ, মরহুমকে জান্নাতুল ফেরদৌস নসিব করুন এবং শোকসন্তপ্ত পরিবারকে ধৈর্য ধারণ করার তৌফিক দান করুন। (اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ)`);
             } else {
                 if (urgentTickerData.text && !isDeathNotice) {
-                    const pubName = urgentTickerData.publisherName ? ` [প্রকাশক: ${urgentTickerData.publisherName}, ${urgentTickerData.publisherPara || 'সুতারমুড়া'}${urgentTickerData.publisherPhone ? ', ফোন: ' + urgentTickerData.publisherPhone : ''}]` : '';
+                    const pubName = urgentTickerData.publisherName ? ` [প্রকাশক: ${urgentTickerData.publisherName}, ${urgentTickerData.publisherPara || 'সুতারমুড়া'}${urgentTickerData.publisherPhone ? ', ফোন: ' + urgentTickerData.publisherPhone : ''}]` : '';
                     parts.push(`${urgentTickerData.text}${pubName}`);
                 }
                 if (allInstNotices && allInstNotices.length > 0) {
@@ -1221,7 +1216,7 @@
                     });
                 }
                 if (parts.length === 0) {
-                    parts.push(urgentTickerData.text || 'রামপুর উচ্চ বিদ্যালয়ে সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের বার্ষিক ক্রীড়া প্রতিযোগিতা ও সাংস্কৃতিক অনুষ্ঠান আগামী বৃহস্পতিবার সকাল ১০টায় অনুষ্ঠিত হবে।');
+                    parts.push(urgentTickerData.text || 'রামপুর উচ্চ বিদ্যালয়ে সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের বার্ষিক ক্রীড়া প্রতিযোগিতা ও সাংস্কৃতিক অনুষ্ঠান আগামী বৃহস্পতিবার সকাল ১০টায় অনুষ্ঠিত হবে।');
                 }
             }
             marquee.textContent = parts.join('   •••   ');
@@ -1263,7 +1258,7 @@
                 category,
                 text,
                 publisherName: currentUserProfile.name,
-                publisherPara: currentUserProfile.para || 'সুতারমুড়া',
+                publisherPara: currentUserProfile.para || 'সুতারমুড়া',
                 publisherPhone: currentUserProfile.phone || '',
                 updatedAt: Date.now()
             };
@@ -1274,7 +1269,7 @@
 
             closeTickerEditorModal();
             renderUrgentTicker();
-            showToast("জরুরি ঘোষণা সফলভাবে লাইভ প্রকাশিত হয়েছে!", "success");
+            showToast("জরুরি ঘোষণা সফলভাবে লাইভ প্রকাশিত হয়েছে!", "success");
         };
 
         window.handlePostImageSelect = function(event) {
@@ -1292,14 +1287,14 @@
             if (!checkWritePermission()) return;
             const content = document.getElementById('post-content-input').value.trim();
             if (!content && !selectedPostImageBase64) { showToast("পোস্টের লেখা বা ছবি দিন।", "warning"); return; }
-            const postObj = { id: 'post_' + Date.now(), authorId: currentUserProfile.id, authorName: currentUserProfile.name, authorPara: currentUserProfile.para || 'সুতারমুড়া', authorAvatar: currentUserProfile.facePhoto || '', content, image: selectedPostImageBase64, likes: [], comments: [], createdAt: Date.now() };
+            const postObj = { id: 'post_' + Date.now(), authorId: currentUserProfile.id, authorName: currentUserProfile.name, authorPara: currentUserProfile.para || 'সুতারমুড়া', authorAvatar: currentUserProfile.facePhoto || '', content, image: selectedPostImageBase64, likes: [], comments: [], createdAt: Date.now() };
             if (isCloudConnected && db && firebaseUser) {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts'), postObj);
             } else { allPosts.unshift(postObj); syncLocalFallbackData(); }
             document.getElementById('post-content-input').value = "";
             clearPostImage();
             renderRecentPhotosGallery();
-            showToast("পোস্ট প্রকাশিত হয়েছে!", "success");
+            showToast("পোস্ট প্রকাশিত হয়েছে!", "success");
         };
 
         window.deletePostByAdmin = async function(postId) {
@@ -1308,7 +1303,7 @@
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts', postId));
             } else { allPosts = allPosts.filter(p => p.id !== postId); syncLocalFallbackData(); }
             renderRecentPhotosGallery();
-            showToast("পোস্ট মুছে ফেলা হয়েছে।", "success");
+            showToast("পোস্ট মুছে ফেলা হয়েছে।", "success");
         };
 
         window.togglePostLike = async function(postId) {
@@ -1349,7 +1344,7 @@
             }
             input.value = '';
             renderPostsFeed();
-            showToast("মন্তব্য যোগ হয়েছে!", "success");
+            showToast("মন্তব্য যোগ হয়েছে!", "success");
         };
 
         function renderRecentPhotosGallery() {
@@ -1396,7 +1391,6 @@
                     ${p.content ? `<p class="text-xs sm:text-sm text-gray-800 whitespace-pre-line leading-relaxed">${escapeHtml(p.content)}</p>` : ''}
                     ${p.image ? `<img src="${p.image}" class="w-full max-h-80 object-cover rounded-xl border">` : ''}
 
-                    <!-- লাইক ও কমেন্ট কাউন্ট ও বাটন -->
                     <div class="flex items-center gap-4 pt-2 border-t text-xs font-bold text-gray-600">
                         <button onclick="togglePostLike('${p.id}')" class="flex items-center gap-1 px-3 py-1.5 rounded-lg transition ${isLiked ? 'bg-red-50 text-red-600' : 'bg-gray-100 hover:bg-gray-200'}">
                             <i class="${isLiked ? 'fa-solid' : 'fa-regular'} fa-heart"></i> <span>${likesCount} লাইক</span>
@@ -1406,7 +1400,6 @@
                         </div>
                     </div>
 
-                    <!-- কমেন্ট সেকশন -->
                     <div class="space-y-2 pt-2 border-t border-gray-50">
                         <div class="space-y-1.5 max-h-40 overflow-y-auto">
                             ${comments.map(c => `
@@ -1474,7 +1467,7 @@
                             <div class="min-w-0"><p class="text-[10px] font-bold text-amber-700 truncate">${escapeHtml(inst.presRole)}</p><p class="text-xs font-extrabold text-gray-900 truncate">${escapeHtml(inst.presName)}</p><p class="text-[10px] text-gray-500 truncate">${escapeHtml(inst.presPhone || 'ফোন নেই')}</p></div>
                         </div>
                     </div>
-                    <button onclick="openInstitutionModal('${inst.id}')" class="w-full py-2 bg-village-800 hover:bg-village-900 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5"><i class="fa-solid fa-pen-to-square"></i><span>সময়সূচি, শিক্ষক ও কমিটি এডিট করুন (${inst.teachers.length})</span></button>
+                    <button onclick="openInstitutionModal('${inst.id}')" class="w-full py-2 bg-village-800 hover:bg-village-900 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5"><i class="fa-solid fa-pen-to-square"></i><span>সময়সূচি, শিক্ষক ও কমিটি এডিট করুন (${inst.teachers.length})</span></button>
                 </div>`;
             }).join('');
         }
@@ -1484,7 +1477,6 @@
 
         function renderInstitutionModalContent(instId) {
             const inst = getInstitutionProfileData(instId);
-            const isAdmin = currentUserProfile?.role === 'admin';
             document.getElementById('modal-inst-category').textContent = inst.badge;
             document.getElementById('modal-inst-title').textContent = inst.name;
             document.getElementById('modal-inst-location').innerHTML = `<i class="fa-solid fa-location-dot text-village-600 mr-1"></i> ${escapeHtml(inst.location)}`;
@@ -1503,7 +1495,6 @@
             document.getElementById('modal-pres-phone').textContent = inst.presPhone || 'নাম্বার নেই';
             document.getElementById('modal-pres-phone-link').href = inst.presPhone ? `tel:${inst.presPhone}` : '#';
 
-            // ভেরিফাইড সদস্য অথবা অ্যাডমিন উভয়েই প্রতিষ্ঠান প্রধান, সভাপতি, শিক্ষক ও কমিটি এডিট করতে পারবেন
             const canEditInst = currentUserProfile && (currentUserProfile.role === 'admin' || currentUserProfile.status === 'approved');
             ['admin-edit-head-box', 'admin-edit-pres-box'].forEach(id => {
                 const el = document.getElementById(id);
@@ -1522,7 +1513,7 @@
             const tEl = document.getElementById('modal-teachers-list');
             tEl.innerHTML = inst.teachers.length === 0 ? `<p class="text-xs text-gray-400 text-center py-2">কোনো শিক্ষক নেই। নিচের ফর্ম থেকে যুক্ত করুন।</p>` : `
                 <table class="w-full text-left text-xs">
-                    <thead><tr class="bg-village-100 text-village-900"><th class="p-1.5">নং</th><th class="p-1.5">নাম</th><th class="p-1.5">পদবি/বিষয়</th><th class="p-1.5 text-right">ফোন ও মুছুন</th></tr></thead>
+                    <thead><tr class="bg-village-100 text-village-900"><th class="p-1.5">নং</th><th class="p-1.5">নাম</th><th class="p-1.5">পদবি/বিষয়</th><th class="p-1.5 text-right">ফোন ও মুছুন</th></tr></thead>
                     <tbody class="divide-y bg-white">${inst.teachers.map((t, i) => `<tr><td class="p-1.5">${i+1}</td><td class="p-1.5 font-bold">${escapeHtml(t.name)}</td><td class="p-1.5">${escapeHtml(t.role)}</td><td class="p-1.5 text-right"><a href="tel:${escapeHtml(t.phone)}" class="px-2 py-0.5 bg-green-100 rounded font-bold"><i class="fa-solid fa-phone"></i> ${escapeHtml(t.phone)}</a> ${canEditInst ? `<button onclick="removeInstitutionPerson('teachers', ${i})" class="ml-1 px-1.5 py-0.5 bg-red-50 text-red-600 rounded"><i class="fa-solid fa-trash"></i></button>` : ''}</td></tr>`).join('')}</tbody>
                 </table>`;
 
@@ -1549,12 +1540,12 @@
             if (!activeInstitutionId) return;
             const newSchedule = document.getElementById('edit-schedule-main').value.trim();
             const newPrayer = document.getElementById('edit-schedule-prayer').value.trim();
-            if (!newSchedule) { showToast("সময়সূচি লিখুন।", "warning"); return; }
+            if (!newSchedule) { showToast("সময়সূচি লিখুন।", "warning"); return; }
 
             await persistInstitutionProfile(activeInstitutionId, { schedule: newSchedule, prayerSchedule: newPrayer });
             const instBase = DEFAULT_INSTITUTIONS.find(i => i.id === activeInstitutionId);
-            await recordDirectoryActivityLog('schedule_updated', instBase?.name || 'প্রতিষ্ঠান', 'প্রতিষ্ঠান সময়সূচি আপডেট', `মূল: ${newSchedule}`);
-            showToast("সময়সূচি সফলভাবে আপডেট করা হয়েছে!", "success");
+            await recordDirectoryActivityLog('schedule_updated', instBase?.name || 'প্রতিষ্ঠান', 'প্রতিষ্ঠান সময়সূচি আপডেট', `মূল: ${newSchedule}`);
+            showToast("সময়সূচি সফলভাবে আপডেট করা হয়েছে!", "success");
         };
 
         window.handleInstitutionLeaderPhoto = function(event, type) {
@@ -1563,7 +1554,7 @@
             if (!file) return;
             compressImageFile(file, 260, async (base64) => {
                 await persistInstitutionProfile(activeInstitutionId, type === 'head' ? { headPhoto: base64 } : { presPhoto: base64 });
-                showToast("ছবি আপডেট হয়েছে!", "success");
+                showToast("ছবি আপডেট হয়েছে!", "success");
             });
         };
 
@@ -1582,7 +1573,7 @@
                 if (!name) { showToast("সভাপতির নাম লিখুন।", "warning"); return; }
                 await persistInstitutionProfile(activeInstitutionId, { presName: name, presRole: role || 'সভাপতি', presPhone: phone });
             }
-            showToast("তথ্য সফলভাবে সংরক্ষণ করা হয়েছে!", "success");
+            showToast("তথ্য সফলভাবে সংরক্ষণ করা হয়েছে!", "success");
         };
 
         window.addInstitutionTeacher = async function() {
@@ -1594,7 +1585,7 @@
             const curr = getInstitutionProfileData(activeInstitutionId);
             await persistInstitutionProfile(activeInstitutionId, { teachers: [...curr.teachers, { name, role: role || 'শিক্ষক', phone }] });
             document.getElementById('new-teacher-name').value = ''; document.getElementById('new-teacher-role').value = ''; document.getElementById('new-teacher-phone').value = '';
-            showToast("শিক্ষক যুক্ত হয়েছে!", "success");
+            showToast("শিক্ষক যুক্ত হয়েছে!", "success");
         };
 
         window.addInstitutionCommitteeMember = async function() {
@@ -1606,7 +1597,7 @@
             const curr = getInstitutionProfileData(activeInstitutionId);
             await persistInstitutionProfile(activeInstitutionId, { committee: [...curr.committee, { name, role, phone }] });
             document.getElementById('new-comm-name').value = ''; document.getElementById('new-comm-role').value = ''; document.getElementById('new-comm-phone').value = '';
-            showToast("কমিটি সদস্য যুক্ত হয়েছে!", "success");
+            showToast("কমিটি সদস্য যুক্ত হয়েছে!", "success");
         };
 
         window.removeInstitutionPerson = async function(key, idx) {
@@ -1614,7 +1605,7 @@
             const curr = getInstitutionProfileData(activeInstitutionId);
             const arr = curr[key].filter((_, i) => i !== idx);
             await persistInstitutionProfile(activeInstitutionId, { [key]: arr });
-            showToast("মুছে ফেলা হয়েছে।", "success");
+            showToast("মুছে ফেলা হয়েছে।", "success");
         };
 
         window.submitInstitutionNotice = async function() {
@@ -1623,14 +1614,14 @@
             const title = document.getElementById('inst-notice-title').value.trim();
             const contact = document.getElementById('inst-contact').value.trim();
             const desc = document.getElementById('inst-notice-desc').value.trim();
-            if (!title || !desc) { showToast("বিষয় ও বিবরণ লিখুন।", "warning"); return; }
+            if (!title || !desc) { showToast("বিষয় ও বিবরণ লিখুন।", "warning"); return; }
             const noticeObj = { id: 'inst_n_' + Date.now(), institution, title, contact, desc, createdAt: Date.now() };
             if (isCloudConnected && db && firebaseUser) {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_institutions'), noticeObj);
             } else { allInstNotices.unshift(noticeObj); syncLocalFallbackData(); }
             renderUrgentTicker();
             document.getElementById('inst-notice-title').value = ''; document.getElementById('inst-contact').value = ''; document.getElementById('inst-notice-desc').value = '';
-            showToast("নোটিশ প্রকাশিত হয়েছে!", "success");
+            showToast("নোটিশ প্রকাশিত হয়েছে!", "success");
         };
 
         window.deleteInstitutionNoticeByAdmin = async function(id) {
@@ -1639,7 +1630,7 @@
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_institutions', id));
             } else { allInstNotices = allInstNotices.filter(n => n.id !== id); syncLocalFallbackData(); }
             renderUrgentTicker();
-            showToast("মুছে ফেলা হয়েছে।", "success");
+            showToast("মুছে ফেলা হয়েছে।", "success");
         };
 
         function renderInstitutionNotices() {
@@ -1657,7 +1648,7 @@
 
         window.submitListing = async function(category) {
             if (!checkWritePermission()) return;
-            let itemObj = { id: 'list_' + Date.now(), category, authorName: `${currentUserProfile.name} (${currentUserProfile.para || 'সুতারমুড়া'})`, createdAt: Date.now() };
+            let itemObj = { id: 'list_' + Date.now(), category, authorName: `${currentUserProfile.name} (${currentUserProfile.para || 'সুতারমুড়া'})`, createdAt: Date.now() };
             if (category === 'jobs') {
                 itemObj.subType = document.getElementById('job-type').value;
                 itemObj.title = document.getElementById('job-title').value.trim();
@@ -1694,7 +1685,7 @@
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_listings', id));
             } else { allListings = allListings.filter(l => l.id !== id); syncLocalFallbackData(); }
             renderMarketTicker();
-            showToast("মুছে ফেলা হয়েছে।", "success");
+            showToast("মুছে ফেলা হয়েছে।", "success");
         };
 
         function renderListings() {
@@ -1717,8 +1708,8 @@
             'গ্রামের মুরুব্বি / জনপ্রতিনিধি': { badge: 'bg-amber-50 text-amber-800 border-amber-200', icon: 'fa-user-tie text-amber-600' },
             'গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী': { badge: 'bg-red-50 text-red-700 border-red-200', icon: 'fa-user-doctor text-red-600' },
             'মসজিদের ইমাম / খতিব': { badge: 'bg-emerald-50 text-emerald-800 border-emerald-200', icon: 'fa-mosque text-emerald-600' },
-            'গাড়ি / অ্যাম্বুলেন্স চালক': { badge: 'bg-blue-50 text-blue-700 border-blue-200', icon: 'fa-truck-medical text-blue-600' },
-            'ইলেকট্রিশিয়ান / মিস্ত্রি': { badge: 'bg-orange-50 text-orange-700 border-orange-200', icon: 'fa-screwdriver-wrench text-orange-600' },
+            'গাড়ি / অ্যাম্বুলেন্স চালক': { badge: 'bg-blue-50 text-blue-700 border-blue-200', icon: 'fa-truck-medical text-blue-600' },
+            'ইলেকট্রিশিয়ান / মিস্ত্রি': { badge: 'bg-orange-50 text-orange-700 border-orange-200', icon: 'fa-screwdriver-wrench text-orange-600' },
             'দৈনন্দিন কাজে সাহায্যকারী': { badge: 'bg-teal-50 text-teal-800 border-teal-200', icon: 'fa-hands-holding-circle text-teal-600' },
             'স্বেচ্ছাসেবী': { badge: 'bg-rose-50 text-rose-700 border-rose-200', icon: 'fa-hand-holding-heart text-rose-600' },
             'শিক্ষক / শিক্ষিকা': { badge: 'bg-purple-50 text-purple-800 border-purple-200', icon: 'fa-chalkboard-user text-purple-600' }
@@ -1732,7 +1723,7 @@
                 targetRole,
                 targetPhone,
                 actorName: currentUserProfile?.name || 'অজানা সদস্য',
-                actorPara: currentUserProfile?.para || 'সুতারমুড়া',
+                actorPara: currentUserProfile?.para || 'সুতারমুড়া',
                 actorPhone: currentUserProfile?.phone || '',
                 actorRole: currentUserProfile?.role === 'admin' ? 'অ্যাডমিন' : 'ভেরিফাইড সদস্য',
                 timestamp: Date.now()
@@ -1759,13 +1750,13 @@
             const role = document.getElementById('dir-role').value;
             const phone = document.getElementById('dir-phone').value.trim();
             if (!name || !phone) { showToast("নাম ও নাম্বার দিন।", "warning"); return; }
-            const dirObj = { id: 'dir_' + Date.now(), name, role, phone, addedByName: currentUserProfile.name, addedByPara: currentUserProfile.para || 'সুতারমুড়া', createdAt: Date.now() };
+            const dirObj = { id: 'dir_' + Date.now(), name, role, phone, addedByName: currentUserProfile.name, addedByPara: currentUserProfile.para || 'সুতারমুড়া', createdAt: Date.now() };
             if (isCloudConnected && db && firebaseUser) {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory'), dirObj);
             } else { allDirectory.unshift(dirObj); syncLocalFallbackData(); }
             await recordDirectoryActivityLog('added', name, role, phone);
             document.getElementById('dir-name').value = ""; document.getElementById('dir-phone').value = "";
-            showToast("যুক্ত হয়েছে!", "success");
+            showToast("যুক্ত হয়েছে!", "success");
         };
 
         window.deleteDirectoryByAdmin = async function(id) {
@@ -1775,7 +1766,7 @@
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory', id));
             } else { allDirectory = allDirectory.filter(d => d.id !== id); syncLocalFallbackData(); }
             if (target) await recordDirectoryActivityLog('deleted', target.name, target.role, target.phone);
-            showToast("মুছে ফেলা হয়েছে।", "success");
+            showToast("মুছে ফেলা হয়েছে।", "success");
         };
 
         function renderDirectory() {
@@ -1838,7 +1829,7 @@
             if (isCloudConnected && db && firebaseUser) {
                 await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', id), { status: 'approved' });
             } else { const u = allUsers.find(x => x.id === id); if (u) u.status = 'approved'; syncLocalFallbackData(); }
-            showToast("অনুমোদন দেওয়া হয়েছে!", "success");
+            showToast("অনুমোদন দেওয়া হয়েছে!", "success");
         };
 
         window.deleteUserByAdmin = async function(id) {
@@ -1846,7 +1837,7 @@
             if (isCloudConnected && db && firebaseUser) {
                 await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', id));
             } else { allUsers = allUsers.filter(x => x.id !== id); syncLocalFallbackData(); }
-            showToast("মুছে ফেলা হয়েছে।", "error");
+            showToast("মুছে ফেলা হয়েছে।", "error");
         };
 
         function renderAdminPanel() {
@@ -1877,7 +1868,7 @@
                             <div class="flex items-start gap-2">
                                 <span class="w-7 h-7 rounded-xl ${isSchedule ? 'bg-blue-600 text-white' : 'bg-emerald-600 text-white'} flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid ${isSchedule ? 'fa-clock' : 'fa-address-book'}"></i></span>
                                 <div>
-                                    <p class="font-extrabold text-gray-900">${isSchedule ? 'সময়সূচি আপডেট:' : 'ডিরেক্টরি নাম্বার:'} <span class="text-village-900">${escapeHtml(log.targetName)}</span></p>
+                                    <p class="font-extrabold text-gray-900">${isSchedule ? 'সময়সূচি আপডেট:' : 'ডিরেক্টরি নাম্বার:'} <span class="text-village-900">${escapeHtml(log.targetName)}</span></p>
                                     <p class="text-[11px] text-gray-600">কর্তৃক: <strong class="text-village-800">${escapeHtml(log.actorName)}</strong> (${escapeHtml(log.actorPara)})</p>
                                 </div>
                             </div>
