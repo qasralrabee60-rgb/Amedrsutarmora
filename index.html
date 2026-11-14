@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="bn" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আমাদের সুতারমুড়া — ডিজিটাল গ্রাম কমিউনিটি</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Kalpurush & Noto Sans Bengali Fonts -->
+    <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Kalpurush"', '"Noto Sans Bengali"', 'Inter', 'sans-serif'],
+                        kalpurush: ['"Kalpurush"', '"Noto Sans Bengali"', 'sans-serif'],
+                    },
+                    colors: {
+                        village: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        gold: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html, body, input, select, textarea, button, span, p, h1, h2, h3, h4, a, div, label, th, td {
+            font-family: 'Kalpurush', 'Noto Sans Bengali', 'Inter', sans-serif !important;
+        }
+        body {
+            background-color: #f3f6f4;
+        }
+        .font-kalpurush-title {
+            font-family: 'Kalpurush', 'Noto Sans Bengali', sans-serif !important;
+        }
+        .font-mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #16a34a;
+            border-radius: 10px;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes pulse-border {
+            0%, 100% { border-color: #22c55e; }
+            50% { border-color: #f59e0b; }
+        }
+        .face-scanner-ring {
+            animation: pulse-border 2s infinite;
+        }
+        .ticker-wrapper {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        .ticker-track {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee-scroll 32s linear infinite;
+        }
+        .ticker-track-market {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee-scroll 26s linear infinite;
+        }
+        .ticker-wrapper:hover .ticker-track,
+        .ticker-wrapper:active .ticker-track,
+        .ticker-wrapper:hover .ticker-track-market,
+        .ticker-wrapper:active .ticker-track-market {
+            animation-play-state: paused;
+        }
+        @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-gray-800">
+
+    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <div id="global-loader" class="fixed inset-0 bg-village-900/95 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-white">
+        <div class="w-16 h-16 border-4 border-gold-400 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <h2 class="text-2xl font-bold tracking-wide">আমাদের সুতারমুড়া</h2>
+        <p class="text-base text-green-200 mt-1">কমিউনিটি প্ল্যাটফর্ম প্রস্তুত হচ্ছে...</p>
+    </div>
+
+    <!-- ১. লগইন এবং নিবন্ধন স্ক্রিন -->
+    <div id="auth-screen" class="hidden min-h-screen bg-gradient-to-br from-village-900 via-village-800 to-emerald-900 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden border border-green-100">
+            <div class="relative bg-village-900 p-6 text-center text-white overflow-hidden" style="background-image: linear-gradient(to bottom, rgba(20, 83, 45, 0.85), rgba(20, 83, 45, 0.95)), url('https://placehold.co/600x400/166534/ffffff?text=Sutarmora+Village'); background-size: cover; background-position: center;">
+                <div class="absolute top-3 right-3">
+                    <label class="cursor-pointer px-2.5 py-1 bg-black/40 hover:bg-black/60 text-white rounded-lg text-[11px] font-bold backdrop-blur-xs transition flex items-center gap-1">
+                        <i class="fa-solid fa-camera"></i> ছবি বদলান
+                        <input type="file" accept="image/*" onchange="handleAuthHeaderPhoto(event)" class="hidden">
+                    </label>
+                </div>
+                <div class="w-14 h-14 bg-gold-400 text-village-950 rounded-2xl flex items-center justify-center mx-auto mb-2.5 shadow-lg text-2xl font-black">
+                    <i class="fa-solid fa-tree-city"></i>
+                </div>
+                <h1 class="text-3xl font-extrabold tracking-tight font-kalpurush-title">আমাদের সুতারমুড়া</h1>
+                <p class="text-sm text-green-100 mt-0.5">আমাদের গ্রাম, আমাদের পরিবার — ভেরিফায়েড কমিউনিটি</p>
+            </div>
+
+            <div class="flex border-b border-gray-200 bg-gray-50 p-1.5 gap-1">
+                <button id="tab-login-btn" onclick="switchAuthTab('login')" class="flex-1 py-2.5 text-sm font-bold rounded-xl bg-white text-village-800 shadow-sm transition">
+                    <i class="fa-solid fa-right-to-bracket mr-1"></i> লগইন করুন
+                </button>
+                <button id="tab-register-btn" onclick="switchAuthTab('register')" class="flex-1 py-2.5 text-sm font-bold rounded-xl text-gray-500 hover:text-village-700 transition">
+                    <i class="fa-solid fa-user-plus mr-1"></i> নতুন সদস্য নিবন্ধন
+                </button>
+            </div>
+
+            <!-- লগইন ফর্ম -->
+            <div id="login-form-box" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">ইমেইল অথবা মোবাইল নাম্বার</label>
+                    <input type="text" id="login-identifier" placeholder="আপনার ইমেইল বা মোবাইল নাম্বার দিন" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">পাসওয়ার্ড</label>
+                    <input type="password" id="login-password" placeholder="আপনার পাসওয়ার্ড দিন" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-500">
+                </div>
+                <button onclick="handleUserLogin()" class="w-full bg-village-700 hover:bg-village-800 text-white font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-base">
+                    <span>প্রবেশ করুন (Login)</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+                <div class="pt-4 border-t border-gray-100">
+                    <button onclick="handleOneClickAdminLogin()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-village-950 font-extrabold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>অ্যাডমিন লগইন (১-ক্লিক প্রবেশ)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- নিবন্ধন ফর্ম -->
+            <div id="register-form-box" class="hidden p-5 space-y-3.5 max-h-[78vh] overflow-y-auto">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">আপনার পূর্ণ নাম *</label>
+                    <input type="text" id="reg-name" placeholder="আপনার নাম লিখুন" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">পিতার নাম *</label>
+                        <input type="text" id="reg-father" placeholder="পিতার নাম লিখুন" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">পাড়া / মহল্লা *</label>
+                        <select id="reg-para" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm">
+                            <option value="উত্তর পাড়া">উত্তর পাড়া</option>
+                            <option value="দক্ষিণ পাড়া">দক্ষিণ পাড়া</option>
+                            <option value="পূর্ব পাড়া">পূর্ব পাড়া</option>
+                            <option value="পশ্চিম পাড়া">পশ্চিম পাড়া</option>
+                            <option value="মধ্য পাড়া">মধ্য পাড়া</option>
+                            <option value="আলগা বাড়ী">আলগা বাড়ী</option>
+                            <option value="দৌলতপুর">দৌলতপুর</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50/70 border border-blue-200 rounded-2xl p-3.5 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <label class="text-sm font-extrabold text-blue-900"><i class="fa-solid fa-envelope-circle-check mr-1"></i> ইমেইল ওটিপি (Email OTP) যাচাই *</label>
+                        <span id="email-verified-badge" class="hidden px-2.5 py-0.5 bg-green-600 text-white text-xs font-bold rounded-full">✓ ভেরিফাইড</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="email" id="reg-email" placeholder="আপনার ইমেইল (example@gmail.com)" class="flex-1 px-3 py-2 bg-white border border-blue-200 rounded-xl text-sm">
+                        <button type="button" id="btn-send-email-otp" onclick="sendEmailOTP()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl">OTP পাঠান</button>
+                    </div>
+                    <div id="otp-verify-section" class="hidden space-y-2 pt-1">
+                        <div class="bg-white border border-green-300 rounded-xl p-2.5 text-xs text-gray-800 flex items-center justify-between">
+                            <span id="otp-hint-text">কোড পাঠানো হয়েছে।</span>
+                            <span id="otp-instant-code-badge" class="font-mono font-extrabold text-sm bg-green-100 text-green-800 px-2.5 py-0.5 rounded-lg"></span>
+                        </div>
+                        <div class="flex gap-2">
+                            <input type="text" id="reg-otp-input" maxlength="6" placeholder="৬ সংখ্যার OTP দিন" class="flex-1 px-3 py-2 bg-white border border-blue-300 rounded-xl text-sm font-mono text-center">
+                            <button type="button" onclick="verifyEmailOTP()" class="px-4 py-2 bg-village-700 text-white text-xs font-bold rounded-xl">যাচাই করুন</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">মোবাইল নাম্বার *</label>
+                        <input type="tel" id="reg-phone" placeholder="017XXXXXXXX" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">পাসওয়ার্ড *</label>
+                        <input type="password" id="reg-password" placeholder="পাসওয়ার্ড" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm">
+                    </div>
+                </div>
+
+                <div class="border-2 border-dashed border-village-300 rounded-2xl p-3 bg-village-50/50 text-center">
+                    <p class="text-sm font-bold text-village-800 mb-2"><i class="fa-solid fa-face-viewfinder mr-1"></i> বাধ্যতামূলক লাইভ ফেস স্ক্যান *</p>
+                    <div id="camera-container" class="relative w-32 h-32 mx-auto rounded-full overflow-hidden bg-gray-900 border-4 face-scanner-ring shadow-inner flex items-center justify-center">
+                        <video id="face-video" autoplay playsinline class="w-full h-full object-cover hidden"></video>
+                        <img id="face-preview" src="" alt="Face" class="w-full h-full object-cover hidden">
+                        <div id="camera-placeholder" class="text-gray-400 text-xs p-2"><i class="fa-solid fa-user-shield text-2xl mb-1 block text-village-500"></i>ক্যামেরা চালু করুন</div>
+                    </div>
+                    <canvas id="face-canvas" class="hidden"></canvas>
+                    <div class="mt-2.5 flex flex-wrap justify-center gap-2">
+                        <button type="button" id="btn-start-cam" onclick="startFaceCamera()" class="px-3 py-1.5 bg-village-700 text-white text-xs font-bold rounded-lg">ক্যামেরা চালু</button>
+                        <button type="button" id="btn-capture-face" onclick="captureFaceSnapshot()" class="hidden px-3 py-1.5 bg-amber-500 text-village-950 text-xs font-bold rounded-lg">ছবি তুলুন</button>
+                        <button type="button" id="btn-retake-face" onclick="startFaceCamera()" class="hidden px-3 py-1.5 bg-gray-600 text-white text-xs font-bold rounded-lg">আবার তুলুন</button>
+                        <label class="cursor-pointer px-3 py-1.5 bg-white border border-gray-300 text-gray-700 text-xs font-bold rounded-lg">ছবি আপলোড<input type="file" accept="image/*" capture="user" onchange="handleFallbackFaceUpload(event)" class="hidden"></label>
+                    </div>
+                </div>
+
+                <button onclick="handleUserRegister()" class="w-full bg-village-700 hover:bg-village-800 text-white font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-base">
+                    <i class="fa-solid fa-check-circle"></i><span>নিবন্ধন সম্পন্ন করুন</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ২. মূল অ্যাপ্লিকেশন স্ক্রিন -->
+    <div id="main-app" class="hidden flex-1 flex flex-col">
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+            <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="switchMainTab('feed')">
+                    <div class="w-9 h-9 bg-village-700 text-gold-400 rounded-xl flex items-center justify-center text-lg shadow-sm">
+                        <i class="fa-solid fa-tree-city"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg sm:text-xl font-extrabold text-village-900 leading-tight font-kalpurush-title">আমাদের সুতারমুড়া</h1>
+                        <p class="text-[11px] font-bold text-village-700">আমাদের গ্রাম, আমাদের পরিবার</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="hidden sm:flex items-center gap-2 bg-village-50 border border-village-200 px-2.5 py-1 rounded-full">
+                        <img id="header-user-avatar" src="https://placehold.co/100x100/166534/ffffff?text=U" alt="User" class="w-6 h-6 rounded-full object-cover border border-village-500">
+                        <div class="text-left">
+                            <p id="header-user-name" class="text-xs font-bold text-gray-800 leading-none">সদস্য</p>
+                            <span id="header-user-role" class="text-[10px] font-semibold text-village-700">ভেরিফাইড সদস্য</span>
+                        </div>
+                    </div>
+                    <button onclick="handleLogout()" class="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl text-xs font-bold transition flex items-center gap-1">
+                        <i class="fa-solid fa-right-from-bracket"></i><span>লগআউট</span>
+                    </button>
+                </div>
+            </div>
+
+            <nav class="bg-village-800 text-white">
+                <div class="max-w-6xl mx-auto px-2 sm:px-4 flex items-center gap-1.5 py-1.5 overflow-x-auto no-scrollbar">
+                    <button onclick="switchMainTab('feed')" id="nav-feed" class="nav-btn active-nav px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap bg-gold-400 text-village-950 shadow-sm transition flex items-center gap-1"><i class="fa-solid fa-house"></i> হোম ও ফিড</button>
+                    <button onclick="switchMainTab('institutions')" id="nav-institutions" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-mosque"></i> গ্রামের প্রতিষ্ঠান</button>
+                    <button onclick="switchMainTab('chat')" id="nav-chat" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-comments"></i> লাইভ চ্যাট</button>
+                    <button onclick="switchMainTab('jobs')" id="nav-jobs" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-briefcase"></i> কাজ ও চাকরি</button>
+                    <button onclick="switchMainTab('market')" id="nav-market" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-basket-shopping"></i> হাট-বাজার</button>
+                    <button onclick="switchMainTab('tuition')" id="nav-tuition" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-graduation-cap"></i> টিউশনি</button>
+                    <button onclick="switchMainTab('directory')" id="nav-directory" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1"><i class="fa-solid fa-address-book"></i> ডিরেক্টরি</button>
+                    <button onclick="switchMainTab('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-extrabold whitespace-nowrap bg-red-600 text-white hover:bg-red-700 shadow-sm transition flex items-center gap-1 ml-auto"><i class="fa-solid fa-shield-halved"></i> অ্যাডমিন <span id="admin-pending-badge" class="bg-white text-red-700 text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span></button>
+                </div>
+            </nav>
+
+            <!-- ১ম লাইন: জরুরি ঘোষণা (বিনা বাটনে সরাসরি ক্লিকযোগ্য) -->
+            <div id="urgent-ticker-bar" onclick="openTickerEditorModal()" class="bg-gradient-to-r from-red-700 via-red-600 to-amber-700 text-white border-t border-red-400/40 shadow-inner transition-colors duration-300 cursor-pointer" title="জরুরি ঘোষণা দিতে এখানে ক্লিক করুন">
+                <div class="max-w-6xl mx-auto px-2 sm:px-4 py-2 flex items-center gap-2">
+                    <span id="ticker-category-badge" class="shrink-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-gold-400 text-village-950 text-xs sm:text-sm font-extrabold shadow-xs">
+                        <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+                        <span id="ticker-badge-label">জরুরি ঘোষণা</span>
+                    </span>
+                    <div class="ticker-wrapper flex-1 text-sm sm:text-base font-bold tracking-wide">
+                        <div id="ticker-marquee-text" class="ticker-track">রামপুর উচ্চ বিদ্যালয়ে সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের বার্ষিক ক্রীড়া প্রতিযোগিতা ও সাংস্কৃতিক অনুষ্ঠান আগামী বৃহস্পতিবার সকাল ১০টায় অনুষ্ঠিত হবে।</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ২য় লাইন: হাট-বাজার বিজ্ঞাপন বার (বিনা বাটনে সরাসরি ক্লিকযোগ্য) -->
+            <div id="market-ad-ticker-bar" onclick="switchMainTab('market')" class="bg-gradient-to-r from-emerald-900 via-village-800 to-teal-900 text-emerald-50 border-t border-emerald-500/30 cursor-pointer" title="বিজ্ঞাপন দিতে এখানে ক্লিক করুন">
+                <div class="max-w-6xl mx-auto px-2 sm:px-4 py-1.5 flex items-center gap-2">
+                    <span class="shrink-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-emerald-400 text-village-950 text-xs sm:text-sm font-extrabold shadow-xs">
+                        <i class="fa-solid fa-basket-shopping"></i><span>বিজ্ঞাপন</span>
+                    </span>
+                    <div class="ticker-wrapper flex-1 text-sm sm:text-base font-bold tracking-wide">
+                        <div id="market-ticker-marquee-text" class="ticker-track-market">গ্রামের হাট-বাজারে তাজা সবজি, পুকুরের মাছ, দেশি মুরগি ও ঘরে উৎপাদিত পণ্য বিক্রি করতে ক্লিক করুন — সাথে সাথেই এখানে প্রদর্শিত হবে!</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-4 space-y-4">
+            <!-- পেন্ডিং ইউজার সতর্কতা বার্তা -->
+            <div id="pending-warning-banner" class="hidden bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row items-start gap-3">
+                <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center shrink-0 text-lg"><i class="fa-regular fa-clock"></i></div>
+                <div class="flex-1 text-sm">
+                    <h3 class="font-extrabold text-gray-900">আপনার প্রোফাইল ও ফেস স্ক্যান বর্তমানে অ্যাডমিন যাচাইয়ের অপেক্ষায় (Pending) রয়েছে</h3>
+                    <p class="text-gray-700 mt-0.5 leading-relaxed">অ্যাডমিন অনুমোদন না দেওয়া পর্যন্ত আপনি নতুন পোস্ট বা মন্তব্য করতে পারবেন না। তবে আপনি সব দেখতে পারবেন।</p>
+                    <span class="inline-block mt-2 px-3 py-0.5 bg-amber-500 text-village-950 font-extrabold text-xs rounded-full">শুধুমাত্র দেখার অনুমতি</span>
+                </div>
+            </div>
+
+            <!-- হিরো ব্যানার (ছোট করা হয়েছে) -->
+            <section id="hero-banner" class="relative rounded-2xl overflow-hidden shadow-md border border-village-500/40 bg-village-900 text-white p-4 sm:p-6" style="background-image: linear-gradient(to right, rgba(20, 83, 45, var(--banner-overlay-opacity, 0.75)), rgba(4, 120, 87, var(--banner-overlay-opacity, 0.75))), url('https://images.unsplash.com/photo-1544717305-2782549b5136?q=90&w=1400&auto=format&fit=crop'); background-size: cover; background-position: center;">
+                <div class="absolute top-2 right-2 z-20">
+                    <button id="btn-hero-settings-trigger" onclick="openHeroSettingsModal()" class="hidden px-2.5 py-1 bg-black/60 hover:bg-black/80 text-white rounded-lg text-[11px] font-bold backdrop-blur-sm transition flex items-center gap-1 shadow">
+                        <i class="fa-solid fa-sliders"></i> ব্যানার বদলান
+                    </button>
+                </div>
+                <div class="relative z-10 max-w-2xl space-y-2">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-village-900 border border-gold-400 text-xs sm:text-sm font-extrabold shadow">
+                        <i class="fa-solid fa-heart text-red-600"></i> আমাদের গ্রাম, আমাদের পরিবার
+                    </span>
+                    <h2 class="font-kalpurush-title text-2xl sm:text-3xl font-bold text-white leading-tight">
+                        একসাথে গড়ি আমাদের সুতারমুড়া
+                    </h2>
+                    <p class="text-xs sm:text-sm text-emerald-100 font-medium">
+                        “ঐক্য, ভ্রাতৃত্ব ও পারস্পরিক সহযোগিতায় গড়ে উঠুক আমাদের আদর্শ সুতারমুড়া”
+                    </p>
+                </div>
+            </section>
+
+            <!-- ট্যাব ১: হোম ও ফিড -->
+            <div id="view-feed" class="tab-view space-y-4">
+                <!-- সাম্প্রতিক পোস্ট করা ছবির ছোট হরিজন্টাল গ্যালারি -->
+                <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 space-y-2">
+                    <h4 class="text-xs sm:text-sm font-extrabold text-village-900 flex items-center gap-1.5"><i class="fa-solid fa-images text-village-600"></i> সাম্প্রতিক পোস্ট করা ছবিসমূহ</h4>
+                    <div id="recent-photos-gallery" class="flex gap-2 overflow-x-auto no-scrollbar py-1">
+                        <p class="text-xs text-gray-400">কোনো ছবি নেই।</p>
+                    </div>
+                </div>
+
+                <div id="create-post-card" class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-sm sm:text-base font-extrabold text-gray-800 flex items-center gap-1.5"><i class="fa-solid fa-pen-to-square text-village-600"></i> গ্রামের খবর বা ছবি পোস্ট করুন</h3>
+                        <span id="post-permission-badge" class="px-2.5 py-0.5 bg-green-100 text-village-800 text-xs font-bold rounded-full"><i class="fa-solid fa-shield-check mr-1"></i> ভেরিফাইড</span>
+                    </div>
+                    <textarea id="post-content-input" rows="2" placeholder="সুতারমুড়া গ্রামের খবর বা পরামর্শ লিখুন..." class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-village-500 focus:outline-none"></textarea>
+                    
+                    <div id="post-image-preview-box" class="hidden mt-2 relative inline-block">
+                        <img id="post-image-preview" src="" alt="Preview" class="max-h-36 rounded-xl border border-gray-200">
+                        <button onclick="clearPostImage()" class="absolute top-1 right-1 w-6 h-6 bg-red-600 text-white rounded-full flex items-center justify-center text-[10px] shadow"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+
+                    <div class="mt-2.5 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-100">
+                        <label class="cursor-pointer px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5"><i class="fa-solid fa-image text-village-600"></i> ছবি<input type="file" id="post-image-input" accept="image/*" onchange="handlePostImageSelect(event)" class="hidden"></label>
+                        <button onclick="submitNewPost()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-1"><i class="fa-solid fa-paper-plane"></i> পোস্ট প্রকাশ</button>
+                    </div>
+                </div>
+
+                <div id="posts-feed-list" class="space-y-4"></div>
+            </div>
+
+            <!-- ট্যাব ২: গ্রামের প্রতিষ্ঠানসমূহ ও রামপুর উচ্চ বিদ্যালয় -->
+            <div id="view-institutions" class="hidden tab-view space-y-4">
+                <div class="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border border-village-200">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            <h3 class="text-lg sm:text-xl font-extrabold text-village-900 flex items-center gap-1.5"><i class="fa-solid fa-mosque text-village-600"></i> সুতারমুড়ার শিক্ষাপ্রতিষ্ঠানসমূহ ও মসজিদ</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-0.5">রামপুর উচ্চ বিদ্যালয়, মসজিদ, মাদ্রাসা ও প্রাথমিক বিদ্যালয়ের সময়সূচি, শিক্ষক ও পরিচালনা কমিটির তথ্য।</p>
+                        </div>
+                        <span class="px-3 py-0.5 bg-village-100 text-village-800 text-xs font-extrabold rounded-full self-start sm:self-center">৭টি প্রতিষ্ঠান</span>
+                    </div>
+                    <div id="institutions-cards-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4"></div>
+                </div>
+
+                <div id="institution-post-box" class="bg-white rounded-2xl p-4 shadow-sm border border-gray-200 space-y-2.5">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <h4 class="text-sm sm:text-base font-extrabold text-village-900"><i class="fa-solid fa-clipboard-list text-village-600 mr-1"></i> রামপুর উচ্চ বিদ্যালয় বা প্রতিষ্ঠানের নোটিশ দিন</h4>
+                        <span class="text-[11px] font-bold text-red-700 bg-red-50 px-2.5 py-0.5 rounded-full">হেডলাইনের ঘোষণায়ও দেখাবে</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <select id="inst-select" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-semibold">
+                            <option value="রামপুর উচ্চ বিদ্যালয়">রামপুর উচ্চ বিদ্যালয়</option>
+                            <option value="সুতারমুড়া কেন্দ্রীয় জামে মসজিদ">সুতারমুড়া কেন্দ্রীয় জামে মসজিদ</option>
+                            <option value="সুতারমুড়া সৈয়দপুর চৌমুহনী জামে মসজিদ">সুতারমুড়া সৈয়দপুর চৌমুহনী জামে মসজিদ</option>
+                            <option value="সুতারমুড়া সরকারি প্রাথমিক বিদ্যালয়">সুতারমুড়া সরকারি প্রাথমিক বিদ্যালয়</option>
+                            <option value="সুতারমুড়া আইডিয়াল একাডেমি">সুতারমুড়া আইডিয়াল একাডেমি</option>
+                            <option value="সুতারমুড়া হাফিজিয়া মাদ্রাসা ও এতিমখানা">সুতারমুড়া হাফিজিয়া মাদ্রাসা ও এতিমখানা</option>
+                            <option value="সুতারমুড়া সয়েরা খাতুন মহিলা মাদ্রাসা">সুতারমুড়া সয়েরা খাতুন মহিলা মাদ্রাসা</option>
+                        </select>
+                        <input type="text" id="inst-notice-title" placeholder="বিষয় (যেমন: বার্ষিক ক্রীড়া)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="inst-contact" placeholder="দায়িত্বশীল শিক্ষকের নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                    </div>
+                    <textarea id="inst-notice-desc" rows="2" placeholder="বিস্তারিত প্রোগ্রাম, তারিখ বা সময় লিখুন..." class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
+                    <button onclick="submitInstitutionNotice()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white text-xs font-bold rounded-xl shadow transition"><i class="fa-solid fa-paper-plane mr-1"></i> নোটিশ প্রকাশ করুন</button>
+                </div>
+                <div id="institution-notices-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
+
+            <!-- ট্যাব ৩: লাইভ কমিউনিটি চ্যাট -->
+            <div id="view-chat" class="hidden tab-view">
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-[65vh]">
+                    <div class="bg-village-800 text-white px-4 py-3 flex items-center justify-between">
+                        <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></span><div><h3 class="text-sm sm:text-base font-bold">সুতারমুড়া লাইভ চ্যাট রুম</h3><p class="text-[11px] text-green-200">ভেরিফাইড সদস্যদের রিয়েল-টাইম বার্তা</p></div></div>
+                        <i class="fa-solid fa-comments text-gold-400 text-lg"></i>
+                    </div>
+                    <div id="chat-messages-box" class="flex-1 p-3 overflow-y-auto space-y-2.5 bg-village-50/40 text-xs sm:text-sm"></div>
+                    <div class="p-2.5 bg-white border-t border-gray-200 flex items-center gap-2">
+                        <input type="text" id="chat-input" onkeypress="if(event.key==='Enter') sendChatMessage()" placeholder="সবার সাথে কথা বলুন..." class="flex-1 px-3.5 py-2.5 bg-gray-100 rounded-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-500">
+                        <button onclick="sendChatMessage()" class="w-10 h-10 bg-village-700 hover:bg-village-800 text-white rounded-full flex items-center justify-center shadow transition shrink-0"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ট্যাব ৪: কাজ ও কর্মসংস্থান -->
+            <div id="view-jobs" class="hidden tab-view space-y-3">
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                    <h3 class="text-base font-extrabold text-gray-800 mb-2.5"><i class="fa-solid fa-briefcase text-blue-600 mr-1"></i> কাজ ও কর্মসংস্থান বিজ্ঞপ্তি দিন</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <select id="job-type" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                            <option value="লোক প্রয়োজন (কাজ করাতে চাই)">লোক প্রয়োজন (কাজ করাতে চাই)</option>
+                            <option value="কাজ খুঁজছি (কাজ করতে চাই)">কাজ খুঁজছি (কাজ করতে চাই)</option>
+                        </select>
+                        <input type="text" id="job-title" placeholder="কাজের ধরন (যেমন: রাজমিস্ত্রি)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="job-contact" placeholder="মোবাইল নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                    </div>
+                    <textarea id="job-desc" rows="2" placeholder="বিস্তারিত বিবরণ লিখুন..." class="w-full mt-2.5 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
+                    <button onclick="submitListing('jobs')" class="mt-2.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow transition">বিজ্ঞপ্তি পোস্ট করুন</button>
+                </div>
+                <div id="jobs-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
+
+            <!-- ট্যাব ৫: গ্রামের হাট-বাজার -->
+            <div id="view-market" class="hidden tab-view space-y-3">
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2.5">
+                        <h3 class="text-base font-extrabold text-gray-800"><i class="fa-solid fa-basket-shopping text-emerald-600 mr-1"></i> গ্রামের হাট-বাজারে পণ্য বিক্রি করুন</h3>
+                        <span class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full">বিজ্ঞাপন দিলে নিচের লাইনেও চলবে</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <input type="text" id="market-item" placeholder="পণ্যের নাম (যেমন: দেশি মুরগি)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="market-price" placeholder="দাম (যেমন: ৩৫০ টাকা কেজি)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="market-contact" placeholder="মোবাইল নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                    </div>
+                    <textarea id="market-desc" rows="2" placeholder="পরিমাণ ও ঠিকানা লিখুন..." class="w-full mt-2.5 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
+                    <button onclick="submitListing('market')" class="mt-2.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition">হাট-বাজারে পোস্ট করুন</button>
+                </div>
+                <div id="market-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
+
+            <!-- ট্যাব ৬: শিক্ষা ও টিউশনি -->
+            <div id="view-tuition" class="hidden tab-view space-y-3">
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                    <h3 class="text-base font-extrabold text-gray-800 mb-2.5"><i class="fa-solid fa-graduation-cap text-purple-600 mr-1"></i> শিক্ষা ও টিউশনি তথ্য দিন</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <select id="tuition-type" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                            <option value="শিক্ষক প্রয়োজন (পড়তে চাই)">শিক্ষক প্রয়োজন (পড়তে চাই)</option>
+                            <option value="টিউশনি করাতে চাই (শিক্ষক)">টিউশনি করাতে চাই (শিক্ষক)</option>
+                        </select>
+                        <input type="text" id="tuition-class" placeholder="শ্রেণি ও বিষয় (যেমন: ৮ম শ্রেণি, গণিত)" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <input type="text" id="tuition-contact" placeholder="মোবাইল নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                    </div>
+                    <textarea id="tuition-desc" rows="2" placeholder="সময় ও ঠিকানা লিখুন..." class="w-full mt-2.5 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs"></textarea>
+                    <button onclick="submitListing('tuition')" class="mt-2.5 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl shadow transition">টিউশনি পোস্ট করুন</button>
+                </div>
+                <div id="tuition-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </div>
+
+            <!-- ট্যাব ৭: গ্রামের ডিরেক্টরি -->
+            <div id="view-directory" class="hidden tab-view space-y-3">
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-3">
+                    <div>
+                        <h3 class="text-base font-extrabold text-gray-800 mb-0.5"><i class="fa-solid fa-address-book text-amber-600 mr-1"></i> সুতারমুড়া জরুরি ডিরেক্টরি</h3>
+                        <p class="text-xs text-gray-500">মুরুব্বি, ডাক্তার, ইমাম, চালক ও স্বেচ্ছাসেবীদের জরুরি নাম্বার।</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
+                        <input type="text" id="dir-name" placeholder="ব্যক্তির নাম" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <select id="dir-role" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium">
+                            <option value="গ্রামের মুরুব্বি / জনপ্রতিনিধি">গ্রামের মুরুব্বি / জনপ্রতিনিধি</option>
+                            <option value="গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী">গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী</option>
+                            <option value="মসজিদের ইমাম / খতিব">মসজিদের ইমাম / খতিব</option>
+                            <option value="গাড়ি / অ্যাম্বুলেন্স চালক">গাড়ি / অ্যাম্বুলেন্স চালক</option>
+                            <option value="ইলেকট্রিশিয়ান / মিস্ত্রি">ইলেকট্রিশিয়ান / মিস্ত্রি</option>
+                            <option value="দৈনন্দিন কাজে সাহায্যকারী">দৈনন্দিন কাজে সাহায্যকারী</option>
+                            <option value="স্বেচ্ছাসেবী">স্বেচ্ছাসেবী</option>
+                            <option value="শিক্ষক / শিক্ষিকা">শিক্ষক / শিক্ষিকা</option>
+                        </select>
+                        <input type="tel" id="dir-phone" placeholder="মোবাইল নাম্বার" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs">
+                        <button onclick="submitDirectoryContact()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-village-950 text-xs font-extrabold rounded-xl shadow transition">নাম্বার যুক্ত করুন</button>
+                    </div>
+
+                    <div id="directory-filter-bar" class="flex items-center gap-1.5 pt-2 border-t border-gray-100 overflow-x-auto no-scrollbar">
+                        <button onclick="setDirectoryFilter('all')" data-dir-filter="all" class="dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-village-700 text-white whitespace-nowrap shadow-xs transition">সকল</button>
+                        <button onclick="setDirectoryFilter('গ্রামের মুরুব্বি / জনপ্রতিনিধি')" data-dir-filter="গ্রামের মুরুব্বি / জনপ্রতিনিধি" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">মুরুব্বি</button>
+                        <button onclick="setDirectoryFilter('গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী')" data-dir-filter="গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">ডাক্তার</button>
+                        <button onclick="setDirectoryFilter('মসজিদের ইমাম / খতিব')" data-dir-filter="মসজিদের ইমাম / খতিব" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">ইমাম</button>
+                        <button onclick="setDirectoryFilter('গাড়ি / অ্যাম্বুলেন্স চালক')" data-dir-filter="গাড়ি / অ্যাম্বুলেন্স চালক" class="dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">গাড়ি</button>
+                        <button onclick="setDirectoryFilter('ইলেকট্রিশিয়ান / মিস্ত্রি')" data-dir-filter="ইলেকট্রিশিয়ান / মিস্ত্রি" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">মিস্ত্রি</button>
+                        <button onclick="setDirectoryFilter('শিক্ষক / শিক্ষিকা')" data-dir-filter="শিক্ষক / শিক্ষিকা" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">শিক্ষক</button>
+                    </div>
+                </div>
+                <div id="directory-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+            </div>
+
+            <!-- ট্যাব ৮: অ্যাডমিন প্যানেল -->
+            <div id="view-admin" class="hidden tab-view space-y-4">
+                <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border-2 border-village-200 space-y-3">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <h3 class="text-base font-extrabold text-village-900 flex items-center gap-1.5"><i class="fa-solid fa-image text-village-600"></i> হিরো ব্যানার ছবি ও ব্রাইটনেস</h3>
+                        <span class="px-2.5 py-0.5 bg-village-100 text-village-800 text-xs font-bold rounded-full">অ্যাডমিন</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-1">নতুন ব্যানার ছবি</label>
+                            <input type="file" id="admin-hero-img-file" accept="image/*" class="w-full p-2 bg-gray-50 border rounded-xl">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-1">ওভারলে (Opacity: <span id="opacity-val-label">0.75</span>)</label>
+                            <input type="range" id="admin-hero-opacity-range" min="0.3" max="0.95" step="0.05" value="0.75" oninput="document.getElementById('opacity-val-label').textContent=this.value" class="w-full accent-village-600 cursor-pointer mt-1">
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button onclick="saveAdminHeroBannerSettings()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white text-xs font-extrabold rounded-xl shadow transition">ব্যানার সংরক্ষণ করুন</button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border-2 border-village-100">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b">
+                        <div>
+                            <h3 class="text-base font-extrabold text-village-900 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-village-600"></i> সদস্য ভেরিফিকেশন ও অ্যাক্টিভিটি লগ</h3>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-bold">
+                            <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full">অপেক্ষমাণ: <span id="stat-pending-count">0</span></span>
+                            <span class="px-2.5 py-0.5 bg-green-100 text-green-800 rounded-full">অনুমোদিত: <span id="stat-approved-count">0</span></span>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 my-3">
+                        <button onclick="switchAdminSubTab('pending')" id="admin-sub-pending" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-red-600 text-white shadow-sm">অপেক্ষমাণ (Pending)</button>
+                        <button onclick="switchAdminSubTab('approved')" id="admin-sub-approved" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200">অনুমোদিত সদস্য</button>
+                        <button onclick="switchAdminSubTab('dirlogs')" id="admin-sub-dirlogs" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 flex items-center gap-1"><i class="fa-solid fa-clock-rotate-left"></i> অ্যাক্টিভিটি লগ <span id="admin-dirlog-badge" class="bg-amber-200 text-amber-950 text-[10px] font-black px-1.5 rounded-full">0</span></button>
+                    </div>
+                    <div id="admin-pending-list" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs"></div>
+                    <div id="admin-approved-list" class="hidden grid grid-cols-1 md:grid-cols-2 gap-3 text-xs"></div>
+                    <div id="admin-dirlogs-list" class="hidden space-y-2 text-xs"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- জরুরি ঘোষণা প্রকাশ ও এডিট করার মডাল -->
+        <div id="ticker-editor-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+            <div class="bg-white rounded-3xl max-w-lg w-full p-5 shadow-2xl border border-gray-200 space-y-3.5 my-auto text-xs sm:text-sm">
+                <div class="flex items-center justify-between border-b pb-2.5">
+                    <h3 class="font-extrabold text-red-700 flex items-center gap-1.5 text-base"><i class="fa-solid fa-bullhorn"></i> জরুরি ঘোষণা প্রকাশ করুন</h3>
+                    <button onclick="closeTickerEditorModal()" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <p class="text-gray-500 text-xs">এখানে ঘোষণা প্রকাশ করলে ওপরের হেডলাইনে চলমান থাকবে এবং সবাই দেখতে পাবেন।</p>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">ঘোষণার ধরন / ব্যাজ</label>
+                        <select id="modal-ticker-type" class="w-full px-3 py-2 bg-gray-50 border rounded-xl font-bold text-gray-800">
+                            <option value="জরুরি ঘোষণা">জরুরি ঘোষণা</option>
+                            <option value="উন্নয়নমূলক ঘোষণা">উন্নয়নমূলক ঘোষণা</option>
+                            <option value="রামপুর উচ্চ বিদ্যালয়">রামপুর উচ্চ বিদ্যালয়</option>
+                            <option value="মৃত্যু ও জানাজা সংবাদ">মৃত্যু ও জানাজা সংবাদ (দোয়া সহ)</option>
+                            <option value="জরুরি সেবা ও রক্তদান">জরুরি সেবা ও রক্তদান</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">ঘোষণার বিস্তারিত বার্তা লিখুন *</label>
+                        <textarea id="modal-ticker-text" rows="3" placeholder="ঘোষণা লিখুন..." class="w-full p-3 bg-gray-50 border rounded-xl"></textarea>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end gap-2 pt-2 border-t">
+                    <button onclick="closeTickerEditorModal()" class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl">বাতিল</button>
+                    <button onclick="submitUserTickerAnnouncement()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-extrabold rounded-xl shadow">ঘোষণা লাইভ করুন</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- প্রতিষ্ঠান বিস্তারিত ও সময়সূচি, শিক্ষক, সভাপতি এডিট মডাল -->
+        <div id="institution-detail-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+            <div class="bg-white rounded-3xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl border border-village-200 space-y-4 my-auto max-h-[92vh] overflow-y-auto text-xs sm:text-sm">
+                <div class="flex items-start justify-between gap-3 border-b pb-3">
+                    <div>
+                        <span id="modal-inst-category" class="px-2.5 py-0.5 bg-village-100 text-village-800 font-extrabold rounded-full">প্রতিষ্ঠান</span>
+                        <h3 id="modal-inst-title" class="text-lg sm:text-xl font-extrabold text-village-950 mt-1">প্রতিষ্ঠানের নাম</h3>
+                        <p id="modal-inst-location" class="text-gray-500 mt-0.5"><i class="fa-solid fa-location-dot text-village-600 mr-1"></i> অবস্থান</p>
+                    </div>
+                    <button onclick="closeInstitutionModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center shrink-0"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <!-- প্রতিষ্ঠানের সময়সূচি কার্ড -->
+                <div class="bg-gradient-to-br from-blue-50 via-white to-emerald-50 border-2 border-blue-200 rounded-2xl p-3.5 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-extrabold text-blue-950 flex items-center gap-1.5"><i class="fa-solid fa-clock text-blue-700"></i> প্রতিষ্ঠানের সময়সূচি আপডেট</h4>
+                        <span class="px-2 py-0.5 bg-green-100 text-village-900 text-[11px] font-bold rounded-full">✓ সম্পাদনাযোগ্য</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-0.5">ক্লাস / অফিস সময়সূচি</label>
+                            <input type="text" id="edit-schedule-main" placeholder="সকাল ১০:০০ — বিকাল ৪:০০" class="w-full px-3 py-2 bg-white border rounded-xl">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-0.5">নামাজের জামাত বা বিশেষ সময়</label>
+                            <input type="text" id="edit-schedule-prayer" placeholder="জোহর ১:৩০, আসর ৪:১৫" class="w-full px-3 py-2 bg-white border rounded-xl">
+                        </div>
+                    </div>
+                    <button onclick="saveInstitutionSchedule()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white font-extrabold rounded-xl shadow transition"><i class="fa-solid fa-floppy-disk mr-1"></i> সময়সূচি সংরক্ষণ</button>
+                </div>
+
+                <!-- প্রধান ও সভাপতি তথ্য এডিট কার্ড -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="bg-gradient-to-br from-emerald-50 to-white border border-emerald-200 rounded-2xl p-3.5 space-y-2">
+                        <span class="font-extrabold text-emerald-800 uppercase"><i class="fa-solid fa-user-tie mr-1"></i> প্রতিষ্ঠান প্রধান / খতিব ও ইমাম</span>
+                        <div class="flex items-center gap-3">
+                            <img id="modal-head-photo" src="https://placehold.co/120x120/15803d/ffffff?text=প্রধান" alt="Head" class="w-16 h-16 rounded-xl object-cover border-2 border-emerald-500 shadow-xs shrink-0">
+                            <div class="space-y-0.5 flex-1 min-w-0">
+                                <h4 id="modal-head-name" class="font-extrabold text-gray-900 truncate">নাম নেই</h4>
+                                <p id="modal-head-role" class="font-semibold text-emerald-700 text-xs truncate">প্রধান</p>
+                                <a id="modal-head-phone-link" href="#" class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-600 text-white font-bold rounded text-xs"><i class="fa-solid fa-phone"></i> <span id="modal-head-phone">নাম্বার নেই</span></a>
+                            </div>
+                        </div>
+                        <!-- অ্যাডমিন বা এডিট ফর্ম -->
+                        <div id="admin-edit-head-box" class="pt-2 border-t border-emerald-200/70 space-y-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                                <input type="text" id="edit-head-name" placeholder="প্রধানের নাম" class="px-2 py-1.5 bg-white border rounded-lg text-xs">
+                                <input type="text" id="edit-head-role" placeholder="পদবি" class="px-2 py-1.5 bg-white border rounded-lg text-xs">
+                                <input type="tel" id="edit-head-phone" placeholder="মোবাইল ফোন" class="px-2 py-1.5 bg-white border rounded-lg text-xs">
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <label class="cursor-pointer px-3 py-1 bg-emerald-100 text-emerald-900 font-bold rounded-lg text-xs flex items-center gap-1"><i class="fa-solid fa-camera"></i> ছবি বদলান<input type="file" accept="image/*" onchange="handleInstitutionLeaderPhoto(event, 'head')" class="hidden"></label>
+                                <button onclick="saveInstitutionLeaderInfo('head')" class="px-3 py-1 bg-emerald-700 text-white font-bold rounded-lg text-xs">প্রধানের তথ্য সংরক্ষণ</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-amber-50 to-white border border-amber-200 rounded-2xl p-3.5 space-y-2">
+                        <span class="font-extrabold text-amber-800 uppercase"><i class="fa-solid fa-crown mr-1"></i> পরিচালনা কমিটির সভাপতি</span>
+                        <div class="flex items-center gap-3">
+                            <img id="modal-pres-photo" src="https://placehold.co/120x120/d97706/ffffff?text=সভাপতি" alt="President" class="w-16 h-16 rounded-xl object-cover border-2 border-amber-500 shadow-xs shrink-0">
+                            <div class="space-y-0.5 flex-1 min-w-0">
+                                <h4 id="modal-pres-name" class="font-extrabold text-gray-900 truncate">নাম নেই</h4>
+                                <p id="modal-pres-role" class="font-semibold text-amber-700 text-xs truncate">সভাপতি</p>
+                                <a id="modal-pres-phone-link" href="#" class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-amber-600 text-white font-bold rounded text-xs"><i class="fa-solid fa-phone"></i> <span id="modal-pres-phone">নাম্বার নেই</span></a>
+                            </div>
+                        </div>
+                        <!-- অ্যাডমিন বা এডিট ফর্ম -->
+                        <div id="admin-edit-pres-box" class="pt-2 border-t border-amber-200/70 space-y-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                                <input type="text" id="edit-pres-name" placeholder="সভাপতির নাম" class="px-2 py-1.5 bg-white border rounded-lg text-xs">
+                                <input type="text" id="edit-pres-role" placeholder="পদবি" class="px-2 py-1.5 bg-white border rounded-lg text-xs">
+                                <input type="tel" id="edit-pres-phone" placeholder="মোবাইল ফোন" class="px-2.5 py-1.5 bg-white border rounded-lg text-xs">
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <label class="cursor-pointer px-3 py-1 bg-amber-100 text-amber-900 font-bold rounded-lg text-xs flex items-center gap-1"><i class="fa-solid fa-camera"></i> ছবি বদলান<input type="file" accept="image/*" onchange="handleInstitutionLeaderPhoto(event, 'president')" class="hidden"></label>
+                                <button onclick="saveInstitutionLeaderInfo('president')" class="px-3 py-1 bg-amber-600 text-white font-bold rounded-lg text-xs">সভাপতির তথ্য সংরক্ষণ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- শিক্ষকবৃন্দ তালিকা ও যুক্ত করার ফর্ম -->
+                <div class="bg-gray-50 border border-gray-200 rounded-2xl p-3.5 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-extrabold text-village-900"><i class="fa-solid fa-chalkboard-user text-village-600 mr-1"></i> শিক্ষক / ওস্তাদবৃন্দের তালিকা (<span id="modal-teachers-count">০</span>)</h4>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-village-200 grid grid-cols-1 sm:grid-cols-4 gap-2">
+                        <input type="text" id="new-teacher-name" placeholder="শিক্ষকের নাম" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
+                        <input type="text" id="new-teacher-role" placeholder="পদবি/বিষয়" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
+                        <input type="tel" id="new-teacher-phone" placeholder="ফোন নাম্বার" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
+                        <button onclick="addInstitutionTeacher()" class="px-3 py-1.5 bg-village-700 text-white font-bold rounded-lg text-xs"><i class="fa-solid fa-plus mr-1"></i> শিক্ষক যুক্ত করুন</button>
+                    </div>
+                    <div id="modal-teachers-list" class="overflow-x-auto"></div>
+                </div>
+
+                <!-- পরিচালনা কমিটি তালিকা ও যুক্ত করার ফর্ম -->
+                <div class="bg-gray-50 border border-gray-200 rounded-2xl p-3.5 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-extrabold text-village-900"><i class="fa-solid fa-users-gear text-amber-600 mr-1"></i> পরিচালনা কমিটির সদস্যবৃন্দ (<span id="modal-committee-count">০</span>)</h4>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-amber-200 grid grid-cols-1 sm:grid-cols-4 gap-2">
+                        <input type="text" id="new-comm-name" placeholder="সদস্যের নাম" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
+                        <input type="text" id="new-comm-role" placeholder="পদবি (যেমন: ক্যাশিয়ার)" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
+                        <input type="tel" id="new-comm-phone" placeholder="ফোন নাম্বার" class="px-2.5 py-1.5 bg-gray-50 border rounded-lg text-xs">
+                        <button onclick="addInstitutionCommitteeMember()" class="px-3 py-1.5 bg-amber-600 text-white font-bold rounded-lg text-xs"><i class="fa-solid fa-plus mr-1"></i> কমিটি সদস্য যুক্ত</button>
+                    </div>
+                    <div id="modal-committee-list" class="overflow-x-auto"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="bg-white border-t border-gray-200 py-4 px-4 text-center mt-auto">
+            <div class="max-w-4xl mx-auto space-y-1.5 text-xs sm:text-sm">
+                <p class="font-extrabold text-village-800">আমাদের সুতারমুড়া — আমাদের গ্রাম, আমাদের পরিবার</p>
+                <div class="bg-amber-50/90 border border-amber-200 rounded-2xl px-3 py-2 text-[11px] sm:text-xs text-gray-700 leading-relaxed">
+                    <span class="font-extrabold text-red-700"><i class="fa-solid fa-triangle-exclamation mr-1"></i> সতর্কবার্তা:</span> এটি গ্রামবাসীর সেবামূলক উন্মুক্ত প্ল্যাটফর্ম। যেকোনো পোস্ট বা লেনদেনের সম্পূর্ণ দায়দায়িত্ব সংশ্লিষ্ট ব্যক্তির।
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'amader-sutamura-live';
+        let firebaseConfig = null;
+
+        try {
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                firebaseConfig = JSON.parse(__firebase_config);
+            } else {
+                const savedConfig = localStorage.getItem('sutarmora_custom_firebase');
+                if (savedConfig) firebaseConfig = JSON.parse(savedConfig);
+            }
+        } catch (e) {}
+
+        let db = null;
+        let auth = null;
+        let firebaseUser = null;
+        let isCloudConnected = false;
+        let currentUserProfile = null;
+        let allUsers = [];
+        let allPosts = [];
+        let allListings = [];
+        let allDirectory = [];
+        let allDirectoryLogs = [];
+        let allMessages = [];
+        let allInstNotices = [];
+        let allInstProfiles = {};
+        let activeInstitutionId = null;
+
+        let urgentTickerData = {
+            category: 'রামপুর উচ্চ বিদ্যালয়',
+            text: 'রামপুর উচ্চ বিদ্যালয়ে সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের বার্ষিক ক্রীড়া প্রতিযোগিতা ও সাংস্কৃতিক অনুষ্ঠান আগামী বৃহস্পতিবার সকাল ১০টায় অনুষ্ঠিত হবে।',
+            publisherName: 'গ্রাম অ্যাডমিন',
+            publisherPara: 'মধ্য পাড়া',
+            publisherPhone: '',
+            updatedAt: Date.now()
+        };
+
+        let heroBannerConfig = {
+            imageUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=90&w=1400&auto=format&fit=crop',
+            opacity: 0.75
+        };
+
+        const DEFAULT_INSTITUTIONS = [
+            { id: 'inst_rampur_high', badge: 'মাধ্যমিক উচ্চ বিদ্যালয়', theme: 'indigo', icon: 'fa-school-flag', name: 'রামপুর উচ্চ বিদ্যালয়', location: 'রামপুর / সুতারমুড়া সংলগ্ন', schedule: 'ক্লাস সময়: সকাল ১০:০০ — বিকাল ৪:০০', prayerSchedule: 'বিরতি ও প্রার্থনা: দুপুর ১:০০ টা', description: 'আমাদের সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের উচ্চ শিক্ষার প্রধান মাধ্যমিক বিদ্যালয়।', headRoleDefault: 'প্রধান শিক্ষক' },
+            { id: 'inst_central_mosque', badge: 'জামে মসজিদ — ১', theme: 'emerald', icon: 'fa-mosque', name: 'সুতারমুড়া কেন্দ্রীয় জামে মসজিদ', location: 'মধ্যপাড়া, সুতারমুড়া', schedule: 'জুমার খুতবা: দুপুর ১:০০ মিনিট', prayerSchedule: 'পাঁচ ওয়াক্ত জামাত: সুনির্দিষ্ট সময়ে', description: 'গ্রামের মুসল্লিদের প্রধান জামাত ও জুমার নামাজের কেন্দ্রস্থল।', headRoleDefault: 'খতিব ও পেশ ইমাম' },
+            { id: 'inst_syedpur_mosque', badge: 'জামে মসজিদ — ২', theme: 'teal', icon: 'fa-mosque', name: 'সুতারমুড়া সৈয়দপুর চৌমুহনী জামে মসজিদ', location: 'পশ্চিম পাড়া, সুতারমুড়া', schedule: 'জুমার খুতবা: দুপুর ১:০০ মিনিট', prayerSchedule: 'পাঁচ ওয়াক্ত জামাত: সুনির্দিষ্ট সময়ে', description: 'পশ্চিম পাড়া ও আশপাশের এলাকার মুসল্লিদের জামে মসজিদ।', headRoleDefault: 'খতিব ও পেশ ইমাম' },
+            { id: 'inst_govt_primary', badge: 'সরকারি প্রাথমিক বিদ্যালয়', theme: 'blue', icon: 'fa-school', name: 'সুতারমুড়া সরকারি প্রাথমিক বিদ্যালয়', location: 'মধ্যপাড়া, সুতারমুড়া', schedule: 'পাঠদান: সকাল ৯:০০ — বিকাল ৪:০০', prayerSchedule: 'ছুটি ও অন্যান্য কার্যক্রম: নির্ধারিত সময়ে', description: 'গ্রামের শিশুদের প্রাথমিক শিক্ষার মূল সরকারি বিদ্যাপীঠ।', headRoleDefault: 'প্রধান শিক্ষক' },
+            { id: 'inst_ideal_academy', badge: 'কিন্ডারগার্টেন ও প্রাথমিক', theme: 'purple', icon: 'fa-child-reaching', name: 'সুতারমুড়া আইডিয়াল একাডেমি', location: 'সুতারমুড়া', schedule: 'ক্লাস: সকাল ৮:৩০ — দুপুর ১২:৩০', prayerSchedule: 'সহশিক্ষা ও বিরতি: নির্ধারিত সময়ে', description: 'কোমলমতি শিশুদের আধুনিক ও যত্নশীল শিক্ষার আদর্শ কিন্ডারগার্টেন।', headRoleDefault: 'অধ্যক্ষ / প্রধান শিক্ষক' },
+            { id: 'inst_hafizia_madrasa', badge: 'হাফিজিয়া মাদ্রাসা ও এতিমখানা', theme: 'amber', icon: 'fa-book-quran', name: 'সুতারমুড়া হাফিজিয়া মাদ্রাসা ও এতিমখানা', location: 'সুতারমুড়া', schedule: 'হিফজুল কুরআন বিভাগ: সকাল ৮:০০ — বিকাল ৫:০০', prayerSchedule: 'নামাজ ও তিলাওয়াত: নিয়মিত জামাত', description: 'পবিত্র কুরআন হিফজ বিভাগ এবং অসহায় এতিম শিশুদের আবাসিক প্রতিষ্ঠান।', headRoleDefault: 'মুহতামিম / প্রধান শিক্ষক' },
+            { id: 'inst_sayera_khatun', badge: 'মহিলা ও প্রাক-প্রাথমিক ধর্মীয় শিক্ষা', theme: 'rose', icon: 'fa-book-open', name: 'সুতারমুড়া সয়েরা খাতুন মহিলা মাদ্রাসা', location: 'সুতারমুড়া', schedule: 'ক্লাস সময়: সকাল ৯:০০ — দুপুর ১২:০০', prayerSchedule: 'দোয়া ও তালিম: নির্ধারিত সময়ে', description: 'গ্রামের শিশু ও ছাত্রীদের জন্য প্রাক-প্রাথমিক ধর্মীয় শিক্ষা প্রতিষ্ঠান।', headRoleDefault: 'প্রধান শিক্ষিকা / মুহতামিম' }
+        ];
+
+        let generatedEmailOTP = "";
+        let verifiedEmailAddress = "";
+        let isEmailVerified = false;
+        let capturedFaceBase64 = "";
+        let selectedPostImageBase64 = "";
+        let videoStream = null;
+
+        window.showToast = function(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const colors = { success: 'bg-village-800 text-white border-gold-400', error: 'bg-red-600 text-white border-red-300', warning: 'bg-amber-500 text-village-950 border-amber-700' };
+            const icons = { success: 'fa-circle-check', error: 'fa-circle-exclamation', warning: 'fa-triangle-exclamation' };
+            toast.className = `pointer-events-auto flex items-center gap-2 px-3.5 py-2.5 rounded-2xl shadow-xl border-l-4 text-xs font-bold transition-all ${colors[type] || colors.success}`;
+            toast.innerHTML = `<i class="fa-solid ${icons[type]} text-sm"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3500);
+        };
+
+        async function initAppSystem() {
+            try {
+                if (firebaseConfig && firebaseConfig.apiKey) {
+                    const app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    firebaseUser = auth.currentUser;
+                    isCloudConnected = true;
+                    setupRealtimeListeners();
+                } else {
+                    loadLocalFallbackData();
+                }
+            } catch (err) {
+                loadLocalFallbackData();
+            } finally {
+                document.getElementById('global-loader').classList.add('hidden');
+                document.getElementById('auth-screen').classList.remove('hidden');
+            }
+        }
+
+        function loadLocalFallbackData() {
+            isCloudConnected = false;
+            allUsers = JSON.parse(localStorage.getItem('sm_users') || '[]');
+            allPosts = JSON.parse(localStorage.getItem('sm_posts') || '[]');
+            allListings = JSON.parse(localStorage.getItem('sm_listings') || '[]');
+            allDirectory = JSON.parse(localStorage.getItem('sm_directory') || '[]');
+            allDirectoryLogs = JSON.parse(localStorage.getItem('sm_directory_logs') || '[]');
+            allMessages = JSON.parse(localStorage.getItem('sm_chat') || '[]');
+            allInstNotices = JSON.parse(localStorage.getItem('sm_inst_notices') || '[]');
+            allInstProfiles = JSON.parse(localStorage.getItem('sm_inst_profiles') || '{}');
+            const savedTicker = localStorage.getItem('sm_urgent_ticker');
+            if (savedTicker) urgentTickerData = JSON.parse(savedTicker);
+            const savedHero = localStorage.getItem('sm_hero_config');
+            if (savedHero) heroBannerConfig = JSON.parse(savedHero);
+            refreshAllViews();
+        }
+
+        function syncLocalFallbackData() {
+            if (isCloudConnected) return;
+            localStorage.setItem('sm_users', JSON.stringify(allUsers));
+            localStorage.setItem('sm_posts', JSON.stringify(allPosts));
+            localStorage.setItem('sm_listings', JSON.stringify(allListings));
+            localStorage.setItem('sm_directory', JSON.stringify(allDirectory));
+            localStorage.setItem('sm_directory_logs', JSON.stringify(allDirectoryLogs));
+            localStorage.setItem('sm_chat', JSON.stringify(allMessages));
+            localStorage.setItem('sm_inst_notices', JSON.stringify(allInstNotices));
+            localStorage.setItem('sm_inst_profiles', JSON.stringify(allInstProfiles));
+            localStorage.setItem('sm_urgent_ticker', JSON.stringify(urgentTickerData));
+            localStorage.setItem('sm_hero_config', JSON.stringify(heroBannerConfig));
+            refreshAllViews();
+        }
+
+        function refreshAllViews() {
+            renderUrgentTicker();
+            renderMarketTicker();
+            renderHeroBanner();
+            renderAdminPanel();
+            renderRecentPhotosGallery();
+            renderPostsFeed();
+            renderInstitutionsGrid();
+            renderInstitutionNotices();
+            renderListings();
+            renderDirectory();
+            renderChatMessages();
+            if (activeInstitutionId) renderInstitutionModalContent(activeInstitutionId);
+        }
+
+        function setupRealtimeListeners() {
+            if (!db || !firebaseUser) return;
+            onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_settings', 'urgent_ticker'), (docSnap) => {
+                if (docSnap.exists()) urgentTickerData = docSnap.data();
+                renderUrgentTicker();
+            });
+            onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_settings', 'hero_banner'), (docSnap) => {
+                if (docSnap.exists()) heroBannerConfig = docSnap.data();
+                renderHeroBanner();
+            });
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users'), (snapshot) => {
+                allUsers = [];
+                snapshot.forEach(d => allUsers.push({ id: d.id, ...d.data() }));
+                renderAdminPanel();
+            });
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts'), (snapshot) => {
+                allPosts = [];
+                snapshot.forEach(d => allPosts.push({ id: d.id, ...d.data() }));
+                allPosts.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                renderRecentPhotosGallery();
+                renderPostsFeed();
+            });
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_institutions'), (snapshot) => {
+                allInstNotices = [];
+                snapshot.forEach(d => allInstNotices.push({ id: d.id, ...d.data() }));
+                allInstNotices.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                renderInstitutionNotices();
+                renderUrgentTicker();
+            });
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_inst_profiles'), (snapshot) => {
+                allInstProfiles = {};
+                snapshot.forEach(d => { allInstProfiles[d.id] = d.data(); });
+                renderInstitutionsGrid();
+                if (activeInstitutionId) renderInstitutionModalContent(activeInstitutionId);
+            });
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_listings'), (snapshot) => {
+                allListings = [];
+                snapshot.forEach(d => allListings.push({ id: d.id, ...d.data() }));
+                allListings.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                renderListings();
+                renderMarketTicker();
+            });
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory'), (snapshot) => {
+                allDirectory = [];
+                snapshot.forEach(d => allDirectory.push({ id: d.id, ...d.data() }));
+                allDirectory.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                renderDirectory();
+            });
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory_logs'), (snapshot) => {
+                allDirectoryLogs = [];
+                snapshot.forEach(d => allDirectoryLogs.push({ id: d.id, ...d.data() }));
+                allDirectoryLogs.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                renderAdminPanel();
+            });
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_chat'), (snapshot) => {
+                allMessages = [];
+                snapshot.forEach(d => allMessages.push({ id: d.id, ...d.data() }));
+                allMessages.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+                renderChatMessages();
+            });
+        }
+
+        window.handleAuthHeaderPhoto = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            compressImageFile(file, 800, (base64) => {
+                const headerBox = document.querySelector('#auth-screen .relative.bg-village-900');
+                if (headerBox) headerBox.style.backgroundImage = `linear-gradient(to bottom, rgba(20, 83, 45, 0.85), rgba(20, 83, 45, 0.95)), url('${base64}')`;
+                showToast("লগইন হেডার ছবি বদলানো হয়েছে!", "success");
+            });
+        };
+
+        window.switchAuthTab = function(tab) {
+            const loginBox = document.getElementById('login-form-box');
+            const regBox = document.getElementById('register-form-box');
+            const btnLogin = document.getElementById('tab-login-btn');
+            const btnReg = document.getElementById('tab-register-btn');
+            if (tab === 'login') {
+                stopFaceCamera();
+                loginBox.classList.remove('hidden'); regBox.classList.add('hidden');
+                btnLogin.className = "flex-1 py-2.5 text-sm font-bold rounded-xl bg-white text-village-800 shadow-sm transition";
+                btnReg.className = "flex-1 py-2.5 text-sm font-bold rounded-xl text-gray-500 hover:text-village-700 transition";
+            } else {
+                loginBox.classList.add('hidden'); regBox.classList.remove('hidden');
+                btnReg.className = "flex-1 py-2.5 text-sm font-bold rounded-xl bg-white text-village-800 shadow-sm transition";
+                btnLogin.className = "flex-1 py-2.5 text-sm font-bold rounded-xl text-gray-500 hover:text-village-700 transition";
+            }
+        };
+
+        window.sendEmailOTP = function() {
+            const email = document.getElementById('reg-email').value.trim().toLowerCase();
+            if (!email || !email.includes('@')) { showToast("সঠিক ইমেইল দিন।", "warning"); return; }
+            generatedEmailOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            verifiedEmailAddress = email;
+            isEmailVerified = false;
+            document.getElementById('email-verified-badge').classList.add('hidden');
+            document.getElementById('otp-verify-section').classList.remove('hidden');
+            document.getElementById('otp-instant-code-badge').textContent = generatedEmailOTP;
+            showToast(`আপনার OTP কোড: ${generatedEmailOTP}`, "success");
+        };
+
+        window.verifyEmailOTP = function() {
+            const entered = document.getElementById('reg-otp-input').value.trim();
+            if (!generatedEmailOTP || entered !== generatedEmailOTP) { showToast("OTP সঠিক নয়।", "error"); return; }
+            isEmailVerified = true;
+            document.getElementById('email-verified-badge').classList.remove('hidden');
+            document.getElementById('otp-verify-section').classList.add('hidden');
+            showToast("ইমেইল ভেরিফাইড!", "success");
+        };
+
+        window.startFaceCamera = async function() {
+            const video = document.getElementById('face-video');
+            const preview = document.getElementById('face-preview');
+            const placeholder = document.getElementById('camera-placeholder');
+            try {
+                videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+                video.srcObject = videoStream;
+                video.classList.remove('hidden'); preview.classList.add('hidden'); placeholder.classList.add('hidden');
+                document.getElementById('btn-start-cam').classList.add('hidden');
+                document.getElementById('btn-capture-face').classList.remove('hidden');
+            } catch (e) { showToast("ক্যামেরা চালু করা যায়নি। ছবি আপলোড ব্যবহার করুন।", "warning"); }
+        };
+        function stopFaceCamera() { if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; } }
+
+        window.captureFaceSnapshot = function() {
+            const video = document.getElementById('face-video');
+            const canvas = document.getElementById('face-canvas');
+            if (!video.videoWidth) return;
+            canvas.width = 240; canvas.height = 240;
+            canvas.getContext('2d').drawImage(video, 0, 0, 240, 240);
+            capturedFaceBase64 = canvas.toDataURL('image/jpeg', 0.8);
+            stopFaceCamera();
+            const preview = document.getElementById('face-preview');
+            preview.src = capturedFaceBase64; preview.classList.remove('hidden'); video.classList.add('hidden');
+            document.getElementById('btn-capture-face').classList.add('hidden');
+            document.getElementById('btn-retake-face').classList.remove('hidden');
+            showToast("ফেস স্ক্যান সম্পন্ন!", "success");
+        };
+
+        window.handleFallbackFaceUpload = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            compressImageFile(file, 260, (base64) => {
+                stopFaceCamera();
+                capturedFaceBase64 = base64;
+                const preview = document.getElementById('face-preview');
+                preview.src = base64; preview.classList.remove('hidden');
+                document.getElementById('face-video').classList.add('hidden');
+                document.getElementById('camera-placeholder').classList.add('hidden');
+                document.getElementById('btn-start-cam').classList.add('hidden');
+                document.getElementById('btn-capture-face').classList.add('hidden');
+                document.getElementById('btn-retake-face').classList.remove('hidden');
+                showToast("ছবি সংযুক্ত হয়েছে!", "success");
+            });
+        };
+
+        function compressImageFile(file, maxW, callback) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let w = img.width, h = img.height;
+                    if (w > maxW) { h = Math.round((h * maxW) / w); w = maxW; }
+                    canvas.width = w; canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    callback(canvas.toDataURL('image/jpeg', 0.8));
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        window.handleUserRegister = async function() {
+            const name = document.getElementById('reg-name').value.trim();
+            const father = document.getElementById('reg-father').value.trim();
+            const para = document.getElementById('reg-para').value;
+            const email = document.getElementById('reg-email').value.trim().toLowerCase();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const password = document.getElementById('reg-password').value;
+
+            if (!name || !father || !email || !phone || !password) { showToast("সকল ঘর পূরণ করুন।", "warning"); return; }
+            if (!isEmailVerified || email !== verifiedEmailAddress) { showToast("আগে ইমেইল OTP যাচাই করুন।", "warning"); return; }
+            if (!capturedFaceBase64) { showToast("ফেস স্ক্যান সম্পন্ন করুন।", "warning"); return; }
+
+            const newUserId = 'user_' + Date.now();
+            const newUser = { id: newUserId, name, father, para, email, phone, password, role: 'member', status: 'pending', facePhoto: capturedFaceBase64, createdAt: Date.now() };
+
+            if (isCloudConnected && db && firebaseUser) {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', newUserId), newUser);
+            } else {
+                allUsers.push(newUser);
+                syncLocalFallbackData();
+            }
+            currentUserProfile = newUser;
+            enterMainApp();
+            showToast("নিবন্ধন সম্পন্ন হয়েছে!", "success");
+        };
+
+        window.handleUserLogin = function() {
+            const iden = document.getElementById('login-identifier').value.trim().toLowerCase();
+            const pass = document.getElementById('login-password').value;
+            if (!iden || !pass) { showToast("আইডি ও পাসওয়ার্ড দিন।", "warning"); return; }
+            const found = allUsers.find(u => ((u.email && u.email.toLowerCase() === iden) || u.phone === iden) && u.password === pass);
+            if (!found) { showToast("তথ্য সঠিক নয়।", "error"); return; }
+            currentUserProfile = found;
+            enterMainApp();
+            showToast(`স্বাগতম, ${found.name}!`, "success");
+        };
+
+        window.handleOneClickAdminLogin = function() {
+            currentUserProfile = { id: 'admin_sutarmora', name: 'গ্রাম অ্যাডমিন (সুতারমুড়া)', para: 'মধ্য পাড়া', role: 'admin', status: 'approved', facePhoto: 'https://placehold.co/100x100/14532d/fbbf24?text=ADMIN' };
+            enterMainApp();
+            showToast("অ্যাডমিন প্যানেলে স্বাগতম!", "success");
+        };
+
+        window.handleLogout = function() {
+            stopFaceCamera();
+            currentUserProfile = null;
+            document.getElementById('main-app').classList.add('hidden');
+            document.getElementById('auth-screen').classList.remove('hidden');
+            showToast("লগআউট হয়েছে।", "success");
+        };
+
+        function enterMainApp() {
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('main-app').classList.remove('hidden');
+            updateUserAccessUI();
+            refreshAllViews();
+        }
+
+        function renderHeroBanner() {
+            const banner = document.getElementById('hero-banner');
+            if (!banner) return;
+            const op = heroBannerConfig.opacity || 0.75;
+            const img = heroBannerConfig.imageUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=90&w=1400&auto=format&fit=crop';
+            banner.style.backgroundImage = `linear-gradient(to right, rgba(20, 83, 45, ${op}), rgba(4, 120, 87, ${op})), url('${img}')`;
+        }
+
+        window.openHeroSettingsModal = function() {
+            switchMainTab('admin');
+            document.getElementById('admin-hero-opacity-range').value = heroBannerConfig.opacity || 0.75;
+            document.getElementById('opacity-val-label').textContent = heroBannerConfig.opacity || 0.75;
+        };
+
+        window.saveAdminHeroBannerSettings = async function() {
+            if (currentUserProfile?.role !== 'admin') return;
+            const fileInput = document.getElementById('admin-hero-img-file');
+            const opacity = parseFloat(document.getElementById('admin-hero-opacity-range').value);
+
+            const updateConfig = (imgUrl) => {
+                heroBannerConfig = { imageUrl: imgUrl || heroBannerConfig.imageUrl, opacity };
+                if (isCloudConnected && db && firebaseUser) {
+                    setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_settings', 'hero_banner'), heroBannerConfig);
+                } else {
+                    syncLocalFallbackData();
+                }
+                renderHeroBanner();
+                showToast("হিরো ব্যানার আপডেট করা হয়েছে!", "success");
+            };
+
+            if (fileInput.files && fileInput.files[0]) {
+                compressImageFile(fileInput.files[0], 1200, (base64) => {
+                    updateConfig(base64);
+                });
+            } else {
+                updateConfig(null);
+            }
+        };
+
+        function updateUserAccessUI() {
+            if (!currentUserProfile) return;
+            document.getElementById('header-user-name').textContent = currentUserProfile.name;
+            document.getElementById('header-user-avatar').src = currentUserProfile.facePhoto || 'https://placehold.co/100x100/166534/ffffff?text=U';
+            const roleEl = document.getElementById('header-user-role');
+            const pendingBanner = document.getElementById('pending-warning-banner');
+            const adminNav = document.getElementById('nav-admin');
+            const heroSettingsBtn = document.getElementById('btn-hero-settings-trigger');
+            const postBadge = document.getElementById('post-permission-badge');
+
+            if (currentUserProfile.role === 'admin') {
+                roleEl.textContent = '★ গ্রাম অ্যাডমিন';
+                pendingBanner.classList.add('hidden'); adminNav.classList.remove('hidden'); heroSettingsBtn?.classList.remove('hidden');
+                postBadge.innerHTML = '<i class="fa-solid fa-shield-halved mr-1"></i> গ্রাম অ্যাডমিন';
+            } else if (currentUserProfile.status === 'approved') {
+                roleEl.textContent = '✓ ভেরিফাইড সদস্য';
+                pendingBanner.classList.add('hidden'); adminNav.classList.add('hidden'); heroSettingsBtn?.classList.add('hidden');
+                postBadge.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> অনুমোদিত সদস্য';
+            } else {
+                roleEl.textContent = '⏳ অনুমোদনের অপেক্ষায়';
+                pendingBanner.classList.remove('hidden'); adminNav.classList.add('hidden'); heroSettingsBtn?.classList.add('hidden');
+                postBadge.innerHTML = '<i class="fa-regular fa-clock mr-1"></i> অপেক্ষমাণ';
+            }
+        }
+
+        function checkWritePermission() {
+            if (!currentUserProfile) return false;
+            if (currentUserProfile.role === 'admin' || currentUserProfile.status === 'approved') return true;
+            showToast("অ্যাডমিন অনুমোদন না দেওয়া পর্যন্ত এই কাজ করতে পারবেন না।", "warning");
+            return false;
+        }
+
+        window.switchMainTab = function(tabName) {
+            document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('view-' + tabName);
+            if (target) target.classList.remove('hidden');
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.id === 'nav-admin') {
+                    btn.className = (currentUserProfile?.role === 'admin' ? '' : 'hidden ') + "nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-extrabold whitespace-nowrap bg-red-600 text-white hover:bg-red-700 shadow-sm transition flex items-center gap-1 ml-auto";
+                } else {
+                    btn.className = "nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1";
+                }
+            });
+            const activeBtn = document.getElementById('nav-' + tabName);
+            if (activeBtn) activeBtn.className = "nav-btn active-nav px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap bg-gold-400 text-village-950 shadow-sm transition flex items-center gap-1" + (tabName === 'admin' ? ' ml-auto' : '');
+        };
+
+        function renderUrgentTicker() {
+            const bar = document.getElementById('urgent-ticker-bar');
+            const badge = document.getElementById('ticker-badge-label');
+            const marquee = document.getElementById('ticker-marquee-text');
+            if (!bar || !badge || !marquee) return;
+
+            const category = urgentTickerData.category || 'জরুরি ঘোষণা';
+            badge.textContent = category;
+
+            bar.className = "ticker-bar-container text-white border-t shadow-inner transition-colors duration-300 cursor-pointer ";
+            if (category.includes('মৃত্যু')) {
+                bar.classList.add('bg-gradient-to-r', 'from-gray-900', 'via-zinc-800', 'to-neutral-900', 'border-zinc-700');
+            } else if (category.includes('উন্নয়নমূলক')) {
+                bar.classList.add('bg-gradient-to-r', 'from-emerald-700', 'via-village-700', 'to-teal-800', 'border-emerald-400/40');
+            } else if (category.includes('রামপুর উচ্চ বিদ্যালয়')) {
+                bar.classList.add('bg-gradient-to-r', 'from-indigo-700', 'via-blue-700', 'to-sky-800', 'border-indigo-400/40');
+            } else if (category.includes('সেবা ও রক্তদান')) {
+                bar.classList.add('bg-gradient-to-r', 'from-amber-600', 'via-orange-600', 'to-yellow-700', 'border-amber-400/40');
+            } else {
+                bar.classList.add('bg-gradient-to-r', 'from-red-700', 'via-red-600', 'to-amber-700', 'border-red-400/40');
+            }
+
+            const isDeathNotice = category.includes('মৃত্যু');
+            const updatedAt = urgentTickerData.updatedAt || 0;
+            const twoDaysMs = 2 * 24 * 60 * 60 * 1000;
+            const isWithinTwoDays = (Date.now() - updatedAt) < twoDaysMs;
+
+            const parts = [];
+            if (isDeathNotice && isWithinTwoDays) {
+                const pubName = urgentTickerData.publisherName ? ` [প্রকাশক: ${urgentTickerData.publisherName}, ${urgentTickerData.publisherPara || 'সুতারমুড়া'}${urgentTickerData.publisherPhone ? ', ফোন: ' + urgentTickerData.publisherPhone : ''}]` : '';
+                parts.push(` إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ — গভীর শোক সংবাদ: ${urgentTickerData.text}${pubName}   •••   দোয়া: إنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ — হে আল্লাহ, মরহুমকে জান্নাতুল ফেরদৌস নসিব করুন এবং শোকসন্তপ্ত পরিবারকে ধৈর্য ধারণ করার তৌফিক দান করুন। (اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ)`);
+            } else {
+                if (urgentTickerData.text && !isDeathNotice) {
+                    const pubName = urgentTickerData.publisherName ? ` [প্রকাশক: ${urgentTickerData.publisherName}, ${urgentTickerData.publisherPara || 'সুতারমুড়া'}${urgentTickerData.publisherPhone ? ', ফোন: ' + urgentTickerData.publisherPhone : ''}]` : '';
+                    parts.push(`${urgentTickerData.text}${pubName}`);
+                }
+                if (allInstNotices && allInstNotices.length > 0) {
+                    allInstNotices.forEach(n => {
+                        const instName = n.institution || 'গ্রাম প্রতিষ্ঠান';
+                        const contactStr = n.contact ? ` (যোগাযোগ: ${n.contact})` : '';
+                        parts.push(`📢 [${instName}]: ${n.title} — ${n.desc}${contactStr}`);
+                    });
+                }
+                if (parts.length === 0) {
+                    parts.push(urgentTickerData.text || 'রামপুর উচ্চ বিদ্যালয়ে সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের বার্ষিক ক্রীড়া প্রতিযোগিতা ও সাংস্কৃতিক অনুষ্ঠান আগামী বৃহস্পতিবার সকাল ১০টায় অনুষ্ঠিত হবে।');
+                }
+            }
+            marquee.textContent = parts.join('   •••   ');
+        }
+
+        function renderMarketTicker() {
+            const marquee = document.getElementById('market-ticker-marquee-text');
+            if (!marquee) return;
+            const marketItems = allListings.filter(l => l.category === 'market');
+            if (marketItems.length === 0) {
+                marquee.innerHTML = `গ্রামের হাট-বাজারে তাজা সবজি, পুকুরের মাছ, দেশি মুরগি ও ঘরে উৎপাদিত পণ্য বিক্রি করতে ক্লিক করুন — সাথে সাথেই এখানে প্রদর্শিত হবে!`;
+                return;
+            }
+            marquee.innerHTML = marketItems.map(m => {
+                const priceTag = m.price ? ` — দাম: <span class="text-gold-400 font-extrabold">${escapeHtml(m.price)}</span>` : '';
+                const descTag = m.desc ? ` (${escapeHtml(m.desc)})` : '';
+                const sellerTag = m.authorName ? ` • বিক্রেতা: ${escapeHtml(m.authorName)}` : '';
+                const phoneTag = m.contact ? ` • ফোন: <a href="tel:${escapeHtml(m.contact)}" class="underline text-amber-300 font-extrabold">${escapeHtml(m.contact)}</a>` : '';
+                return `<span>🛒 বিক্রি হচ্ছে: <strong class="text-white">${escapeHtml(m.title)}</strong>${priceTag}${descTag}${sellerTag}${phoneTag}</span>`;
+            }).join(' &nbsp;&nbsp;✦&nbsp;&nbsp; ');
+        }
+
+        window.openTickerEditorModal = function() {
+            if (!checkWritePermission()) return;
+            document.getElementById('modal-ticker-text').value = urgentTickerData.text || '';
+            document.getElementById('ticker-editor-modal').classList.remove('hidden');
+        };
+        window.closeTickerEditorModal = function() {
+            document.getElementById('ticker-editor-modal').classList.add('hidden');
+        };
+
+        window.submitUserTickerAnnouncement = async function() {
+            if (!checkWritePermission()) return;
+            const category = document.getElementById('modal-ticker-type').value;
+            const text = document.getElementById('modal-ticker-text').value.trim();
+            if (!text) { showToast("ঘোষণার বার্তা লিখুন।", "warning"); return; }
+            
+            urgentTickerData = {
+                category,
+                text,
+                publisherName: currentUserProfile.name,
+                publisherPara: currentUserProfile.para || 'সুতারমুড়া',
+                publisherPhone: currentUserProfile.phone || '',
+                updatedAt: Date.now()
+            };
+
+            if (isCloudConnected && db && firebaseUser) {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_settings', 'urgent_ticker'), urgentTickerData);
+            } else { syncLocalFallbackData(); }
+
+            closeTickerEditorModal();
+            renderUrgentTicker();
+            showToast("জরুরি ঘোষণা সফলভাবে লাইভ প্রকাশিত হয়েছে!", "success");
+        };
+
+        window.handlePostImageSelect = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            compressImageFile(file, 850, (base64) => {
+                selectedPostImageBase64 = base64;
+                document.getElementById('post-image-preview').src = base64;
+                document.getElementById('post-image-preview-box').classList.remove('hidden');
+            });
+        };
+        window.clearPostImage = function() { selectedPostImageBase64 = ""; document.getElementById('post-image-input').value = ""; document.getElementById('post-image-preview-box').classList.add('hidden'); };
+
+        window.submitNewPost = async function() {
+            if (!checkWritePermission()) return;
+            const content = document.getElementById('post-content-input').value.trim();
+            if (!content && !selectedPostImageBase64) { showToast("পোস্টের লেখা বা ছবি দিন।", "warning"); return; }
+            const postObj = { id: 'post_' + Date.now(), authorId: currentUserProfile.id, authorName: currentUserProfile.name, authorPara: currentUserProfile.para || 'সুতারমুড়া', authorAvatar: currentUserProfile.facePhoto || '', content, image: selectedPostImageBase64, likes: [], comments: [], createdAt: Date.now() };
+            if (isCloudConnected && db && firebaseUser) {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts'), postObj);
+            } else { allPosts.unshift(postObj); syncLocalFallbackData(); }
+            document.getElementById('post-content-input').value = "";
+            clearPostImage();
+            renderRecentPhotosGallery();
+            showToast("পোস্ট প্রকাশিত হয়েছে!", "success");
+        };
+
+        window.deletePostByAdmin = async function(postId) {
+            if (currentUserProfile?.role !== 'admin') return;
+            if (isCloudConnected && db && firebaseUser) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts', postId));
+            } else { allPosts = allPosts.filter(p => p.id !== postId); syncLocalFallbackData(); }
+            renderRecentPhotosGallery();
+            showToast("পোস্ট মুছে ফেলা হয়েছে।", "success");
+        };
+
+        window.togglePostLike = async function(postId) {
+            if (!checkWritePermission()) return;
+            const post = allPosts.find(p => p.id === postId);
+            if (!post) return;
+            if (!Array.isArray(post.likes)) post.likes = [];
+            const uid = currentUserProfile.id;
+            if (post.likes.includes(uid)) {
+                post.likes = post.likes.filter(id => id !== uid);
+            } else {
+                post.likes.push(uid);
+            }
+
+            if (isCloudConnected && db && firebaseUser) {
+                await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts', postId), { likes: post.likes });
+            } else {
+                syncLocalFallbackData();
+            }
+            renderPostsFeed();
+        };
+
+        window.submitPostComment = async function(postId) {
+            if (!checkWritePermission()) return;
+            const input = document.getElementById(`comment-input-${postId}`);
+            if (!input) return;
+            const text = input.value.trim();
+            if (!text) return;
+            const post = allPosts.find(p => p.id === postId);
+            if (!post) return;
+            if (!Array.isArray(post.comments)) post.comments = [];
+            post.comments.push({ id: 'c_' + Date.now(), authorName: currentUserProfile.name, text, createdAt: Date.now() });
+
+            if (isCloudConnected && db && firebaseUser) {
+                await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts', postId), { comments: post.comments });
+            } else {
+                syncLocalFallbackData();
+            }
+            input.value = '';
+            renderPostsFeed();
+            showToast("মন্তব্য যোগ হয়েছে!", "success");
+        };
+
+        function renderRecentPhotosGallery() {
+            const galleryEl = document.getElementById('recent-photos-gallery');
+            if (!galleryEl) return;
+            const postsWithImages = allPosts.filter(p => p.image);
+            if (postsWithImages.length === 0) {
+                galleryEl.innerHTML = `<p class="text-xs text-gray-400">কোনো ছবি নেই।</p>`;
+                return;
+            }
+            galleryEl.innerHTML = postsWithImages.map(p => `
+                <div class="w-14 h-14 shrink-0 rounded-xl overflow-hidden border border-gray-200 shadow-xs cursor-pointer hover:opacity-90 transition" onclick="openPostDetailModal('${p.id}')">
+                    <img src="${p.image}" class="w-full h-full object-cover">
+                </div>
+            `).join('');
+        }
+
+        window.openPostDetailModal = function(postId) {
+            const el = document.getElementById(`post-card-${postId}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.classList.add('ring-2', 'ring-village-500');
+                setTimeout(() => el.classList.remove('ring-2', 'ring-village-500'), 2000);
+            }
+        };
+
+        function renderPostsFeed() {
+            const container = document.getElementById('posts-feed-list');
+            if (!container) return;
+            if (allPosts.length === 0) { container.innerHTML = `<div class="bg-white rounded-2xl p-8 text-center text-sm text-gray-500 border">এখনো কোনো পোস্ট নেই।</div>`; return; }
+            container.innerHTML = allPosts.map(p => {
+                const likesCount = Array.isArray(p.likes) ? p.likes.length : 0;
+                const isLiked = currentUserProfile && Array.isArray(p.likes) && p.likes.includes(currentUserProfile.id);
+                const comments = Array.isArray(p.comments) ? p.comments : [];
+                return `
+                <article id="post-card-${p.id}" class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-gray-100 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <img src="${p.authorAvatar || 'https://placehold.co/100x100/166534/ffffff?text=S'}" class="w-9 h-9 rounded-full object-cover border">
+                            <div><h4 class="text-sm font-extrabold text-gray-900">${escapeHtml(p.authorName)}</h4><p class="text-[11px] text-gray-500">${escapeHtml(p.authorPara)}</p></div>
+                        </div>
+                        ${currentUserProfile?.role === 'admin' ? `<button onclick="deletePostByAdmin('${p.id}')" class="px-2 py-1 bg-red-50 text-red-600 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>` : ''}
+                    </div>
+                    ${p.content ? `<p class="text-xs sm:text-sm text-gray-800 whitespace-pre-line leading-relaxed">${escapeHtml(p.content)}</p>` : ''}
+                    ${p.image ? `<img src="${p.image}" class="w-full max-h-80 object-cover rounded-xl border">` : ''}
+
+                    <!-- লাইক ও কমেন্ট কাউন্ট ও বাটন -->
+                    <div class="flex items-center gap-4 pt-2 border-t text-xs font-bold text-gray-600">
+                        <button onclick="togglePostLike('${p.id}')" class="flex items-center gap-1 px-3 py-1.5 rounded-lg transition ${isLiked ? 'bg-red-50 text-red-600' : 'bg-gray-100 hover:bg-gray-200'}">
+                            <i class="${isLiked ? 'fa-solid' : 'fa-regular'} fa-heart"></i> <span>${likesCount} লাইক</span>
+                        </button>
+                        <div class="flex items-center gap-1 text-gray-500">
+                            <i class="fa-regular fa-comment"></i> <span>${comments.length} কমেন্ট</span>
+                        </div>
+                    </div>
+
+                    <!-- কমেন্ট সেকশন -->
+                    <div class="space-y-2 pt-2 border-t border-gray-50">
+                        <div class="space-y-1.5 max-h-40 overflow-y-auto">
+                            ${comments.map(c => `
+                                <div class="bg-gray-50 px-3 py-2 rounded-xl text-xs flex flex-col">
+                                    <span class="font-extrabold text-village-900">${escapeHtml(c.authorName)}</span>
+                                    <span class="text-gray-700 mt-0.5">${escapeHtml(c.text)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="flex gap-2 pt-1">
+                            <input type="text" id="comment-input-${p.id}" onkeypress="if(event.key==='Enter') submitPostComment('${p.id}')" placeholder="একটি মন্তব্য লিখুন..." class="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-village-500">
+                            <button onclick="submitPostComment('${p.id}')" class="px-3 py-2 bg-village-700 text-white rounded-xl text-xs font-bold">কমেন্ট</button>
+                        </div>
+                    </div>
+                </article>`;
+            }).join('');
+        }
+
+        function getInstitutionProfileData(instId) {
+            const base = DEFAULT_INSTITUTIONS.find(i => i.id === instId);
+            const saved = allInstProfiles[instId] || {};
+            return {
+                ...base,
+                schedule: saved.schedule || base.schedule,
+                prayerSchedule: saved.prayerSchedule || base.prayerSchedule,
+                headName: saved.headName || 'তথ্য নেই',
+                headRole: saved.headRole || base.headRoleDefault,
+                headPhone: saved.headPhone || '',
+                headPhoto: saved.headPhoto || 'https://placehold.co/150x150/15803d/ffffff?text=প্রধান',
+                presName: saved.presName || 'তথ্য নেই',
+                presRole: saved.presRole || 'সভাপতি',
+                presPhone: saved.presPhone || '',
+                presPhoto: saved.presPhoto || 'https://placehold.co/150x150/d97706/ffffff?text=সভাপতি',
+                teachers: Array.isArray(saved.teachers) ? saved.teachers : [],
+                committee: Array.isArray(saved.committee) ? saved.committee : []
+            };
+        }
+
+        function renderInstitutionsGrid() {
+            const grid = document.getElementById('institutions-cards-grid');
+            if (!grid) return;
+            grid.innerHTML = DEFAULT_INSTITUTIONS.map(base => {
+                const inst = getInstitutionProfileData(base.id);
+                return `
+                <div class="bg-gradient-to-br from-village-50/60 via-white to-amber-50/40 border border-village-200 rounded-2xl p-4 shadow-xs flex flex-col justify-between gap-3">
+                    <div class="space-y-1.5">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="px-2 py-0.5 bg-village-100 text-village-800 text-[11px] font-extrabold rounded-full"><i class="fa-solid ${inst.icon} mr-1"></i> ${escapeHtml(inst.badge)}</span>
+                            <span class="text-[11px] font-semibold text-gray-500"><i class="fa-solid fa-location-dot text-village-600 mr-1"></i>${escapeHtml(inst.location)}</span>
+                        </div>
+                        <h4 class="text-base font-extrabold text-village-950">${escapeHtml(inst.name)}</h4>
+                        <p class="text-xs text-gray-600 leading-relaxed">${escapeHtml(inst.description)}</p>
+                        <div class="bg-blue-50/70 border border-blue-200 rounded-xl p-2 text-[11px] space-y-0.5">
+                            <p class="font-bold text-blue-900"><i class="fa-solid fa-clock text-blue-600 mr-1"></i> ${escapeHtml(inst.schedule)}</p>
+                            ${inst.prayerSchedule ? `<p class="font-bold text-emerald-900"><i class="fa-solid fa-calendar-days text-emerald-600 mr-1"></i> ${escapeHtml(inst.prayerSchedule)}</p>` : ''}
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-village-100">
+                        <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-emerald-100">
+                            <img src="${inst.headPhoto}" class="w-9 h-9 rounded-lg object-cover border shrink-0">
+                            <div class="min-w-0"><p class="text-[10px] font-bold text-emerald-700 truncate">${escapeHtml(inst.headRole)}</p><p class="text-xs font-extrabold text-gray-900 truncate">${escapeHtml(inst.headName)}</p><p class="text-[10px] text-gray-500 truncate">${escapeHtml(inst.headPhone || 'ফোন নেই')}</p></div>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-amber-100">
+                            <img src="${inst.presPhoto}" class="w-9 h-9 rounded-lg object-cover border shrink-0">
+                            <div class="min-w-0"><p class="text-[10px] font-bold text-amber-700 truncate">${escapeHtml(inst.presRole)}</p><p class="text-xs font-extrabold text-gray-900 truncate">${escapeHtml(inst.presName)}</p><p class="text-[10px] text-gray-500 truncate">${escapeHtml(inst.presPhone || 'ফোন নেই')}</p></div>
+                        </div>
+                    </div>
+                    <button onclick="openInstitutionModal('${inst.id}')" class="w-full py-2 bg-village-800 hover:bg-village-900 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5"><i class="fa-solid fa-pen-to-square"></i><span>সময়সূচি, শিক্ষক ও কমিটি এডিট করুন (${inst.teachers.length})</span></button>
+                </div>`;
+            }).join('');
+        }
+
+        window.openInstitutionModal = function(instId) { activeInstitutionId = instId; renderInstitutionModalContent(instId); document.getElementById('institution-detail-modal').classList.remove('hidden'); };
+        window.closeInstitutionModal = function() { activeInstitutionId = null; document.getElementById('institution-detail-modal').classList.add('hidden'); };
+
+        function renderInstitutionModalContent(instId) {
+            const inst = getInstitutionProfileData(instId);
+            const isAdmin = currentUserProfile?.role === 'admin';
+            document.getElementById('modal-inst-category').textContent = inst.badge;
+            document.getElementById('modal-inst-title').textContent = inst.name;
+            document.getElementById('modal-inst-location').innerHTML = `<i class="fa-solid fa-location-dot text-village-600 mr-1"></i> ${escapeHtml(inst.location)}`;
+
+            document.getElementById('edit-schedule-main').value = inst.schedule || '';
+            document.getElementById('edit-schedule-prayer').value = inst.prayerSchedule || '';
+
+            document.getElementById('modal-head-photo').src = inst.headPhoto;
+            document.getElementById('modal-head-name').textContent = inst.headName;
+            document.getElementById('modal-head-role').textContent = inst.headRole;
+            document.getElementById('modal-head-phone').textContent = inst.headPhone || 'নাম্বার নেই';
+            document.getElementById('modal-head-phone-link').href = inst.headPhone ? `tel:${inst.headPhone}` : '#';
+            document.getElementById('modal-pres-photo').src = inst.presPhoto;
+            document.getElementById('modal-pres-name').textContent = inst.presName;
+            document.getElementById('modal-pres-role').textContent = inst.presRole;
+            document.getElementById('modal-pres-phone').textContent = inst.presPhone || 'নাম্বার নেই';
+            document.getElementById('modal-pres-phone-link').href = inst.presPhone ? `tel:${inst.presPhone}` : '#';
+
+            // ভেরিফাইড সদস্য অথবা অ্যাডমিন উভয়েই প্রতিষ্ঠান প্রধান, সভাপতি, শিক্ষক ও কমিটি এডিট করতে পারবেন
+            const canEditInst = currentUserProfile && (currentUserProfile.role === 'admin' || currentUserProfile.status === 'approved');
+            ['admin-edit-head-box', 'admin-edit-pres-box'].forEach(id => {
+                const el = document.getElementById(id);
+                if (canEditInst) el.classList.remove('hidden'); else el.classList.add('hidden');
+            });
+            if (canEditInst) {
+                document.getElementById('edit-head-name').value = inst.headName === 'তথ্য নেই' ? '' : inst.headName;
+                document.getElementById('edit-head-role').value = inst.headRole;
+                document.getElementById('edit-head-phone').value = inst.headPhone;
+                document.getElementById('edit-pres-name').value = inst.presName === 'তথ্য নেই' ? '' : inst.presName;
+                document.getElementById('edit-pres-role').value = inst.presRole;
+                document.getElementById('edit-pres-phone').value = inst.presPhone;
+            }
+
+            document.getElementById('modal-teachers-count').textContent = inst.teachers.length;
+            const tEl = document.getElementById('modal-teachers-list');
+            tEl.innerHTML = inst.teachers.length === 0 ? `<p class="text-xs text-gray-400 text-center py-2">কোনো শিক্ষক নেই। নিচের ফর্ম থেকে যুক্ত করুন।</p>` : `
+                <table class="w-full text-left text-xs">
+                    <thead><tr class="bg-village-100 text-village-900"><th class="p-1.5">নং</th><th class="p-1.5">নাম</th><th class="p-1.5">পদবি/বিষয়</th><th class="p-1.5 text-right">ফোন ও মুছুন</th></tr></thead>
+                    <tbody class="divide-y bg-white">${inst.teachers.map((t, i) => `<tr><td class="p-1.5">${i+1}</td><td class="p-1.5 font-bold">${escapeHtml(t.name)}</td><td class="p-1.5">${escapeHtml(t.role)}</td><td class="p-1.5 text-right"><a href="tel:${escapeHtml(t.phone)}" class="px-2 py-0.5 bg-green-100 rounded font-bold"><i class="fa-solid fa-phone"></i> ${escapeHtml(t.phone)}</a> ${canEditInst ? `<button onclick="removeInstitutionPerson('teachers', ${i})" class="ml-1 px-1.5 py-0.5 bg-red-50 text-red-600 rounded"><i class="fa-solid fa-trash"></i></button>` : ''}</td></tr>`).join('')}</tbody>
+                </table>`;
+
+            document.getElementById('modal-committee-count').textContent = inst.committee.length;
+            const cEl = document.getElementById('modal-committee-list');
+            cEl.innerHTML = inst.committee.length === 0 ? `<p class="text-xs text-gray-400 text-center py-2">কোনো কমিটি সদস্য নেই। নিচের ফর্ম থেকে যুক্ত করুন।</p>` : `
+                <table class="w-full text-left text-xs">
+                    <thead><tr class="bg-amber-100 text-amber-950"><th class="p-1.5">নং</th><th class="p-1.5">নাম</th><th class="p-1.5">পদবি</th><th class="p-1.5 text-right">ফোন ও মুছুন</th></tr></thead>
+                    <tbody class="divide-y bg-white">${inst.committee.map((c, i) => `<tr><td class="p-1.5">${i+1}</td><td class="p-1.5 font-bold">${escapeHtml(c.name)}</td><td class="p-1.5">${escapeHtml(c.role)}</td><td class="p-1.5 text-right"><a href="tel:${escapeHtml(c.phone)}" class="px-2 py-0.5 bg-amber-100 rounded font-bold"><i class="fa-solid fa-phone"></i> ${escapeHtml(c.phone)}</a> ${canEditInst ? `<button onclick="removeInstitutionPerson('committee', ${i})" class="ml-1 px-1.5 py-0.5 bg-red-50 text-red-600 rounded"><i class="fa-solid fa-trash"></i></button>` : ''}</td></tr>`).join('')}</tbody>
+                </table>`;
+        }
+
+        async function persistInstitutionProfile(instId, data) {
+            allInstProfiles[instId] = { ...(allInstProfiles[instId] || {}), ...data };
+            if (isCloudConnected && db && firebaseUser) {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_inst_profiles', instId), allInstProfiles[instId], { merge: true });
+            } else { syncLocalFallbackData(); }
+            renderInstitutionsGrid();
+            renderInstitutionModalContent(instId);
+        }
+
+        window.saveInstitutionSchedule = async function() {
+            if (!checkWritePermission()) return;
+            if (!activeInstitutionId) return;
+            const newSchedule = document.getElementById('edit-schedule-main').value.trim();
+            const newPrayer = document.getElementById('edit-schedule-prayer').value.trim();
+            if (!newSchedule) { showToast("সময়সূচি লিখুন।", "warning"); return; }
+
+            await persistInstitutionProfile(activeInstitutionId, { schedule: newSchedule, prayerSchedule: newPrayer });
+            const instBase = DEFAULT_INSTITUTIONS.find(i => i.id === activeInstitutionId);
+            await recordDirectoryActivityLog('schedule_updated', instBase?.name || 'প্রতিষ্ঠান', 'প্রতিষ্ঠান সময়সূচি আপডেট', `মূল: ${newSchedule}`);
+            showToast("সময়সূচি সফলভাবে আপডেট করা হয়েছে!", "success");
+        };
+
+        window.handleInstitutionLeaderPhoto = function(event, type) {
+            if (!checkWritePermission() || !activeInstitutionId) return;
+            const file = event.target.files[0];
+            if (!file) return;
+            compressImageFile(file, 260, async (base64) => {
+                await persistInstitutionProfile(activeInstitutionId, type === 'head' ? { headPhoto: base64 } : { presPhoto: base64 });
+                showToast("ছবি আপডেট হয়েছে!", "success");
+            });
+        };
+
+        window.saveInstitutionLeaderInfo = async function(type) {
+            if (!checkWritePermission() || !activeInstitutionId) return;
+            if (type === 'head') {
+                const name = document.getElementById('edit-head-name').value.trim();
+                const role = document.getElementById('edit-head-role').value.trim();
+                const phone = document.getElementById('edit-head-phone').value.trim();
+                if (!name) { showToast("প্রধানের নাম লিখুন।", "warning"); return; }
+                await persistInstitutionProfile(activeInstitutionId, { headName: name, headRole: role || 'প্রধান', headPhone: phone });
+            } else {
+                const name = document.getElementById('edit-pres-name').value.trim();
+                const role = document.getElementById('edit-pres-role').value.trim();
+                const phone = document.getElementById('edit-pres-phone').value.trim();
+                if (!name) { showToast("সভাপতির নাম লিখুন।", "warning"); return; }
+                await persistInstitutionProfile(activeInstitutionId, { presName: name, presRole: role || 'সভাপতি', presPhone: phone });
+            }
+            showToast("তথ্য সফলভাবে সংরক্ষণ করা হয়েছে!", "success");
+        };
+
+        window.addInstitutionTeacher = async function() {
+            if (!checkWritePermission() || !activeInstitutionId) return;
+            const name = document.getElementById('new-teacher-name').value.trim();
+            const role = document.getElementById('new-teacher-role').value.trim();
+            const phone = document.getElementById('new-teacher-phone').value.trim();
+            if (!name || !phone) { showToast("শিক্ষকের নাম ও ফোন দিন।", "warning"); return; }
+            const curr = getInstitutionProfileData(activeInstitutionId);
+            await persistInstitutionProfile(activeInstitutionId, { teachers: [...curr.teachers, { name, role: role || 'শিক্ষক', phone }] });
+            document.getElementById('new-teacher-name').value = ''; document.getElementById('new-teacher-role').value = ''; document.getElementById('new-teacher-phone').value = '';
+            showToast("শিক্ষক যুক্ত হয়েছে!", "success");
+        };
+
+        window.addInstitutionCommitteeMember = async function() {
+            if (!checkWritePermission() || !activeInstitutionId) return;
+            const name = document.getElementById('new-comm-name').value.trim();
+            const role = document.getElementById('new-comm-role').value.trim();
+            const phone = document.getElementById('new-comm-phone').value.trim();
+            if (!name || !role || !phone) { showToast("সকল তথ্য দিন।", "warning"); return; }
+            const curr = getInstitutionProfileData(activeInstitutionId);
+            await persistInstitutionProfile(activeInstitutionId, { committee: [...curr.committee, { name, role, phone }] });
+            document.getElementById('new-comm-name').value = ''; document.getElementById('new-comm-role').value = ''; document.getElementById('new-comm-phone').value = '';
+            showToast("কমিটি সদস্য যুক্ত হয়েছে!", "success");
+        };
+
+        window.removeInstitutionPerson = async function(key, idx) {
+            if (!checkWritePermission() || !activeInstitutionId) return;
+            const curr = getInstitutionProfileData(activeInstitutionId);
+            const arr = curr[key].filter((_, i) => i !== idx);
+            await persistInstitutionProfile(activeInstitutionId, { [key]: arr });
+            showToast("মুছে ফেলা হয়েছে।", "success");
+        };
+
+        window.submitInstitutionNotice = async function() {
+            if (!checkWritePermission()) return;
+            const institution = document.getElementById('inst-select').value;
+            const title = document.getElementById('inst-notice-title').value.trim();
+            const contact = document.getElementById('inst-contact').value.trim();
+            const desc = document.getElementById('inst-notice-desc').value.trim();
+            if (!title || !desc) { showToast("বিষয় ও বিবরণ লিখুন।", "warning"); return; }
+            const noticeObj = { id: 'inst_n_' + Date.now(), institution, title, contact, desc, createdAt: Date.now() };
+            if (isCloudConnected && db && firebaseUser) {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_institutions'), noticeObj);
+            } else { allInstNotices.unshift(noticeObj); syncLocalFallbackData(); }
+            renderUrgentTicker();
+            document.getElementById('inst-notice-title').value = ''; document.getElementById('inst-contact').value = ''; document.getElementById('inst-notice-desc').value = '';
+            showToast("নোটিশ প্রকাশিত হয়েছে!", "success");
+        };
+
+        window.deleteInstitutionNoticeByAdmin = async function(id) {
+            if (currentUserProfile?.role !== 'admin') return;
+            if (isCloudConnected && db && firebaseUser) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_institutions', id));
+            } else { allInstNotices = allInstNotices.filter(n => n.id !== id); syncLocalFallbackData(); }
+            renderUrgentTicker();
+            showToast("মুছে ফেলা হয়েছে।", "success");
+        };
+
+        function renderInstitutionNotices() {
+            const container = document.getElementById('institution-notices-list');
+            if (!container) return;
+            if (allInstNotices.length === 0) { container.innerHTML = `<div class="col-span-full bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border">কোনো নোটিশ নেই।</div>`; return; }
+            container.innerHTML = allInstNotices.map(n => `
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border space-y-1 text-xs">
+                    <div class="flex items-center justify-between"><span class="px-2 py-0.5 bg-village-100 text-village-800 font-bold rounded-full">${escapeHtml(n.institution)}</span>${currentUserProfile?.role === 'admin' ? `<button onclick="deleteInstitutionNoticeByAdmin('${n.id}')" class="text-red-600"><i class="fa-solid fa-trash"></i></button>` : ''}</div>
+                    <h4 class="font-extrabold text-gray-900">${escapeHtml(n.title)}</h4>
+                    <p class="text-gray-700">${escapeHtml(n.desc)}</p>
+                    ${n.contact ? `<p class="font-bold text-village-700">যোগাযোগ: ${escapeHtml(n.contact)}</p>` : ''}
+                </div>`).join('');
+        }
+
+        window.submitListing = async function(category) {
+            if (!checkWritePermission()) return;
+            let itemObj = { id: 'list_' + Date.now(), category, authorName: `${currentUserProfile.name} (${currentUserProfile.para || 'সুতারমুড়া'})`, createdAt: Date.now() };
+            if (category === 'jobs') {
+                itemObj.subType = document.getElementById('job-type').value;
+                itemObj.title = document.getElementById('job-title').value.trim();
+                itemObj.contact = document.getElementById('job-contact').value.trim();
+                itemObj.desc = document.getElementById('job-desc').value.trim();
+                if (!itemObj.title || !itemObj.contact) { showToast("তথ্য দিন।", "warning"); return; }
+                document.getElementById('job-title').value = ''; document.getElementById('job-contact').value = ''; document.getElementById('job-desc').value = '';
+            } else if (category === 'market') {
+                itemObj.title = document.getElementById('market-item').value.trim();
+                itemObj.price = document.getElementById('market-price').value.trim();
+                itemObj.contact = document.getElementById('market-contact').value.trim();
+                itemObj.desc = document.getElementById('market-desc').value.trim();
+                if (!itemObj.title || !itemObj.contact) { showToast("তথ্য দিন।", "warning"); return; }
+                document.getElementById('market-item').value = ''; document.getElementById('market-price').value = ''; document.getElementById('market-contact').value = ''; document.getElementById('market-desc').value = '';
+            } else if (category === 'tuition') {
+                itemObj.subType = document.getElementById('tuition-type').value;
+                itemObj.title = document.getElementById('tuition-class').value.trim();
+                itemObj.contact = document.getElementById('tuition-contact').value.trim();
+                itemObj.desc = document.getElementById('tuition-desc').value.trim();
+                if (!itemObj.title || !itemObj.contact) { showToast("তথ্য দিন।", "warning"); return; }
+                document.getElementById('tuition-class').value = ''; document.getElementById('tuition-contact').value = ''; document.getElementById('tuition-desc').value = '';
+            }
+
+            if (isCloudConnected && db && firebaseUser) {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_listings'), itemObj);
+            } else { allListings.unshift(itemObj); syncLocalFallbackData(); }
+            if (category === 'market') renderMarketTicker();
+            showToast("পোস্ট সফল!", "success");
+        };
+
+        window.deleteListingByAdmin = async function(id) {
+            if (currentUserProfile?.role !== 'admin') return;
+            if (isCloudConnected && db && firebaseUser) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_listings', id));
+            } else { allListings = allListings.filter(l => l.id !== id); syncLocalFallbackData(); }
+            renderMarketTicker();
+            showToast("মুছে ফেলা হয়েছে।", "success");
+        };
+
+        function renderListings() {
+            const jobsEl = document.getElementById('jobs-list');
+            const marketEl = document.getElementById('market-list');
+            const tuitionEl = document.getElementById('tuition-list');
+            const isAdmin = currentUserProfile?.role === 'admin';
+
+            const jItems = allListings.filter(l => l.category === 'jobs');
+            const mItems = allListings.filter(l => l.category === 'market');
+            const tItems = allListings.filter(l => l.category === 'tuition');
+
+            if (jobsEl) jobsEl.innerHTML = jItems.length === 0 ? `<div class="bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border">বিজ্ঞাপন নেই।</div>` : jItems.map(j => `<div class="bg-white p-3.5 rounded-2xl shadow-sm border flex flex-col justify-between gap-2 text-xs"><div><div class="flex justify-between"><span class="px-2 py-0.5 bg-blue-50 text-blue-700 font-bold rounded-full">${escapeHtml(j.subType)}</span>${isAdmin ? `<button onclick="deleteListingByAdmin('${j.id}')" class="text-red-600"><i class="fa-solid fa-trash"></i></button>` : ''}</div><h4 class="font-bold mt-1">${escapeHtml(j.title)}</h4><p class="text-gray-600">${escapeHtml(j.desc || '')}</p></div><div class="flex justify-between items-center pt-2 border-t text-[11px]"><span>${escapeHtml(j.authorName)}</span><a href="tel:${escapeHtml(j.contact)}" class="px-2 py-1 bg-blue-600 text-white font-bold rounded"><i class="fa-solid fa-phone"></i> ${escapeHtml(j.contact)}</a></div></div>`).join('');
+            if (marketEl) marketEl.innerHTML = mItems.length === 0 ? `<div class="bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border">পণ্য নেই।</div>` : mItems.map(m => `<div class="bg-white p-3.5 rounded-2xl shadow-sm border flex flex-col justify-between gap-2 text-xs"><div><div class="flex justify-between"><span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 font-bold rounded-full">হাট-বাজার</span><div class="flex items-center gap-2">${m.price ? `<span class="text-emerald-700 font-bold">${escapeHtml(m.price)}</span>` : ''}${isAdmin ? `<button onclick="deleteListingByAdmin('${m.id}')" class="text-red-600"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div><h4 class="font-bold mt-1">${escapeHtml(m.title)}</h4><p class="text-gray-600">${escapeHtml(m.desc || '')}</p></div><div class="flex justify-between items-center pt-2 border-t text-[11px]"><span>${escapeHtml(m.authorName)}</span><a href="tel:${escapeHtml(m.contact)}" class="px-2 py-1 bg-emerald-600 text-white font-bold rounded"><i class="fa-solid fa-phone"></i> ${escapeHtml(m.contact)}</a></div></div>`).join('');
+            if (tuitionEl) tuitionEl.innerHTML = tItems.length === 0 ? `<div class="bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border">তথ্য নেই।</div>` : tItems.map(t => `<div class="bg-white p-3.5 rounded-2xl shadow-sm border flex flex-col justify-between gap-2 text-xs"><div><div class="flex justify-between"><span class="px-2 py-0.5 bg-purple-50 text-purple-700 font-bold rounded-full">${escapeHtml(t.subType)}</span>${isAdmin ? `<button onclick="deleteListingByAdmin('${t.id}')" class="text-red-600"><i class="fa-solid fa-trash"></i></button>` : ''}</div><h4 class="font-bold mt-1">${escapeHtml(t.title)}</h4><p class="text-gray-600">${escapeHtml(t.desc || '')}</p></div><div class="flex justify-between items-center pt-2 border-t text-[11px]"><span>${escapeHtml(t.authorName)}</span><a href="tel:${escapeHtml(t.contact)}" class="px-2 py-1 bg-purple-600 text-white font-bold rounded"><i class="fa-solid fa-phone"></i> ${escapeHtml(t.contact)}</a></div></div>`).join('');
+        }
+
+        let activeDirectoryFilter = 'all';
+        const DIRECTORY_ROLE_STYLES = {
+            'গ্রামের মুরুব্বি / জনপ্রতিনিধি': { badge: 'bg-amber-50 text-amber-800 border-amber-200', icon: 'fa-user-tie text-amber-600' },
+            'গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী': { badge: 'bg-red-50 text-red-700 border-red-200', icon: 'fa-user-doctor text-red-600' },
+            'মসজিদের ইমাম / খতিব': { badge: 'bg-emerald-50 text-emerald-800 border-emerald-200', icon: 'fa-mosque text-emerald-600' },
+            'গাড়ি / অ্যাম্বুলেন্স চালক': { badge: 'bg-blue-50 text-blue-700 border-blue-200', icon: 'fa-truck-medical text-blue-600' },
+            'ইলেকট্রিশিয়ান / মিস্ত্রি': { badge: 'bg-orange-50 text-orange-700 border-orange-200', icon: 'fa-screwdriver-wrench text-orange-600' },
+            'দৈনন্দিন কাজে সাহায্যকারী': { badge: 'bg-teal-50 text-teal-800 border-teal-200', icon: 'fa-hands-holding-circle text-teal-600' },
+            'স্বেচ্ছাসেবী': { badge: 'bg-rose-50 text-rose-700 border-rose-200', icon: 'fa-hand-holding-heart text-rose-600' },
+            'শিক্ষক / শিক্ষিকা': { badge: 'bg-purple-50 text-purple-800 border-purple-200', icon: 'fa-chalkboard-user text-purple-600' }
+        };
+
+        async function recordDirectoryActivityLog(action, targetName, targetRole, targetPhone) {
+            const logEntry = {
+                id: 'dirlog_' + Date.now(),
+                action,
+                targetName,
+                targetRole,
+                targetPhone,
+                actorName: currentUserProfile?.name || 'অজানা সদস্য',
+                actorPara: currentUserProfile?.para || 'সুতারমুড়া',
+                actorPhone: currentUserProfile?.phone || '',
+                actorRole: currentUserProfile?.role === 'admin' ? 'অ্যাডমিন' : 'ভেরিফাইড সদস্য',
+                timestamp: Date.now()
+            };
+            if (isCloudConnected && db && firebaseUser) {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory_logs'), logEntry);
+            } else {
+                allDirectoryLogs.unshift(logEntry);
+                syncLocalFallbackData();
+            }
+        }
+
+        window.setDirectoryFilter = function(val) {
+            activeDirectoryFilter = val;
+            document.querySelectorAll('.dir-filter-btn').forEach(btn => {
+                btn.className = btn.getAttribute('data-dir-filter') === val ? "dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-village-700 text-white whitespace-nowrap shadow-xs transition" : "dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition";
+            });
+            renderDirectory();
+        };
+
+        window.submitDirectoryContact = async function() {
+            if (!checkWritePermission()) return;
+            const name = document.getElementById('dir-name').value.trim();
+            const role = document.getElementById('dir-role').value;
+            const phone = document.getElementById('dir-phone').value.trim();
+            if (!name || !phone) { showToast("নাম ও নাম্বার দিন।", "warning"); return; }
+            const dirObj = { id: 'dir_' + Date.now(), name, role, phone, addedByName: currentUserProfile.name, addedByPara: currentUserProfile.para || 'সুতারমুড়া', createdAt: Date.now() };
+            if (isCloudConnected && db && firebaseUser) {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory'), dirObj);
+            } else { allDirectory.unshift(dirObj); syncLocalFallbackData(); }
+            await recordDirectoryActivityLog('added', name, role, phone);
+            document.getElementById('dir-name').value = ""; document.getElementById('dir-phone').value = "";
+            showToast("যুক্ত হয়েছে!", "success");
+        };
+
+        window.deleteDirectoryByAdmin = async function(id) {
+            if (currentUserProfile?.role !== 'admin') return;
+            const target = allDirectory.find(d => d.id === id);
+            if (isCloudConnected && db && firebaseUser) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory', id));
+            } else { allDirectory = allDirectory.filter(d => d.id !== id); syncLocalFallbackData(); }
+            if (target) await recordDirectoryActivityLog('deleted', target.name, target.role, target.phone);
+            showToast("মুছে ফেলা হয়েছে।", "success");
+        };
+
+        function renderDirectory() {
+            const container = document.getElementById('directory-list');
+            const list = activeDirectoryFilter === 'all' ? allDirectory : allDirectory.filter(d => d.role === activeDirectoryFilter);
+            if (list.length === 0) { container.innerHTML = `<div class="bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border col-span-full">কোনো নাম্বার নেই।</div>`; return; }
+            container.innerHTML = list.map(d => {
+                const st = DIRECTORY_ROLE_STYLES[d.role] || { badge: 'bg-amber-50 text-amber-700', icon: 'fa-address-card' };
+                return `
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border flex flex-col justify-between gap-2 text-xs">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded border ${st.badge}"><i class="fa-solid ${st.icon}"></i> ${escapeHtml(d.role)}</span>
+                            <h4 class="font-extrabold text-gray-900 mt-1">${escapeHtml(d.name)}</h4>
+                            <p class="font-semibold text-gray-600">${escapeHtml(d.phone)}</p>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="tel:${escapeHtml(d.phone)}" class="w-8 h-8 bg-green-100 text-village-700 hover:bg-village-700 hover:text-white rounded-full flex items-center justify-center transition"><i class="fa-solid fa-phone"></i></a>
+                            ${currentUserProfile?.role === 'admin' ? `<button onclick="deleteDirectoryByAdmin('${d.id}')" class="w-7 h-7 bg-red-50 text-red-600 rounded-full flex items-center justify-center text-[10px]"><i class="fa-solid fa-trash"></i></button>` : ''}
+                        </div>
+                    </div>
+                    <div class="pt-1.5 border-t text-[11px] text-gray-500">যুক্ত করেছেন: <strong>${escapeHtml(d.addedByName)}</strong></div>
+                </div>`;
+            }).join('');
+        }
+
+        window.sendChatMessage = async function() {
+            if (!checkWritePermission()) return;
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = "";
+            const msgObj = { id: 'msg_' + Date.now(), senderId: currentUserProfile.id, senderName: currentUserProfile.name, text, createdAt: Date.now() };
+            if (isCloudConnected && db && firebaseUser) {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_chat'), msgObj);
+            } else { allMessages.push(msgObj); syncLocalFallbackData(); }
+        };
+
+        function renderChatMessages() {
+            const box = document.getElementById('chat-messages-box');
+            if (allMessages.length === 0) { box.innerHTML = `<div class="text-center text-xs text-gray-400 my-auto pt-10">কোনো বার্তা নেই।</div>`; return; }
+            box.innerHTML = allMessages.map(msg => {
+                const isMe = currentUserProfile && msg.senderId === currentUserProfile.id;
+                return `<div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}"><span class="text-[10px] text-gray-500">${escapeHtml(msg.senderName)}</span><div class="max-w-[80%] px-3.5 py-1.5 rounded-2xl text-xs ${isMe ? 'bg-village-700 text-white rounded-br-none' : 'bg-white text-gray-800 border rounded-bl-none'}">${escapeHtml(msg.text)}</div></div>`;
+            }).join('');
+            box.scrollTop = box.scrollHeight;
+        }
+
+        window.switchAdminSubTab = function(sub) {
+            document.getElementById('admin-pending-list').classList.add('hidden');
+            document.getElementById('admin-approved-list').classList.add('hidden');
+            document.getElementById('admin-dirlogs-list').classList.add('hidden');
+            if (sub === 'pending') document.getElementById('admin-pending-list').classList.remove('hidden');
+            if (sub === 'approved') document.getElementById('admin-approved-list').classList.remove('hidden');
+            if (sub === 'dirlogs') document.getElementById('admin-dirlogs-list').classList.remove('hidden');
+        };
+
+        window.approveUserByAdmin = async function(id) {
+            if (currentUserProfile?.role !== 'admin') return;
+            if (isCloudConnected && db && firebaseUser) {
+                await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', id), { status: 'approved' });
+            } else { const u = allUsers.find(x => x.id === id); if (u) u.status = 'approved'; syncLocalFallbackData(); }
+            showToast("অনুমোদন দেওয়া হয়েছে!", "success");
+        };
+
+        window.deleteUserByAdmin = async function(id) {
+            if (currentUserProfile?.role !== 'admin') return;
+            if (isCloudConnected && db && firebaseUser) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', id));
+            } else { allUsers = allUsers.filter(x => x.id !== id); syncLocalFallbackData(); }
+            showToast("মুছে ফেলা হয়েছে।", "error");
+        };
+
+        function renderAdminPanel() {
+            const pending = allUsers.filter(u => u.status === 'pending');
+            const approved = allUsers.filter(u => u.status === 'approved');
+            document.getElementById('admin-pending-badge').textContent = pending.length;
+            document.getElementById('stat-pending-count').textContent = pending.length;
+            document.getElementById('stat-approved-count').textContent = approved.length;
+            const logBadge = document.getElementById('admin-dirlog-badge');
+            if (logBadge) logBadge.textContent = allDirectoryLogs.length;
+
+            const pEl = document.getElementById('admin-pending-list');
+            pEl.innerHTML = pending.length === 0 ? `<div class="bg-gray-50 p-5 rounded-2xl text-center text-xs text-gray-500 col-span-full">অপেক্ষমাণ সদস্য নেই।</div>` : pending.map(u => `<div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 flex justify-between items-center gap-2"><div class="flex items-center gap-2.5"><img src="${u.facePhoto}" class="w-12 h-12 rounded-xl object-cover border"><div><h4 class="font-bold">${escapeHtml(u.name)}</h4><p class="text-[11px] text-gray-600">${escapeHtml(u.para)} • ${escapeHtml(u.phone)}</p></div></div><div class="flex gap-1"><button onclick="approveUserByAdmin('${u.id}')" class="px-2.5 py-1 bg-village-700 text-white font-bold rounded-lg">অনুমোদন</button><button onclick="deleteUserByAdmin('${u.id}')" class="px-2.5 py-1 bg-red-600 text-white font-bold rounded-lg">বাতিল</button></div></div>`).join('');
+
+            const aEl = document.getElementById('admin-approved-list');
+            aEl.innerHTML = approved.length === 0 ? `<div class="bg-gray-50 p-5 rounded-2xl text-center text-xs text-gray-500 col-span-full">অনুমোদিত সদস্য নেই।</div>` : approved.map(u => `<div class="bg-white border rounded-2xl p-3 flex justify-between items-center gap-2"><div class="flex items-center gap-2.5"><img src="${u.facePhoto}" class="w-10 h-10 rounded-xl object-cover border"><div><h4 class="font-bold">${escapeHtml(u.name)}</h4><p class="text-[11px] text-gray-600">${escapeHtml(u.para)}</p></div></div><button onclick="deleteUserByAdmin('${u.id}')" class="px-2.5 py-1 bg-red-600 text-white font-bold rounded-lg">রদ</button></div>`).join('');
+
+            const logContainer = document.getElementById('admin-dirlogs-list');
+            if (logContainer) {
+                if (allDirectoryLogs.length === 0) {
+                    logContainer.innerHTML = `<div class="bg-gray-50 p-5 rounded-2xl text-center text-xs text-gray-500">কোনো অ্যাক্টিভিটি লগ নেই।</div>`;
+                } else {
+                    logContainer.innerHTML = allDirectoryLogs.map(log => {
+                        const timeStr = new Date(log.timestamp || Date.now()).toLocaleString('bn-BD', { dateStyle: 'medium', timeStyle: 'short' });
+                        const isSchedule = log.action === 'schedule_updated';
+                        return `
+                        <div class="p-3 rounded-2xl border ${isSchedule ? 'bg-blue-50/70 border-blue-200' : 'bg-emerald-50/70 border-emerald-200'} flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                            <div class="flex items-start gap-2">
+                                <span class="w-7 h-7 rounded-xl ${isSchedule ? 'bg-blue-600 text-white' : 'bg-emerald-600 text-white'} flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid ${isSchedule ? 'fa-clock' : 'fa-address-book'}"></i></span>
+                                <div>
+                                    <p class="font-extrabold text-gray-900">${isSchedule ? 'সময়সূচি আপডেট:' : 'ডিরেক্টরি নাম্বার:'} <span class="text-village-900">${escapeHtml(log.targetName)}</span></p>
+                                    <p class="text-[11px] text-gray-600">কর্তৃক: <strong class="text-village-800">${escapeHtml(log.actorName)}</strong> (${escapeHtml(log.actorPara)})</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-gray-500 shrink-0">${timeStr}</span>
+                        </div>`;
+                    }).join('');
+                }
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const d = document.createElement('div'); d.textContent = text; return d.innerHTML;
+        }
+
+        window.addEventListener('load', initAppSystem);
+    </script>
+</body>
+</html>
