@@ -492,6 +492,19 @@
             <i class="fa-solid fa-clock mr-1"></i> আপনার অ্যাকাউন্টটি অ্যাডমিনের অনুমোদনের অপেক্ষায় আছে। অনুমোদনের পর পোস্ট করতে পারবেন।
         </div>
 
+        <!-- লাইভ অনলাইন সদস্য বার (সর্বত্র দেখা যাবে) -->
+        <div class="bg-emerald-950 text-white border-b border-emerald-800/70 shadow-xs">
+            <div class="max-w-6xl mx-auto px-3 sm:px-4 py-2 flex items-center gap-2.5">
+                <div class="flex items-center gap-1.5 shrink-0 bg-emerald-900/90 border border-emerald-700/60 px-2.5 py-1 rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span class="text-[11px] font-extrabold text-emerald-200 whitespace-nowrap">অনলাইনে (<span id="global-online-count">১</span>)</span>
+                </div>
+                <div id="global-online-members-strip" class="flex-1 flex items-center gap-2 overflow-x-auto no-scrollbar">
+                    <span class="text-[11px] text-emerald-300/80">অনলাইন সদস্য লোড হচ্ছে...</span>
+                </div>
+            </div>
+        </div>
+
         <!-- মেইন কন্টেন্ট এরিয়া -->
         <main class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-4 space-y-5">
 
@@ -708,7 +721,7 @@
                         <h4 class="text-xs font-extrabold text-village-900 flex items-center gap-1.5">
                             <i class="fa-solid fa-user-group text-emerald-600"></i> একক সদস্যদের সাথে ব্যক্তিগত চ্যাট ও কল
                         </h4>
-                        <span class="text-[10px] text-gray-500">চ্যাট বা কলে চাপুন</span>
+                        <span id="chat-online-summary-badge" class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">অনলাইন: ০ জন</span>
                     </div>
                     <div id="callable-members-list" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
                         <p class="text-xs text-gray-400">অনুমোদিত সদস্য লোড হচ্ছে...</p>
@@ -771,7 +784,7 @@
                 </div>
             </div>
 
-            <!-- লাইভ ভয়েস কল মডাল -->
+            <!-- লাইভ ভয়েস কল মডাল (লাউড স্পিকার বাটন সহ) -->
             <div id="voice-call-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                 <div class="bg-gradient-to-b from-village-900 to-village-950 text-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-gold-400/30 text-center space-y-5">
                     <div class="w-20 h-20 bg-gold-400/20 border-2 border-gold-400 rounded-full flex items-center justify-center mx-auto animate-pulse">
@@ -808,13 +821,26 @@
                         </div>
                     </div>
 
-                    <div id="active-call-controls" class="hidden flex items-center justify-center gap-4 pt-2">
-                        <button id="btn-mute-mic" onclick="toggleCallMicrophone()" class="w-12 h-12 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-lg transition" title="মিউট / আনমিউট">
-                            <i class="fa-solid fa-microphone"></i>
-                        </button>
-                        <button onclick="endVoiceCall()" class="w-14 h-14 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center text-xl shadow-lg transition" title="কল কাটুন">
-                            <i class="fa-solid fa-phone-slash"></i>
-                        </button>
+                    <!-- কল চলাকালীন কন্ট্রোল (মিউট + লাউড স্পিকার + কল কাটুন) -->
+                    <div id="active-call-controls" class="hidden flex items-center justify-center gap-5 pt-2">
+                        <div class="flex flex-col items-center gap-1">
+                            <button id="btn-mute-mic" onclick="toggleCallMicrophone()" class="w-12 h-12 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-lg transition" title="মিউট / আনমিউট">
+                                <i class="fa-solid fa-microphone"></i>
+                            </button>
+                            <span id="mute-mic-label" class="text-[10px] text-green-200 font-bold">মিউট</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <button id="btn-loudspeaker" onclick="toggleCallLoudspeaker()" class="w-12 h-12 rounded-full bg-gold-400 text-village-950 shadow-md flex items-center justify-center text-lg transition" title="লাউড স্পিকার চালু/বন্ধ">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                            <span id="loudspeaker-label" class="text-[10px] text-gold-300 font-extrabold">স্পিকার চালু</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <button onclick="endVoiceCall()" class="w-14 h-14 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center text-xl shadow-lg transition" title="কল কাটুন">
+                                <i class="fa-solid fa-phone-slash"></i>
+                            </button>
+                            <span class="text-[10px] text-red-300 font-bold">কাটুন</span>
+                        </div>
                     </div>
 
                     <audio id="remote-call-audio" autoplay playsinline class="hidden"></audio>
@@ -1264,6 +1290,9 @@
         let activeCallDocId = null;
         let activeIncomingCallData = null;
         let isMicMuted = false;
+        let isLoudspeakerOn = true;
+        let callAudioCtx = null;
+        let callGainNode = null;
         let callTimerInterval = null;
         let callSeconds = 0;
         let mediaRecorder = null;
@@ -1273,6 +1302,7 @@
         let toneLoopInterval = null;
         let editedProfilePhotoBase64 = "";
         let presenceHeartbeatInterval = null;
+        let onlineUiRefreshInterval = null;
         const rtcConfig = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun1.l.google.com:19302' }] };
 
         let userCurrentCoords = null;
@@ -1305,9 +1335,58 @@
         }
 
         function isMemberCurrentlyOnline(userObj) {
-            if (!userObj || !userObj.lastActiveAt) return false;
-            return (Date.now() - userObj.lastActiveAt) < 120000;
+            if (!userObj) return false;
+            if (currentUserProfile && userObj.id === currentUserProfile.id) return true;
+            if (!userObj.lastActiveAt) return false;
+            return (Date.now() - Number(userObj.lastActiveAt)) < 180000;
         }
+
+        function renderGlobalOnlineBar() {
+            const stripEl = document.getElementById('global-online-members-strip');
+            const countEl = document.getElementById('global-online-count');
+            if (!stripEl) return;
+
+            const approvedUsers = allUsers.filter(u => u.status === 'approved');
+            const onlineOthers = approvedUsers.filter(u => u.id !== currentUserProfile?.id && isMemberCurrentlyOnline(u));
+
+            const totalOnlineCount = (currentUserProfile ? 1 : 0) + onlineOthers.length;
+            if (countEl) countEl.textContent = totalOnlineCount;
+
+            const meChip = currentUserProfile ? `
+                <div class="flex items-center gap-1.5 bg-emerald-900/70 border border-emerald-600/50 px-2.5 py-1 rounded-full shrink-0">
+                    <div class="relative">
+                        <img src="${currentUserProfile.facePhoto || 'https://placehold.co/60x60/166534/ffffff?text=U'}" class="w-5 h-5 rounded-full object-cover border border-gold-400">
+                        <span class="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-emerald-950"></span>
+                    </div>
+                    <span class="text-[11px] font-bold text-white whitespace-nowrap">${escapeHtml(currentUserProfile.name)} (আপনি)</span>
+                </div>` : '';
+
+            if (onlineOthers.length === 0) {
+                stripEl.innerHTML = meChip + `<span class="text-[11px] text-emerald-300/75 whitespace-nowrap pl-1">অন্য কোনো সদস্য এই মুহূর্তে অনলাইনে নেই</span>`;
+                return;
+            }
+
+            const othersHtml = onlineOthers.map(u => `
+                <div class="flex items-center gap-1.5 bg-emerald-800/90 hover:bg-emerald-700 border border-emerald-500/50 pl-1.5 pr-2 py-1 rounded-full shrink-0 transition">
+                    <button type="button" onclick="openDirectChatFromOnlineBar('${u.id}', '${escapeHtml(u.name)}', '${escapeHtml(u.para || 'সুতারমুড়া')}')" title="ব্যক্তিগত চ্যাট ও ছবি পাঠান" class="flex items-center gap-1.5">
+                        <div class="relative">
+                            <img src="${u.facePhoto || 'https://placehold.co/60x60/166534/ffffff?text=U'}" class="w-5 h-5 rounded-full object-cover border border-emerald-300">
+                            <span class="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-pulse border border-emerald-950"></span>
+                        </div>
+                        <span class="text-[11px] font-extrabold text-white whitespace-nowrap">${escapeHtml(u.name)}</span>
+                    </button>
+                    <button type="button" onclick="initiateDirectMemberCall('${u.id}', '${escapeHtml(u.name)}')" title="সরাসরি ফ্রি ভয়েস কল করুন" class="w-5 h-5 rounded-full bg-gold-400 hover:bg-gold-500 text-village-950 flex items-center justify-center text-[9px] shadow-2xs transition">
+                        <i class="fa-solid fa-phone"></i>
+                    </button>
+                </div>`).join('');
+
+            stripEl.innerHTML = meChip + othersHtml;
+        }
+
+        window.openDirectChatFromOnlineBar = function(userId, userName, userPara) {
+            switchMainTab('chat');
+            switchChatRoom(userId, userName, userPara, 'private');
+        };
 
         function calculateDistanceKm(lat1, lon1, lat2, lon2) {
             const R = 6371;
@@ -1566,6 +1645,9 @@
             if (!currentUserProfile || currentUserProfile.role === 'admin' || !isCloudConnected || !db) return;
             const now = Date.now();
             currentUserProfile.lastActiveAt = now;
+            const localIdx = allUsers.findIndex(u => u.id === currentUserProfile.id);
+            if (localIdx !== -1) allUsers[localIdx].lastActiveAt = now;
+            renderGlobalOnlineBar();
             try { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', currentUserProfile.id), { lastActiveAt: now }); } catch (e) {}
             try { await updateDoc(doc(db, 'artifacts', 'amader-sutarmora-v1', 'public', 'data', 'users', currentUserProfile.id), { lastActiveAt: now }); } catch (e) {}
         }
@@ -1573,7 +1655,11 @@
         function startPresenceHeartbeat() {
             stopPresenceHeartbeat();
             updateMyOnlinePresence();
-            presenceHeartbeatInterval = setInterval(updateMyOnlinePresence, 45000);
+            presenceHeartbeatInterval = setInterval(updateMyOnlinePresence, 30000);
+            onlineUiRefreshInterval = setInterval(() => {
+                renderGlobalOnlineBar();
+                renderCallableMembers();
+            }, 25000);
         }
 
         function stopPresenceHeartbeat() {
@@ -1581,7 +1667,95 @@
                 clearInterval(presenceHeartbeatInterval);
                 presenceHeartbeatInterval = null;
             }
+            if (onlineUiRefreshInterval) {
+                clearInterval(onlineUiRefreshInterval);
+                onlineUiRefreshInterval = null;
+            }
         }
+
+        // ভয়েস কল লাউড স্পিকার (Speakerphone / Volume Boost) টগল ও অডিও রাউটিং
+        function setupRemoteCallAudioRouting(stream) {
+            const remoteAudio = document.getElementById('remote-call-audio');
+            if (!remoteAudio || !stream) return;
+            remoteAudio.srcObject = stream;
+            remoteAudio.muted = false;
+            remoteAudio.volume = isLoudspeakerOn ? 1.0 : 0.45;
+            remoteAudio.play().catch(() => {});
+
+            try {
+                if (!callAudioCtx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) callAudioCtx = new AudioCtx();
+                }
+                if (callAudioCtx) {
+                    if (callAudioCtx.state === 'suspended') callAudioCtx.resume();
+                    const source = callAudioCtx.createMediaStreamSource(stream);
+                    callGainNode = callAudioCtx.createGain();
+                    callGainNode.gain.value = isLoudspeakerOn ? 1.85 : 0.7;
+                    source.connect(callGainNode);
+                    callGainNode.connect(callAudioCtx.destination);
+                }
+            } catch (e) {}
+            updateLoudspeakerButtonUI();
+        }
+
+        function cleanupRemoteCallAudioRouting() {
+            if (callGainNode) {
+                try { callGainNode.disconnect(); } catch (e) {}
+                callGainNode = null;
+            }
+            const remoteAudio = document.getElementById('remote-call-audio');
+            if (remoteAudio) {
+                remoteAudio.srcObject = null;
+            }
+        }
+
+        function updateLoudspeakerButtonUI() {
+            const btn = document.getElementById('btn-loudspeaker');
+            const label = document.getElementById('loudspeaker-label');
+            if (!btn) return;
+            if (isLoudspeakerOn) {
+                btn.className = "w-12 h-12 rounded-full bg-gold-400 text-village-950 shadow-md flex items-center justify-center text-lg transition";
+                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+                if (label) {
+                    label.textContent = "স্পিকার চালু";
+                    label.className = "text-[10px] text-gold-300 font-extrabold";
+                }
+            } else {
+                btn.className = "w-12 h-12 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-lg transition";
+                btn.innerHTML = '<i class="fa-solid fa-volume-low"></i>';
+                if (label) {
+                    label.textContent = "স্পিকার বন্ধ";
+                    label.className = "text-[10px] text-green-200 font-bold";
+                }
+            }
+        }
+
+        window.toggleCallLoudspeaker = async function() {
+            isLoudspeakerOn = !isLoudspeakerOn;
+            const remoteAudio = document.getElementById('remote-call-audio');
+            if (remoteAudio) {
+                remoteAudio.volume = isLoudspeakerOn ? 1.0 : 0.4;
+                if (typeof remoteAudio.setSinkId === 'function' && navigator.mediaDevices?.enumerateDevices) {
+                    try {
+                        const devices = await navigator.mediaDevices.enumerateDevices();
+                        const outputs = devices.filter(d => d.kind === 'audiooutput');
+                        const speakerDev = outputs.find(d => /speaker/i.test(d.label));
+                        const earpieceDev = outputs.find(d => /earpiece|headset|default/i.test(d.label));
+                        if (isLoudspeakerOn && speakerDev) {
+                            await remoteAudio.setSinkId(speakerDev.deviceId);
+                        } else if (!isLoudspeakerOn && earpieceDev) {
+                            await remoteAudio.setSinkId(earpieceDev.deviceId);
+                        }
+                    } catch (e) {}
+                }
+            }
+            if (callGainNode && callAudioCtx) {
+                callGainNode.gain.setValueAtTime(isLoudspeakerOn ? 1.85 : 0.65, callAudioCtx.currentTime);
+            }
+            updateLoudspeakerButtonUI();
+            showToast(isLoudspeakerOn ? "🔊 লাউড স্পিকার চালু করা হয়েছে" : "🔈 লাউড স্পিকার বন্ধ (স্বাভাবিক সাউন্ড)", "success");
+        };
 
         window.openForgotPasswordModal = function() {
             const currentIden = document.getElementById('login-identifier')?.value.trim() || '';
@@ -1902,6 +2076,7 @@
             renderUrgentTicker();
             renderMarketTicker();
             renderHeroBanner();
+            renderGlobalOnlineBar();
             renderAdminPanel();
             renderCustomGroupsList();
             renderCallableMembers();
@@ -1930,16 +2105,31 @@
             let liveUsers = [], v1Users = [];
             const syncUsers = () => {
                 const map = new Map();
-                [...v1Users, ...liveUsers].forEach(u => map.set(u.id, u));
+                [...v1Users, ...liveUsers].forEach(u => {
+                    const existing = map.get(u.id);
+                    if (existing) {
+                        map.set(u.id, {
+                            ...existing,
+                            ...u,
+                            lastActiveAt: Math.max(Number(existing.lastActiveAt || 0), Number(u.lastActiveAt || 0))
+                        });
+                    } else {
+                        map.set(u.id, u);
+                    }
+                });
                 allUsers = Array.from(map.values());
                 if (currentUserProfile && currentUserProfile.role !== 'admin') {
                     const updatedMe = allUsers.find(u => u.id === currentUserProfile.id);
                     if (updatedMe) {
-                        currentUserProfile = updatedMe;
-                        safeStore.set('sm_active_session', JSON.stringify(updatedMe));
+                        currentUserProfile = {
+                            ...updatedMe,
+                            lastActiveAt: Math.max(Number(currentUserProfile.lastActiveAt || 0), Number(updatedMe.lastActiveAt || 0))
+                        };
+                        safeStore.set('sm_active_session', JSON.stringify(currentUserProfile));
                         updateUserAccessUI();
                     }
                 }
+                renderGlobalOnlineBar();
                 renderAdminPanel();
                 renderCustomGroupsList();
                 renderCallableMembers();
@@ -2353,6 +2543,7 @@
             }
 
             updateUserAccessUI();
+            renderGlobalOnlineBar();
             renderCallableMembers();
             renderNearestDriversList();
             renderListings();
@@ -2361,16 +2552,30 @@
             showToast("আপনার প্রোফাইল তথ্য ও ছবি আপডেট হয়েছে!", "success");
         };
 
-        // সদস্য তালিকা (ব্যক্তিগত চ্যাট, ছবি ও কল বাটন সহ)
+        // সদস্য তালিকা (অনলাইন সদস্যদের সবার আগে দেখিয়ে চ্যাট ও কল বাটন সহ)
         function renderCallableMembers() {
             const listEl = document.getElementById('callable-members-list');
             const selectEl = document.getElementById('call-target-member-select');
-            const callableUsers = allUsers.filter(u => u.status === 'approved' && u.id !== currentUserProfile?.id);
+            const summaryBadge = document.getElementById('chat-online-summary-badge');
+
+            const callableUsers = allUsers
+                .filter(u => u.status === 'approved' && u.id !== currentUserProfile?.id)
+                .sort((a, b) => {
+                    const aOn = isMemberCurrentlyOnline(a) ? 1 : 0;
+                    const bOn = isMemberCurrentlyOnline(b) ? 1 : 0;
+                    return bOn - aOn;
+                });
+
+            const onlineCount = callableUsers.filter(u => isMemberCurrentlyOnline(u)).length + (currentUserProfile ? 1 : 0);
+            if (summaryBadge) summaryBadge.textContent = `অনলাইন: ${onlineCount} জন`;
 
             if (selectEl) {
                 const prevVal = selectEl.value;
                 selectEl.innerHTML = `<option value="all">সকল সদস্য (ওপেন গ্রুপ কল)</option>` +
-                    callableUsers.map(u => `<option value="${u.id}">${escapeHtml(u.name)} (${escapeHtml(u.para || 'সুতারমুড়া')})</option>`).join('');
+                    callableUsers.map(u => {
+                        const onTag = isMemberCurrentlyOnline(u) ? '🟢 অনলাইন • ' : '';
+                        return `<option value="${u.id}">${onTag}${escapeHtml(u.name)} (${escapeHtml(u.para || 'সুতারমুড়া')})</option>`;
+                    }).join('');
                 if ([...selectEl.options].some(o => o.value === prevVal)) selectEl.value = prevVal;
             }
 
@@ -2385,15 +2590,15 @@
                 const online = isMemberCurrentlyOnline(u);
                 const isSelectedChat = activeChatTarget.type === 'private' && activeChatTarget.id === u.id;
                 return `
-                <div class="flex items-center gap-2 ${isSelectedChat ? 'bg-emerald-100 border-emerald-500 ring-1 ring-emerald-400' : 'bg-village-50 hover:bg-emerald-50 border-village-200'} border px-2.5 py-1.5 rounded-2xl shrink-0 transition">
+                <div class="flex items-center gap-2 ${isSelectedChat ? 'bg-emerald-100 border-emerald-500 ring-1 ring-emerald-400' : (online ? 'bg-emerald-50/90 border-emerald-400' : 'bg-village-50 hover:bg-emerald-50 border-village-200')} border px-2.5 py-1.5 rounded-2xl shrink-0 transition">
                     <button type="button" onclick="switchChatRoom('${u.id}', '${escapeHtml(u.name)}', '${escapeHtml(u.para || 'সুতারমুড়া')}', 'private')" title="ব্যক্তিগত মেসেজ ও ছবি পাঠান" class="flex items-center gap-2 text-left">
                         <div class="relative">
                             <img src="${u.facePhoto || 'https://placehold.co/80x80/166534/ffffff?text=U'}" class="w-7 h-7 rounded-full object-cover border border-village-500">
-                            ${online ? `<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full" title="অনলাইন"></span>` : ''}
+                            ${online ? `<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full animate-pulse" title="অনলাইন"></span>` : ''}
                         </div>
                         <div>
                             <p class="text-xs font-extrabold text-gray-900 leading-tight">${escapeHtml(u.name)}</p>
-                            <p class="text-[10px] text-gray-500 leading-tight">${escapeHtml(u.para || 'সুতারমুড়া')}</p>
+                            <p class="text-[10px] ${online ? 'text-emerald-700 font-bold' : 'text-gray-500'} leading-tight">${online ? '● অনলাইন' : escapeHtml(u.para || 'সুতারমুড়া')}</p>
                         </div>
                     </button>
                     <button type="button" onclick="switchChatRoom('${u.id}', '${escapeHtml(u.name)}', '${escapeHtml(u.para || 'সুতারমুড়া')}', 'private')" title="মেসেজ ও ছবি পাঠান" class="w-6 h-6 rounded-full bg-village-700 hover:bg-village-800 text-white flex items-center justify-center text-[10px] ml-0.5 shadow-2xs">
@@ -3697,8 +3902,7 @@
                 localAudioStream.getTracks().forEach(track => peerConnection.addTrack(track, localAudioStream));
 
                 peerConnection.ontrack = (event) => {
-                    const remoteAudio = document.getElementById('remote-call-audio');
-                    if (remoteAudio && event.streams[0]) remoteAudio.srcObject = event.streams[0];
+                    if (event.streams[0]) setupRemoteCallAudioRouting(event.streams[0]);
                 };
 
                 const callRef = doc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls'));
@@ -3726,6 +3930,7 @@
                 });
 
                 startCallTone('ringback');
+                updateLoudspeakerButtonUI();
 
                 document.getElementById('call-setup-controls').classList.add('hidden');
                 document.getElementById('active-call-controls').classList.remove('hidden');
@@ -3785,8 +3990,7 @@
                 localAudioStream.getTracks().forEach(track => peerConnection.addTrack(track, localAudioStream));
 
                 peerConnection.ontrack = (event) => {
-                    const remoteAudio = document.getElementById('remote-call-audio');
-                    if (remoteAudio && event.streams[0]) remoteAudio.srcObject = event.streams[0];
+                    if (event.streams[0]) setupRemoteCallAudioRouting(event.streams[0]);
                 };
 
                 peerConnection.onicecandidate = (event) => {
@@ -3803,6 +4007,7 @@
                     answer: { type: answerDescription.type, sdp: answerDescription.sdp }
                 });
 
+                updateLoudspeakerButtonUI();
                 document.getElementById('call-setup-controls').classList.add('hidden');
                 document.getElementById('active-call-controls').classList.remove('hidden');
                 document.getElementById('call-status-badge').textContent = 'সংযুক্ত (Connected)';
@@ -3843,7 +4048,9 @@
             isMicMuted = !isMicMuted;
             localAudioStream.getAudioTracks().forEach(t => t.enabled = !isMicMuted);
             const btn = document.getElementById('btn-mute-mic');
+            const lbl = document.getElementById('mute-mic-label');
             btn.innerHTML = isMicMuted ? '<i class="fa-solid fa-microphone-slash text-red-400"></i>' : '<i class="fa-solid fa-microphone"></i>';
+            if (lbl) lbl.textContent = isMicMuted ? 'মিউট আছে' : 'মিউট';
             showToast(isMicMuted ? "মাইক্রোফোন মিউট করা হয়েছে" : "মাইক্রোফোন চালু করা হয়েছে", "success");
         };
 
@@ -3852,6 +4059,7 @@
             isDriverCascadeActive = false;
             clearTimeout(driverCascadeTimer);
             clearInterval(callTimerInterval);
+            cleanupRemoteCallAudioRouting();
             document.getElementById('driver-dispatch-progress-text')?.classList.add('hidden');
             document.getElementById('call-modal-icon').className = 'fa-solid fa-headset text-3xl text-gold-400';
 
