@@ -157,17 +157,17 @@
                     <p id="email-verified-badge" class="hidden text-xs font-bold text-green-700"><i class="fa-solid fa-circle-check"></i> ইমেইল সফলভাবে ভেরিফাই হয়েছে!</p>
                 </div>
 
-                <!-- লাইভ ফেস স্ক্যান -->
+                <!-- লাইভ ফেস স্ক্যান ও গ্যালারি ছবি আপলোড -->
                 <div class="bg-stone-50 p-3 rounded-2xl border border-stone-200 space-y-2">
                     <div class="flex items-center justify-between">
-                        <label class="text-xs font-bold text-gray-800"><i class="fa-solid fa-camera text-village-600 mr-1"></i> ফেস স্ক্যান / সেলফি ভেরিফিকেশন *</label>
+                        <label class="text-xs font-bold text-gray-800"><i class="fa-solid fa-camera text-village-600 mr-1"></i> প্রোফাইল ছবি (ক্যামেরা বা গ্যালারি) *</label>
                     </div>
                     <div class="relative w-32 h-32 mx-auto rounded-2xl overflow-hidden bg-gray-900 border-2 border-dashed border-village-600 flex items-center justify-center">
                         <video id="face-video" autoplay playsinline class="hidden w-full h-full object-cover"></video>
                         <img id="face-preview" class="hidden w-full h-full object-cover" alt="Face Preview">
                         <div id="camera-placeholder" class="text-center p-2 text-gray-400">
                             <i class="fa-solid fa-user-astronaut text-2xl mb-1 text-village-500"></i>
-                            <p class="text-[10px]">ক্যামেরা চালু করুন বা ছবি দিন</p>
+                            <p class="text-[10px]">ক্যামেরা চালু করুন বা গ্যালারি থেকে ছবি দিন</p>
                         </div>
                         <canvas id="face-canvas" class="hidden"></canvas>
                     </div>
@@ -175,9 +175,9 @@
                         <button type="button" id="btn-start-cam" onclick="startFaceCamera()" class="px-3 py-1.5 bg-village-700 text-white text-xs font-bold rounded-xl"><i class="fa-solid fa-video mr-1"></i> ক্যামেরা</button>
                         <button type="button" id="btn-capture-face" onclick="captureFaceSnapshot()" class="hidden px-3 py-1.5 bg-gold-500 text-village-950 text-xs font-extrabold rounded-xl"><i class="fa-solid fa-camera mr-1"></i> ছবি তুলুন</button>
                         <button type="button" id="btn-retake-face" onclick="startFaceCamera()" class="hidden px-3 py-1.5 bg-gray-600 text-white text-xs font-bold rounded-xl">পুনরায়</button>
-                        <label class="cursor-pointer px-3 py-1.5 bg-white border border-gray-300 text-gray-700 text-xs font-bold rounded-xl">
-                            <i class="fa-solid fa-upload mr-1"></i> ছবি আপলোড
-                            <input type="file" accept="image/*" capture="user" onchange="handleFallbackFaceUpload(event)" class="hidden">
+                        <label class="cursor-pointer px-3 py-1.5 bg-white hover:bg-gray-100 border border-gray-300 text-gray-800 text-xs font-bold rounded-xl flex items-center gap-1 shadow-xs transition">
+                            <i class="fa-solid fa-images text-village-600"></i> <span>গ্যালারি থেকে ছবি</span>
+                            <input type="file" id="reg-gallery-input" accept="image/*" onchange="handleFallbackFaceUpload(event)" class="hidden">
                         </label>
                     </div>
                 </div>
@@ -511,7 +511,7 @@
                 </div>
             </div>
 
-            <!-- লাইভ ভয়েস কল মডাল (WebRTC) -->
+            <!-- লাইভ ভয়েস কল মডাল (WebRTC + Ringtone) -->
             <div id="voice-call-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                 <div class="bg-gradient-to-b from-village-900 to-village-950 text-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-gold-400/30 text-center space-y-5">
                     <div class="w-20 h-20 bg-gold-400/20 border-2 border-gold-400 rounded-full flex items-center justify-center mx-auto animate-pulse">
@@ -529,10 +529,15 @@
                             <i class="fa-solid fa-phone"></i> <span>নতুন ভয়েস কল শুরু করুন</span>
                         </button>
                         <div id="incoming-call-alert" class="hidden bg-amber-500/20 border border-amber-400 rounded-2xl p-3 space-y-2">
-                            <p id="incoming-caller-label" class="text-xs font-extrabold text-amber-300">কেউ একজন কল করছেন...</p>
-                            <button onclick="answerIncomingVoiceCall()" class="w-full py-2.5 bg-gold-400 hover:bg-gold-500 text-village-950 font-extrabold rounded-xl text-xs shadow transition">
-                                <i class="fa-solid fa-phone-volume mr-1"></i> কল রিসিভ করুন
-                            </button>
+                            <p id="incoming-caller-label" class="text-xs font-extrabold text-amber-300 animate-bounce">📞 কেউ একজন কল করছেন...</p>
+                            <div class="flex gap-2">
+                                <button onclick="answerIncomingVoiceCall()" class="flex-1 py-2.5 bg-gold-400 hover:bg-gold-500 text-village-950 font-extrabold rounded-xl text-xs shadow transition">
+                                    <i class="fa-solid fa-phone-volume mr-1"></i> রিসিভ করুন
+                                </button>
+                                <button onclick="rejectIncomingVoiceCall()" class="px-3 py-2.5 bg-red-600 hover:bg-red-700 text-white font-extrabold rounded-xl text-xs shadow transition">
+                                    কেটে দিন
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -546,7 +551,7 @@
                         </button>
                     </div>
 
-                    <audio id="remote-call-audio" autoplay playsinline class="hidden"></audio>
+                    <audio id="remote-call-audio" autoplay playsinline></audio>
 
                     <button onclick="closeVoiceCallModal()" class="text-xs text-green-300/70 hover:text-white underline pt-1">বন্ধ করুন</button>
                 </div>
@@ -580,12 +585,12 @@
 
                     <div id="directory-filter-bar" class="flex items-center gap-1.5 pt-2 border-t border-gray-100 overflow-x-auto no-scrollbar">
                         <button onclick="setDirectoryFilter('all')" data-dir-filter="all" class="dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-village-700 text-white whitespace-nowrap shadow-xs transition">সকল</button>
-                        <button onclick="setDirectoryFilter('গ্রামের মুরুব্বি / জনপ্রতিনিধি')" data-dir-filter="গ্রামের মুরুব্বি / জনপ্রতিনিধি" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">মুরুব্বি</button>
-                        <button onclick="setDirectoryFilter('গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী')" data-dir-filter="গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">ডাক্তার</button>
-                        <button onclick="setDirectoryFilter('মসজিদের ইমাম / খতিব')" data-dir-filter="মসজিদের ইমাম / খতিব" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">ইমাম</button>
-                        <button onclick="setDirectoryFilter('গাড়ি / অ্যাম্বুলেন্স চালক')" data-dir-filter="গাড়ি / অ্যাম্বুলেন্স চালক" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">গাড়ি</button>
-                        <button onclick="setDirectoryFilter('ইলেকট্রিশিয়ান / মিস্ত্রি')" data-dir-filter="ইলেকট্রিশিয়ান / মিস্ত্রি" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">মিস্ত্রি</button>
-                        <button onclick="setDirectoryFilter('শিক্ষক / শিক্ষিকা')" data-dir-filter="শিক্ষক / শিক্ষিকা" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">শিক্ষক</button>
+                        <button onclick="setDirectoryFilter('গ্রামের মুরুব্বি / জনপ্রতিনিধি')" data-dir-filter="গ্রামের মুরুব্বি / জনপ্রতিনিধি" class="dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">মুরুব্বি</button>
+                        <button onclick="setDirectoryFilter('গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী')" data-dir-filter="গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী" class="dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">ডাক্তার</button>
+                        <button onclick="setDirectoryFilter('মসজিদের ইমাম / খতিব')" data-dir-filter="মসজিদের ইমাম / খতিব" class="dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">ইমাম</button>
+                        <button onclick="setDirectoryFilter('গাড়ি / অ্যাম্বুলেন্স চালক')" data-dir-filter="গাড়ি / অ্যাম্বুলেন্স চালক" class="dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">গাড়ি</button>
+                        <button onclick="setDirectoryFilter('ইলেকট্রিশিয়ান / মিস্ত্রি')" data-dir-filter="ইলেকট্রিশিয়ান / মিস্ত্রি" class="dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">মিস্ত্রি</button>
+                        <button onclick="setDirectoryFilter('শিক্ষক / শিক্ষিকা')" data-dir-filter="শিক্ষক / শিক্ষিকা" class="dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">শিক্ষক</button>
                     </div>
                 </div>
                 <div id="directory-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
@@ -792,7 +797,7 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // অ্যাডমিন লগইন তথ্য (আপনি চাইলে এখান থেকে পাসওয়ার্ড পরিবর্তন করতে পারেন)
+        // অ্যাডমিন লগইন তথ্য
         const ADMIN_CREDENTIALS = {
             email: "admin@sutarmora.com",
             phone: "01700000000",
@@ -837,7 +842,7 @@
             opacity: 0.75
         };
 
-        // ভয়েস কল ও ভয়েস মেসেজ স্টেট
+        // ভয়েস কল, রিংটোন ও ভয়েস মেসেজ স্টেট
         let peerConnection = null;
         let localAudioStream = null;
         let activeCallDocId = null;
@@ -845,10 +850,68 @@
         let isMicMuted = false;
         let callTimerInterval = null;
         let callSeconds = 0;
+        let ringtoneInterval = null;
+        let ringAudioCtx = null;
         let mediaRecorder = null;
         let audioChunks = [];
         let isRecordingVoiceNote = false;
-        const rtcConfig = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun1.l.google.com:19302' }] };
+        const rtcConfig = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' },
+                { urls: 'stun:stun2.l.google.com:19302' },
+                { urls: 'stun:stun3.l.google.com:19302' }
+            ]
+        };
+
+        // রিংটোন সাউন্ড জেনারেটর (Web Audio API - কোনো বাহ্যিক অডিও ফাইল ছাড়াই রিং বাজবে)
+        function startRingtoneSound(isIncoming = true) {
+            stopRingtoneSound();
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                ringAudioCtx = new AudioCtx();
+                const playPulse = () => {
+                    if (!ringAudioCtx) return;
+                    if (ringAudioCtx.state === 'suspended') ringAudioCtx.resume();
+                    const osc1 = ringAudioCtx.createOscillator();
+                    const osc2 = ringAudioCtx.createOscillator();
+                    const gain = ringAudioCtx.createGain();
+                    osc1.type = 'sine';
+                    osc2.type = 'sine';
+                    if (isIncoming) {
+                        osc1.frequency.setValueAtTime(523.25, ringAudioCtx.currentTime); // C5
+                        osc2.frequency.setValueAtTime(659.25, ringAudioCtx.currentTime); // E5
+                    } else {
+                        osc1.frequency.setValueAtTime(440, ringAudioCtx.currentTime); // A4
+                        osc2.frequency.setValueAtTime(480, ringAudioCtx.currentTime);
+                    }
+                    gain.gain.setValueAtTime(0.18, ringAudioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ringAudioCtx.currentTime + 0.8);
+                    osc1.connect(gain);
+                    osc2.connect(gain);
+                    gain.connect(ringAudioCtx.destination);
+                    osc1.start();
+                    osc2.start();
+                    osc1.stop(ringAudioCtx.currentTime + 0.8);
+                    osc2.stop(ringAudioCtx.currentTime + 0.8);
+                };
+                playPulse();
+                ringtoneInterval = setInterval(playPulse, isIncoming ? 1600 : 2500);
+            } catch (e) {
+                console.warn("Audio ringtone blocked until interaction:", e);
+            }
+        }
+
+        function stopRingtoneSound() {
+            if (ringtoneInterval) {
+                clearInterval(ringtoneInterval);
+                ringtoneInterval = null;
+            }
+            if (ringAudioCtx) {
+                try { ringAudioCtx.close(); } catch (e) {}
+                ringAudioCtx = null;
+            }
+        }
 
         const DEFAULT_INSTITUTIONS = [
             { id: 'inst_rampur_high', badge: 'মাধ্যমিক উচ্চ বিদ্যালয়', theme: 'indigo', icon: 'fa-school-flag', name: 'রামপুর উচ্চ বিদ্যালয়', location: 'রামপুর / সুতারমুড়া সংলগ্ন', schedule: 'ক্লাস সময়: সকাল ১০:০০ — বিকাল ৪:০০', prayerSchedule: 'বিরতি ও প্রার্থনা: দুপুর ১:০০ টা', description: 'আমাদের সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের উচ্চ শিক্ষার প্রধান মাধ্যমিক বিদ্যালয়।', headRoleDefault: 'প্রধান শিক্ষক' },
@@ -1009,24 +1072,32 @@
                 allMessages.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
                 renderChatMessages();
             });
-            // লাইভ ভয়েস কল লিসেনার
+
+            // লাইভ ভয়েস কল লিসেনার (রিংটোন ও অটো-পপআপসহ)
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls'), (snapshot) => {
                 let latestRinging = null;
                 snapshot.forEach(d => {
                     const data = d.data();
-                    if (data.status === 'ringing' && data.callerId !== currentUserProfile?.id && (Date.now() - (data.createdAt || 0)) < 120000) {
+                    if (data.status === 'ringing' && currentUserProfile && data.callerId !== currentUserProfile.id && (Date.now() - (data.createdAt || 0)) < 120000) {
                         latestRinging = { ...data, docId: d.id };
                     }
                 });
+                const prevIncomingId = activeIncomingCallData?.docId;
                 activeIncomingCallData = latestRinging;
                 const incomingAlert = document.getElementById('incoming-call-alert');
                 const callerLabel = document.getElementById('incoming-caller-label');
+                const modal = document.getElementById('voice-call-modal');
+
                 if (latestRinging && !peerConnection) {
                     if (incomingAlert) incomingAlert.classList.remove('hidden');
-                    if (callerLabel) callerLabel.textContent = `📞 ${latestRinging.callerName} কল করছেন...`;
-                    document.getElementById('voice-call-modal')?.classList.remove('hidden');
-                } else if (incomingAlert && !peerConnection) {
-                    incomingAlert.classList.add('hidden');
+                    if (callerLabel) callerLabel.textContent = `📞 ${latestRinging.callerName} ভয়েস কল করছেন...`;
+                    if (modal) modal.classList.remove('hidden');
+                    if (prevIncomingId !== latestRinging.docId) {
+                        startRingtoneSound(true);
+                    }
+                } else if (!latestRinging && !peerConnection) {
+                    if (incomingAlert) incomingAlert.classList.add('hidden');
+                    stopRingtoneSound();
                 }
             });
         }
@@ -1089,7 +1160,7 @@
                 video.classList.remove('hidden'); preview.classList.add('hidden'); placeholder.classList.add('hidden');
                 document.getElementById('btn-start-cam').classList.add('hidden');
                 document.getElementById('btn-capture-face').classList.remove('hidden');
-            } catch (e) { showToast("ক্যামেরা চালু করা যায়নি। ছবি আপলোড ব্যবহার করুন।", "warning"); }
+            } catch (e) { showToast("ক্যামেরা চালু করা যায়নি। গ্যালারি থেকে ছবি দিন।", "warning"); }
         };
         function stopFaceCamera() { if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; } }
 
@@ -1105,13 +1176,13 @@
             preview.src = capturedFaceBase64; preview.classList.remove('hidden'); video.classList.add('hidden');
             document.getElementById('btn-capture-face').classList.add('hidden');
             document.getElementById('btn-retake-face').classList.remove('hidden');
-            showToast("ফেস স্ক্যান সম্পন্ন!", "success");
+            showToast("ক্যামেরা থেকে ছবি তোলা সম্পন্ন!", "success");
         };
 
         window.handleFallbackFaceUpload = function(event) {
             const file = event.target.files[0];
             if (!file) return;
-            compressImageFile(file, 260, (base64) => {
+            compressImageFile(file, 320, (base64) => {
                 stopFaceCamera();
                 capturedFaceBase64 = base64;
                 const preview = document.getElementById('face-preview');
@@ -1121,7 +1192,7 @@
                 document.getElementById('btn-start-cam').classList.add('hidden');
                 document.getElementById('btn-capture-face').classList.add('hidden');
                 document.getElementById('btn-retake-face').classList.remove('hidden');
-                showToast("ছবি সংযুক্ত হয়েছে!", "success");
+                showToast("গ্যালারি থেকে ছবি যুক্ত হয়েছে!", "success");
             });
         };
 
@@ -1152,7 +1223,7 @@
 
             if (!name || !father || !email || !phone || !password) { showToast("সকল ঘর পূরণ করুন।", "warning"); return; }
             if (!isEmailVerified || email !== verifiedEmailAddress) { showToast("আগে ইমেইল OTP যাচাই করুন।", "warning"); return; }
-            if (!capturedFaceBase64) { showToast("ফেস স্ক্যান সম্পন্ন করুন।", "warning"); return; }
+            if (!capturedFaceBase64) { showToast("ক্যামেরা বা গ্যালারি থেকে একটি ছবি দিন।", "warning"); return; }
 
             const newUserId = 'user_' + Date.now();
             const newUser = { id: newUserId, name, father, para, email, phone, password, role: 'member', status: 'pending', facePhoto: capturedFaceBase64, createdAt: Date.now() };
@@ -1191,6 +1262,7 @@
         window.handleLogout = function() {
             stopFaceCamera();
             closePostCamera();
+            stopRingtoneSound();
             currentUserProfile = null;
             document.getElementById('main-app').classList.add('hidden');
             document.getElementById('auth-screen').classList.remove('hidden');
@@ -1911,7 +1983,7 @@
         window.setDirectoryFilter = function(val) {
             activeDirectoryFilter = val;
             document.querySelectorAll('.dir-filter-btn').forEach(btn => {
-                btn.className = btn.getAttribute('data-dir-filter') === val ? "dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-village-700 text-white whitespace-nowrap shadow-xs transition" : "dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition";
+                btn.className = btn.getAttribute('data-dir-filter') === val ? "dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-village-700 text-white whitespace-nowrap shadow-xs transition" : "dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition";
             });
             renderDirectory();
         };
@@ -2015,7 +2087,7 @@
             }
         };
 
-        // লাইভ ভয়েস কল ফাংশনসমূহ (WebRTC)
+        // লাইভ ভয়েস কল ফাংশনসমূহ (WebRTC + Ringtone + Two-Way Audio)
         window.openVoiceCallModal = function() {
             if (!checkWritePermission()) return;
             document.getElementById('voice-call-modal').classList.remove('hidden');
@@ -2023,6 +2095,7 @@
 
         window.closeVoiceCallModal = function() {
             if (peerConnection) { endVoiceCall(); }
+            stopRingtoneSound();
             document.getElementById('voice-call-modal').classList.add('hidden');
         };
 
@@ -2037,20 +2110,27 @@
             }, 1000);
         }
 
+        function attachRemoteAudioStream(event) {
+            const remoteAudio = document.getElementById('remote-call-audio');
+            if (!remoteAudio) return;
+            const stream = event.streams && event.streams[0] ? event.streams[0] : new MediaStream([event.track]);
+            remoteAudio.srcObject = stream;
+            remoteAudio.muted = false;
+            remoteAudio.volume = 1.0;
+            remoteAudio.play().catch(err => console.warn("Remote audio play retry:", err));
+        }
+
         window.startOutgoingVoiceCall = async function() {
             if (!checkWritePermission() || !isCloudConnected || !db) {
                 showToast("অনলাইন ডাটাবেস সংযুক্ত থাকতে হবে।", "warning");
                 return;
             }
             try {
-                localAudioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                localAudioStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
                 peerConnection = new RTCPeerConnection(rtcConfig);
                 localAudioStream.getTracks().forEach(track => peerConnection.addTrack(track, localAudioStream));
 
-                peerConnection.ontrack = (event) => {
-                    const remoteAudio = document.getElementById('remote-call-audio');
-                    if (remoteAudio && event.streams[0]) remoteAudio.srcObject = event.streams[0];
-                };
+                peerConnection.ontrack = attachRemoteAudioStream;
 
                 const callRef = doc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls'));
                 activeCallDocId = callRef.id;
@@ -2072,6 +2152,7 @@
                     createdAt: Date.now()
                 });
 
+                startRingtoneSound(false);
                 document.getElementById('call-setup-controls').classList.add('hidden');
                 document.getElementById('active-call-controls').classList.remove('hidden');
                 document.getElementById('call-status-badge').textContent = 'রিং হচ্ছে...';
@@ -2081,6 +2162,7 @@
                     const data = snap.data();
                     if (!peerConnection) return;
                     if (!peerConnection.currentRemoteDescription && data?.answer) {
+                        stopRingtoneSound();
                         peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
                         document.getElementById('call-status-badge').textContent = 'সংযুক্ত (Connected)';
                         document.getElementById('call-partner-name').textContent = data.receiverName || 'সদস্য যুক্ত হয়েছেন';
@@ -2092,17 +2174,19 @@
                 onSnapshot(answerCandidates, (snap) => {
                     snap.docChanges().forEach(change => {
                         if (change.type === 'added' && peerConnection) {
-                            peerConnection.addIceCandidate(new RTCIceCandidate(change.doc.data()));
+                            peerConnection.addIceCandidate(new RTCIceCandidate(change.doc.data())).catch(() => {});
                         }
                     });
                 });
             } catch (e) {
+                stopRingtoneSound();
                 showToast("মাইক্রোফোন চালু করা যায়নি। অনুমতি দিন।", "error");
             }
         };
 
         window.answerIncomingVoiceCall = async function() {
             if (!activeIncomingCallData || !db) return;
+            stopRingtoneSound();
             try {
                 const callId = activeIncomingCallData.docId;
                 activeCallDocId = callId;
@@ -2110,14 +2194,11 @@
                 const offerCandidates = collection(callRef, 'offerCandidates');
                 const answerCandidates = collection(callRef, 'answerCandidates');
 
-                localAudioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                localAudioStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
                 peerConnection = new RTCPeerConnection(rtcConfig);
                 localAudioStream.getTracks().forEach(track => peerConnection.addTrack(track, localAudioStream));
 
-                peerConnection.ontrack = (event) => {
-                    const remoteAudio = document.getElementById('remote-call-audio');
-                    if (remoteAudio && event.streams[0]) remoteAudio.srcObject = event.streams[0];
-                };
+                peerConnection.ontrack = attachRemoteAudioStream;
 
                 peerConnection.onicecandidate = (event) => {
                     if (event.candidate) addDoc(answerCandidates, event.candidate.toJSON());
@@ -2142,7 +2223,7 @@
                 onSnapshot(offerCandidates, (snap) => {
                     snap.docChanges().forEach(change => {
                         if (change.type === 'added' && peerConnection) {
-                            peerConnection.addIceCandidate(new RTCIceCandidate(change.doc.data()));
+                            peerConnection.addIceCandidate(new RTCIceCandidate(change.doc.data())).catch(() => {});
                         }
                     });
                 });
@@ -2155,6 +2236,17 @@
             }
         };
 
+        window.rejectIncomingVoiceCall = async function() {
+            stopRingtoneSound();
+            if (activeIncomingCallData && db) {
+                try {
+                    await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls', activeIncomingCallData.docId), { status: 'ended' });
+                } catch (e) {}
+            }
+            document.getElementById('incoming-call-alert')?.classList.add('hidden');
+            document.getElementById('voice-call-modal')?.classList.add('hidden');
+        };
+
         window.toggleCallMicrophone = function() {
             if (!localAudioStream) return;
             isMicMuted = !isMicMuted;
@@ -2165,6 +2257,7 @@
         };
 
         window.endVoiceCall = async function(remoteEnded = false) {
+            stopRingtoneSound();
             clearInterval(callTimerInterval);
             if (localAudioStream) { localAudioStream.getTracks().forEach(t => t.stop()); localAudioStream = null; }
             if (peerConnection) { peerConnection.close(); peerConnection = null; }
