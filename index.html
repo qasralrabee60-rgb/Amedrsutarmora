@@ -2,8 +2,48 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>আমাদের সুতারমুড়া — গ্রাম ও প্রবাসীদের মিলনমেলা</title>
+    <meta name="description" content="আমাদের সুতারমুড়া গ্রাম ও প্রবাসীদের নিরাপদ ডিজিটাল কমিউনিটি অ্যাপ।">
+    <meta name="theme-color" content="#14532d">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="আমাদের সুতারমুড়া">
+
+    <!-- ইনলাইন অ্যাপ আইকন -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%2314532d'/%3E%3Ccircle cx='256' cy='256' r='190' fill='%23166534'/%3E%3Cpath d='M256 105c-42 42-88 78-88 128v135h176V233c0-50-46-86-88-128z' fill='%23fbbf24'/%3E%3Crect x='232' y='282' width='48' height='86' rx='24' fill='%2314532d'/%3E%3Crect x='122' y='215' width='26' height='153' rx='8' fill='%23fbbf24'/%3E%3Crect x='364' y='215' width='26' height='153' rx='8' fill='%23fbbf24'/%3E%3Ccircle cx='135' cy='198' r='15' fill='%23fbbf24'/%3E%3Ccircle cx='377' cy='198' r='15' fill='%23fbbf24'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%2314532d'/%3E%3Ccircle cx='256' cy='256' r='190' fill='%23166534'/%3E%3Cpath d='M256 105c-42 42-88 78-88 128v135h176V233c0-50-46-86-88-128z' fill='%23fbbf24'/%3E%3Crect x='232' y='282' width='48' height='86' rx='24' fill='%2314532d'/%3E%3Crect x='122' y='215' width='26' height='153' rx='8' fill='%23fbbf24'/%3E%3Crect x='364' y='215' width='26' height='153' rx='8' fill='%23fbbf24'/%3E%3Ccircle cx='135' cy='198' r='15' fill='%23fbbf24'/%3E%3Ccircle cx='377' cy='198' r='15' fill='%23fbbf24'/%3E%3C/svg%3E">
+
+    <!-- ডায়নামিক PWA Manifest জেনারেটর -->
+    <script>
+        try {
+            const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#14532d"/><circle cx="256" cy="256" r="190" fill="#166534"/><path d="M256 105c-42 42-88 78-88 128v135h176V233c0-50-46-86-88-128z" fill="#fbbf24"/><rect x="232" y="282" width="48" height="86" rx="24" fill="#14532d"/><rect x="122" y="215" width="26" height="153" rx="8" fill="#fbbf24"/><rect x="364" y="215" width="26" height="153" rx="8" fill="#fbbf24"/><circle cx="135" cy="198" r="15" fill="#fbbf24"/><circle cx='377' cy='198' r='15' fill='%23fbbf24'/></svg>`;
+            const iconDataUrl = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgIcon)));
+            const manifest = {
+                id: "com.sutarmora.community.app",
+                name: "আমাদের সুতারমুড়া",
+                short_name: "সুতারমুড়া",
+                description: "আমাদের সুতারমুড়া গ্রাম ও প্রবাসীদের নিরাপদ ডিজিটাল মিলনমেলা",
+                start_url: "./",
+                scope: "./",
+                display: "standalone",
+                orientation: "portrait",
+                background_color: "#052e16",
+                theme_color: "#14532d",
+                icons: [
+                    { src: iconDataUrl, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
+                    { src: iconDataUrl, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+                ]
+            };
+            const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = URL.createObjectURL(manifestBlob);
+            document.head.appendChild(link);
+        } catch (e) {}
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -25,14 +65,13 @@
         }
     </script>
     <style>
-        body { font-family: 'Hind Siliguri', sans-serif; }
+        body { font-family: 'Hind Siliguri', sans-serif; -webkit-tap-highlight-color: transparent; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         @keyframes tickerMarquee {
             0% { transform: translateX(0%); }
             100% { transform: translateX(-100%); }
         }
-        /* জরুরি ঘোষণা টিকার: কালপুরুষ ফন্ট, স্বাভাবিক ওজন ও ধীরগতি */
         .animate-ticker {
             display: inline-block;
             white-space: nowrap;
@@ -70,11 +109,125 @@
         <p class="text-xs text-green-200 mt-1">সার্ভার ও ক্লাউড ডাটাবেস সংযুক্ত হচ্ছে...</p>
     </div>
 
+    <!-- ফুল-স্ক্রিন ছবি ভিউয়ার মডাল -->
+    <div id="chat-image-lightbox" onclick="this.classList.add('hidden')" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4 cursor-zoom-out">
+        <button type="button" onclick="document.getElementById('chat-image-lightbox').classList.add('hidden')" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center text-lg">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <img id="chat-lightbox-img" src="" alt="Full View" class="max-w-full max-h-[88vh] rounded-2xl shadow-2xl object-contain">
+    </div>
+
+    <!-- কাস্টম প্রাইভেট গ্রুপ তৈরি মডাল -->
+    <div id="create-group-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl border border-village-200 space-y-3.5 my-auto text-xs sm:text-sm">
+            <div class="flex items-center justify-between border-b pb-2.5">
+                <h3 class="font-extrabold text-village-900 flex items-center gap-2 text-base">
+                    <i class="fa-solid fa-users-line text-village-600"></i> নতুন প্রাইভেট আড্ডা গ্রুপ তৈরি করুন
+                </h3>
+                <button type="button" onclick="closeCreateGroupModal()" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">গ্রুপের নাম লিখুন *</label>
+                <input type="text" id="new-group-name-input" placeholder="যেমন: প্রবাসী বন্ধু গ্রুপ, উত্তর পাড়া আড্ডা..." class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
+            </div>
+            <div class="space-y-1.5">
+                <div class="flex items-center justify-between">
+                    <label class="text-xs font-bold text-gray-700">গ্রুপের সদস্য নির্বাচন করুন *</label>
+                    <span id="selected-group-members-count" class="text-[11px] font-extrabold text-village-700 bg-village-50 px-2 py-0.5 rounded-full">নির্বাচিত: ০ জন</span>
+                </div>
+                <input type="text" id="group-member-search-input" oninput="filterGroupMemberSelection()" placeholder="নাম বা পাড়া দিয়ে সদস্য খুঁজুন..." class="w-full px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:outline-none">
+                <div id="group-members-checklist" class="max-h-56 overflow-y-auto border border-gray-200 rounded-2xl divide-y bg-stone-50/60"></div>
+            </div>
+            <div class="flex items-center justify-end gap-2 pt-2 border-t">
+                <button type="button" onclick="closeCreateGroupModal()" class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-xs">বাতিল</button>
+                <button type="button" onclick="submitCreateCustomGroup()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white font-extrabold rounded-xl shadow text-xs">গ্রুপ চালু করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- কাস্টম গ্রুপের সদস্য তালিকা দেখা ও পরিচালনা মডাল -->
+    <div id="group-members-info-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl border border-village-200 space-y-3.5 my-auto text-xs sm:text-sm">
+            <div class="flex items-center justify-between border-b pb-2.5">
+                <div>
+                    <h3 id="info-group-title" class="font-extrabold text-village-900 text-base">গ্রুপের তথ্য</h3>
+                    <p id="info-group-creator" class="text-[11px] text-gray-500">তৈরি করেছেন</p>
+                </div>
+                <button type="button" onclick="document.getElementById('group-members-info-modal').classList.add('hidden')" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="info-group-members-list" class="max-h-60 overflow-y-auto divide-y border border-gray-100 rounded-2xl"></div>
+            <div id="info-group-actions" class="flex items-center justify-between gap-2 pt-2 border-t"></div>
+        </div>
+    </div>
+
+    <!-- অ্যান্ড্রয়েড অ্যাপ ইনস্টল গাইড মডাল -->
+    <div id="install-guide-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl border border-village-200 space-y-4 text-xs sm:text-sm">
+            <div class="flex items-center justify-between border-b pb-2.5">
+                <h3 class="font-extrabold text-village-900 flex items-center gap-2 text-base">
+                    <i class="fa-brands fa-android text-emerald-600 text-xl"></i> মোবাইলে অ্যাপ ইনস্টল করুন
+                </h3>
+                <button onclick="document.getElementById('install-guide-modal').classList.add('hidden')" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-2.5 text-gray-700 leading-relaxed">
+                <div class="bg-emerald-50 p-3 rounded-2xl border border-emerald-200">
+                    <p class="font-extrabold text-emerald-950 mb-1">📱 Android (Chrome ব্রাউজার):</p>
+                    <ol class="list-decimal list-inside space-y-1 text-xs">
+                        <li>উপরে ডানপাশে ব্রাউজারের <strong>তিন ডট (⋮)</strong> মেনুতে চাপুন।</li>
+                        <li><strong>"Add to Home screen"</strong> অথবা <strong>"Install app"</strong> অপশনে ক্লিক করুন।</li>
+                        <li><strong>"Install"</strong> চাপলেই আপনার ফোনের হোম স্ক্রিনে অ্যাপটি যুক্ত হয়ে যাবে!</li>
+                    </ol>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-2xl border border-blue-200">
+                    <p class="font-extrabold text-blue-950 mb-1">🍎 iPhone (Safari ব্রাউজার):</p>
+                    <ol class="list-decimal list-inside space-y-1 text-xs">
+                        <li>নিচের <strong>Share (<i class="fa-solid fa-arrow-up-from-bracket"></i>)</strong> বাটনে চাপুন।</li>
+                        <li><strong>"Add to Home Screen"</strong> সিলেক্ট করে <strong>Add</strong> চাপুন।</li>
+                    </ol>
+                </div>
+            </div>
+            <button onclick="document.getElementById('install-guide-modal').classList.add('hidden')" class="w-full py-2.5 bg-village-700 hover:bg-village-800 text-white font-extrabold rounded-xl transition">বুঝেছি</button>
+        </div>
+    </div>
+
+    <!-- পাসওয়ার্ড রিকভারি (Forgot Password) মডাল -->
+    <div id="forgot-password-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-village-200 space-y-4 text-xs sm:text-sm">
+            <div class="flex items-center justify-between border-b pb-2.5">
+                <h3 class="font-extrabold text-village-900 flex items-center gap-2 text-base">
+                    <i class="fa-solid fa-key text-amber-600"></i> পাসওয়ার্ড পুনরুদ্ধার করুন
+                </h3>
+                <button onclick="closeForgotPasswordModal()" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-xs text-gray-600 leading-relaxed">আপনার নিবন্ধিত <strong>ইমেইল ঠিকানা</strong> এবং <strong>মোবাইল নাম্বার</strong> দুটিই সঠিকভাবে লিখে নতুন পাসওয়ার্ড সেট করুন।</p>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">নিবন্ধিত ইমেইল ঠিকানা *</label>
+                    <input type="email" id="fp-email" placeholder="example@gmail.com" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">নিবন্ধিত মোবাইল নাম্বার *</label>
+                    <input type="tel" id="fp-phone" placeholder="017XXXXXXXX" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">নতুন পাসওয়ার্ড তৈরি করুন *</label>
+                    <input type="password" id="fp-new-password" placeholder="কমপক্ষে ৬ অক্ষরের নতুন পাসওয়ার্ড" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-2 pt-2 border-t">
+                <button type="button" onclick="closeForgotPasswordModal()" class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-xs">বাতিল</button>
+                <button type="button" onclick="handleResetForgottenPassword()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white font-extrabold rounded-xl shadow text-xs">পাসওয়ার্ড পরিবর্তন করুন</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ১. লগইন এবং রেজিস্ট্রেশন স্ক্রিন -->
     <div id="auth-screen" class="hidden min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-village-950 via-village-900 to-emerald-950">
         <div class="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border border-village-700/30">
-            <!-- হেডার -->
             <div class="relative bg-village-900 text-white p-6 text-center overflow-hidden" style="background-image: linear-gradient(to bottom, rgba(20, 83, 45, 0.88), rgba(20, 83, 45, 0.96)), url('https://images.unsplash.com/photo-1544717305-2782549b5136?q=90&w=1000&auto=format&fit=crop'); background-size: cover; background-position: center;">
+                <button type="button" onclick="triggerAppInstall()" class="auth-install-btn absolute top-3 left-3 bg-gold-400 hover:bg-gold-500 text-village-950 text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow flex items-center gap-1 transition">
+                    <i class="fa-brands fa-android"></i> অ্যাপ ইনস্টল
+                </button>
                 <label class="absolute top-3 right-3 cursor-pointer bg-black/50 hover:bg-black/75 text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/25 flex items-center gap-1 transition" title="ছবি পরিবর্তন করুন">
                     <i class="fa-solid fa-camera text-gold-400"></i> ছবি বদলান
                     <input type="file" accept="image/*" onchange="handleAuthHeaderPhoto(event)" class="hidden">
@@ -97,23 +250,44 @@
             </div>
 
             <!-- লগইন ফর্ম -->
-            <div id="login-form-box" class="p-6 space-y-4">
+            <form id="login-form-box" onsubmit="event.preventDefault(); handleUserLogin();" class="p-6 space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">ইমেইল অথবা মোবাইল নাম্বার</label>
-                    <input type="text" id="login-identifier" placeholder="example@gmail.com বা 017XXXXXXXX" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
+                    <input type="text" id="login-identifier" name="username" autocomplete="username" placeholder="example@gmail.com বা 017XXXXXXXX" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">পাসওয়ার্ড</label>
-                    <input type="password" id="login-password" onkeypress="if(event.key==='Enter') handleUserLogin()" placeholder="আপনার পাসওয়ার্ড দিন" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="block text-xs font-bold text-gray-700">পাসওয়ার্ড</label>
+                        <button type="button" onclick="openForgotPasswordModal()" class="text-[11px] font-bold text-amber-700 hover:text-amber-800 hover:underline">
+                            পাসওয়ার্ড ভুলে গেছেন?
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <input type="password" id="login-password" name="password" autocomplete="current-password" placeholder="আপনার পাসওয়ার্ড দিন" class="w-full px-3.5 py-2.5 pr-10 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
+                        <button type="button" onclick="toggleLoginPasswordVisibility()" title="পাসওয়ার্ড দেখুন/লুকান" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-village-700 text-xs">
+                            <i id="login-pass-eye-icon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
-                <button onclick="handleUserLogin()" class="w-full py-3 bg-village-700 hover:bg-village-800 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
+
+                <div class="flex items-center justify-between text-xs pt-0.5">
+                    <label class="flex items-center gap-2 cursor-pointer select-none font-bold text-gray-700">
+                        <input type="checkbox" id="remember-me-checkbox" checked class="w-4 h-4 rounded text-village-700 accent-village-700 cursor-pointer">
+                        <span>ইউজার ও পাসওয়ার্ড সেভ রাখুন</span>
+                    </label>
+                    <button type="button" onclick="clearSavedLoginCredentials()" id="btn-clear-saved-creds" class="hidden text-[11px] font-bold text-red-600 hover:underline">
+                        সেভ করা তথ্য মুছুন
+                    </button>
+                </div>
+
+                <button type="submit" class="w-full py-3 bg-village-700 hover:bg-village-800 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
                     <span>প্রবেশ করুন</span> <i class="fa-solid fa-arrow-right"></i>
                 </button>
 
                 <div class="pt-3 border-t border-gray-100 text-center">
                     <p class="text-xs text-gray-500">অ্যাকাউন্ট নেই? উপরে <button type="button" onclick="switchAuthTab('register')" class="font-extrabold text-village-700 underline">নতুন নিবন্ধন</button> ট্যাবে ক্লিক করে যুক্ত হন।</p>
                 </div>
-            </div>
+            </form>
 
             <!-- রেজিস্ট্রেশন ফর্ম -->
             <div id="register-form-box" class="hidden p-5 sm:p-6 space-y-3.5 max-h-[75vh] overflow-y-auto">
@@ -142,16 +316,16 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">মোবাইল নাম্বার *</label>
-                        <input type="tel" id="reg-phone" placeholder="017XXXXXXXX" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-village-600 focus:outline-none">
+                        <label class="block text-xs font-bold text-gray-700 mb-1">সঠিক মোবাইল নাম্বার *</label>
+                        <input type="tel" id="reg-phone" placeholder="017XXXXXXXX বা +9715XXXXXXX" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-village-600 focus:outline-none">
                     </div>
                 </div>
 
                 <!-- ইমেইল ভেরিফিকেশন -->
                 <div class="bg-green-50/70 p-3 rounded-2xl border border-green-200 space-y-2">
-                    <label class="block text-xs font-bold text-village-900">ইমেইল ও ইনস্ট্যান্ট OTP ভেরিফিকেশন *</label>
+                    <label class="block text-xs font-bold text-village-900">সঠিক ইমেইল ও ইনস্ট্যান্ট OTP ভেরিফিকেশন *</label>
                     <div class="flex gap-2">
-                        <input type="email" id="reg-email" placeholder="আপনার ইমেইল লিখুন" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none">
+                        <input type="email" id="reg-email" placeholder="আপনার আসল ইমেইল (যেমন: name@gmail.com)" class="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none">
                         <button type="button" onclick="sendEmailOTP()" id="btn-send-otp" class="px-3 py-2 bg-village-700 hover:bg-village-800 text-white text-xs font-bold rounded-xl whitespace-nowrap transition">
                             OTP কোড নিন
                         </button>
@@ -169,10 +343,10 @@
                     <p id="email-verified-badge" class="hidden text-xs font-bold text-green-700"><i class="fa-solid fa-circle-check"></i> ইমেইল সফলভাবে ভেরিফাই হয়েছে!</p>
                 </div>
 
-                <!-- লাইভ ফেস স্ক্যান -->
+                <!-- লাইভ ফেস স্ক্যান ও গ্যালারি আপলোড -->
                 <div class="bg-stone-50 p-3 rounded-2xl border border-stone-200 space-y-2">
                     <div class="flex items-center justify-between">
-                        <label class="text-xs font-bold text-gray-800"><i class="fa-solid fa-camera text-village-600 mr-1"></i> ফেস স্ক্যান / সেলফি ভেরিফিকেশন *</label>
+                        <label class="text-xs font-bold text-gray-800"><i class="fa-solid fa-camera text-village-600 mr-1"></i> ফেস স্ক্যান / নিজের ছবি দিন *</label>
                     </div>
                     <div class="relative w-32 h-32 mx-auto rounded-2xl overflow-hidden bg-gray-900 border-2 border-dashed border-village-600 flex items-center justify-center">
                         <video id="face-video" autoplay playsinline class="hidden w-full h-full object-cover"></video>
@@ -183,14 +357,15 @@
                         </div>
                         <canvas id="face-canvas" class="hidden"></canvas>
                     </div>
+                    <input type="file" id="reg-face-file-input" accept="image/*" onchange="handleFallbackFaceUpload(event)" class="hidden">
+
                     <div class="flex flex-wrap items-center justify-center gap-2">
-                        <button type="button" id="btn-start-cam" onclick="startFaceCamera()" class="px-3 py-1.5 bg-village-700 text-white text-xs font-bold rounded-xl"><i class="fa-solid fa-video mr-1"></i> ক্যামেরা</button>
+                        <button type="button" id="btn-start-cam" onclick="startFaceCamera()" class="px-3 py-1.5 bg-village-700 hover:bg-village-800 text-white text-xs font-bold rounded-xl"><i class="fa-solid fa-video mr-1"></i> ক্যামেরা</button>
                         <button type="button" id="btn-capture-face" onclick="captureFaceSnapshot()" class="hidden px-3 py-1.5 bg-gold-500 text-village-950 text-xs font-extrabold rounded-xl"><i class="fa-solid fa-camera mr-1"></i> ছবি তুলুন</button>
                         <button type="button" id="btn-retake-face" onclick="startFaceCamera()" class="hidden px-3 py-1.5 bg-gray-600 text-white text-xs font-bold rounded-xl">পুনরায়</button>
-                        <label class="cursor-pointer px-3 py-1.5 bg-white border border-gray-300 text-gray-700 text-xs font-bold rounded-xl">
-                            <i class="fa-solid fa-upload mr-1"></i> ছবি আপলোড
-                            <input type="file" accept="image/*" capture="user" onchange="handleFallbackFaceUpload(event)" class="hidden">
-                        </label>
+                        <button type="button" onclick="document.getElementById('reg-face-file-input').click()" class="px-3 py-1.5 bg-white hover:bg-gray-100 border border-gray-300 text-gray-800 text-xs font-bold rounded-xl shadow-2xs">
+                            <i class="fa-solid fa-image text-village-600 mr-1"></i> ছবি আপলোড (গ্যালারি)
+                        </button>
                     </div>
                 </div>
 
@@ -223,13 +398,20 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <div class="flex items-center gap-2 bg-village-800/90 px-2.5 py-1 rounded-full border border-village-700">
+                    <button id="header-install-app-btn" onclick="triggerAppInstall()" class="px-2.5 py-1 bg-gold-400 hover:bg-gold-500 text-village-950 text-[11px] font-extrabold rounded-full shadow flex items-center gap-1 transition">
+                        <i class="fa-brands fa-android"></i> <span>অ্যাপ ইনস্টল</span>
+                    </button>
+
+                    <!-- প্রোফাইল বাটন -->
+                    <button type="button" onclick="openProfileEditModal()" title="নিজের প্রোফাইল ও ছবি আপডেট করুন" class="flex items-center gap-2 bg-village-800/90 hover:bg-village-700 px-2.5 py-1 rounded-full border border-village-700 transition cursor-pointer">
                         <img id="header-user-avatar" src="https://placehold.co/100x100/166534/ffffff?text=U" alt="User" class="w-6 h-6 rounded-full object-cover border border-gold-400">
                         <div class="hidden sm:block text-left">
                             <p id="header-user-name" class="text-xs font-bold leading-none">সদস্য</p>
                             <span id="header-user-role" class="text-[10px] text-gold-400 font-semibold">যাচাইকৃত</span>
                         </div>
-                    </div>
+                        <i class="fa-solid fa-pen text-[10px] text-green-300"></i>
+                    </button>
+
                     <button onclick="handleLogout()" title="লগআউট" class="w-8 h-8 rounded-full bg-red-600/20 hover:bg-red-600 text-red-200 hover:text-white flex items-center justify-center transition">
                         <i class="fa-solid fa-right-from-bracket text-xs"></i>
                     </button>
@@ -255,10 +437,10 @@
                         <i class="fa-solid fa-book-open-reader"></i> <span>টিউশনি</span>
                     </button>
                     <button onclick="switchMainTab('chat')" id="nav-chat" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1">
-                        <i class="fa-solid fa-comments"></i> <span>আড্ডা</span>
+                        <i class="fa-solid fa-comments"></i> <span>আড্ডা ও কল</span>
                     </button>
                     <button onclick="switchMainTab('directory')" id="nav-directory" class="nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap text-green-100 hover:bg-village-700 transition flex items-center gap-1">
-                        <i class="fa-solid fa-address-book"></i> <span>ডিরেক্টরি</span>
+                        <i class="fa-solid fa-address-book"></i> <span>ডিরেক্টরি ও গাড়ি</span>
                     </button>
                     <button onclick="switchMainTab('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 rounded-full text-xs sm:text-sm font-extrabold whitespace-nowrap bg-red-600 text-white hover:bg-red-700 shadow-sm transition flex items-center gap-1 ml-auto">
                         <i class="fa-solid fa-user-shield"></i> <span>অ্যাডমিন</span>
@@ -315,7 +497,6 @@
 
             <!-- ট্যাব ১: হোম ও গ্রামের খবর -->
             <div id="view-feed" class="tab-view space-y-4">
-                <!-- হিরো ব্যানার -->
                 <div id="hero-banner" class="relative rounded-3xl p-4 sm:p-6 text-white shadow-lg overflow-hidden bg-village-900 transition-all duration-300" style="background-image: linear-gradient(to right, rgba(20, 83, 45, 0.75), rgba(4, 120, 87, 0.75)), url('https://images.unsplash.com/photo-1544717305-2782549b5136?q=90&w=1400&auto=format&fit=crop'); background-size: cover; background-position: center;">
                     <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div class="max-w-xl">
@@ -323,9 +504,17 @@
                             <h2 class="text-lg sm:text-2xl font-extrabold leading-snug drop-shadow">গ্রামের প্রিয়জনদের সাথে যুক্ত থাকুন সবসময়</h2>
                             <p class="text-green-50 text-xs sm:text-sm mt-1 drop-shadow">গ্রামের দৈনন্দিন খবর, ছবি, উন্নয়নমূলক কাজ ও জরুরি তথ্য শেয়ার করুন।</p>
                         </div>
-                        <button id="btn-hero-settings-trigger" onclick="openHeroSettingsModal()" class="hidden self-start sm:self-center px-3 py-1.5 bg-black/50 hover:bg-black/75 text-gold-300 text-xs font-bold rounded-xl border border-white/25 flex items-center gap-1.5 backdrop-blur-xs transition">
-                            <i class="fa-solid fa-image"></i> ব্যানার ছবি সেটিংস
-                        </button>
+                        <div class="flex flex-wrap gap-2 self-start sm:self-center">
+                            <button onclick="switchMainTab('directory'); setDirectoryFilter('গাড়ি / অ্যাম্বুলেন্স চালক');" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold rounded-xl shadow flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-truck-medical"></i> কাছের গাড়ি/চালক
+                            </button>
+                            <button onclick="openProfileEditModal()" class="px-3 py-1.5 bg-white/20 hover:bg-white/30 text-white text-xs font-bold rounded-xl border border-white/30 flex items-center gap-1.5 backdrop-blur-xs transition">
+                                <i class="fa-solid fa-user-pen text-gold-400"></i> আমার প্রোফাইল
+                            </button>
+                            <button id="btn-hero-settings-trigger" onclick="openHeroSettingsModal()" class="hidden px-3 py-1.5 bg-black/50 hover:bg-black/75 text-gold-300 text-xs font-bold rounded-xl border border-white/25 flex items-center gap-1.5 backdrop-blur-xs transition">
+                                <i class="fa-solid fa-image"></i> ব্যানার ছবি
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -339,7 +528,6 @@
                     </div>
                     <textarea id="post-content-input" rows="3" placeholder="সুতারমুড়া গ্রামের কোনো খবর, অনুষ্ঠান বা ছবি সম্পর্কে লিখুন..." class="w-full p-3 bg-gray-50 border border-gray-200 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600"></textarea>
                     
-                    <!-- লাইভ ক্যামেরা বক্স (পোস্টের ছবি তোলার জন্য) -->
                     <div id="post-live-camera-box" class="hidden bg-gray-900 rounded-2xl p-3 space-y-2.5 max-w-sm border-2 border-village-600">
                         <div class="relative rounded-xl overflow-hidden bg-black aspect-video flex items-center justify-center">
                             <video id="post-camera-video" autoplay playsinline class="w-full h-full object-cover"></video>
@@ -414,11 +602,9 @@
                             <p class="text-xs text-gray-500">যেকোনো প্রতিষ্ঠানের কার্ডে ক্লিক করে সময়সূচি, প্রধান ও শিক্ষকদের তথ্য এডিট করুন।</p>
                         </div>
                     </div>
-
                     <div id="institutions-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 </div>
 
-                <!-- প্রতিষ্ঠানের জরুরি নোটিশ প্রকাশ -->
                 <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-gray-100 space-y-3">
                     <h3 class="text-sm sm:text-base font-extrabold text-village-900"><i class="fa-solid fa-bullhorn text-gold-600 mr-1"></i> প্রতিষ্ঠানের জরুরি নোটিশ প্রকাশ করুন (হেডলাইনেও চলবে)</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -464,7 +650,10 @@
             <div id="view-market" class="hidden tab-view space-y-4">
                 <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-gray-100 space-y-3">
                     <div class="flex flex-wrap items-center justify-between gap-2">
-                        <h3 class="text-base font-extrabold text-village-900"><i class="fa-solid fa-basket-shopping text-emerald-600 mr-1.5"></i> গ্রামের হাট-বাজার (কেনা-বেচা)</h3>
+                        <div>
+                            <h3 class="text-base font-extrabold text-village-900"><i class="fa-solid fa-basket-shopping text-emerald-600 mr-1.5"></i> গ্রামের হাট-বাজার (কেনা-বেচা)</h3>
+                            <p class="text-xs text-gray-500">ক্রেতা বা বিক্রেতা আমাদের অ্যাপের সদস্য হলে সরাসরি <strong class="text-emerald-700">অ্যাপ ফ্রি কল</strong> বাটনে চাপ দিয়ে বিনামূল্যে কথা বলতে পারবেন।</p>
+                        </div>
                         <span class="px-2.5 py-0.5 bg-amber-100 text-amber-900 text-[11px] font-bold rounded-full">✓ পোস্ট করলে উপরের হেডলাইনেও চলবে</span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -496,26 +685,85 @@
                 <div id="tuition-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
-            <!-- ট্যাব ৬: আড্ডা -->
-            <div id="view-chat" class="hidden tab-view">
-                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[70vh]">
-                    <div class="bg-village-800 text-white px-4 py-2.5 flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></span>
-                            <h3 class="text-sm font-bold">সুতারমুড়া গ্রাম ও প্রবাসী আড্ডা ঘর</h3>
+            <!-- ট্যাব ৬: আড্ডা (গ্রুপ, কাস্টম প্রাইভেট গ্রুপ ও সদস্য-টু-সদস্য চ্যাট, ছবি ও কল) -->
+            <div id="view-chat" class="hidden tab-view space-y-3">
+                <!-- কাস্টম প্রাইভেট গ্রুপ বার -->
+                <div class="bg-white rounded-3xl p-3.5 shadow-sm border border-gray-100 space-y-2">
+                    <div class="flex items-center justify-between gap-2">
+                        <h4 class="text-xs font-extrabold text-village-900 flex items-center gap-1.5">
+                            <i class="fa-solid fa-users-line text-amber-600"></i> আড্ডা গ্রুপসমূহ (১০-২০ জন বা পছন্দমতো সদস্যদের আলাদা গ্রুপ)
+                        </h4>
+                        <button type="button" onclick="openCreateGroupModal()" class="px-3 py-1 bg-village-700 hover:bg-village-800 text-white text-[11px] font-extrabold rounded-full shadow-xs flex items-center gap-1 shrink-0 transition">
+                            <i class="fa-solid fa-plus"></i> <span>নতুন গ্রুপ তৈরি</span>
+                        </button>
+                    </div>
+                    <div id="custom-groups-list" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                        <p class="text-[11px] text-gray-400">কোনো আলাদা গ্রুপ নেই — "নতুন গ্রুপ তৈরি" বাটনে চাপুন।</p>
+                    </div>
+                </div>
+
+                <!-- একক সদস্য তালিকা -->
+                <div class="bg-white rounded-3xl p-3.5 shadow-sm border border-gray-100 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xs font-extrabold text-village-900 flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-group text-emerald-600"></i> একক সদস্যদের সাথে ব্যক্তিগত চ্যাট ও কল
+                        </h4>
+                        <span class="text-[10px] text-gray-500">চ্যাট বা কলে চাপুন</span>
+                    </div>
+                    <div id="callable-members-list" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                        <p class="text-xs text-gray-400">অনুমোদিত সদস্য লোড হচ্ছে...</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[62vh]">
+                    <div class="bg-village-800 text-white px-4 py-2.5 flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <button type="button" id="btn-back-to-group-chat" onclick="switchChatRoom('group')" class="hidden px-2 py-1 bg-white/15 hover:bg-white/25 rounded-lg text-[11px] font-bold flex items-center gap-1 shrink-0 transition">
+                                <i class="fa-solid fa-arrow-left"></i> <span>মূল আড্ডা</span>
+                            </button>
+                            <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse shrink-0"></span>
+                            <div class="min-w-0">
+                                <h3 id="chat-room-title" class="text-sm font-bold truncate">সুতারমুড়া গ্রাম ও প্রবাসী আড্ডা ঘর (সবার গ্রুপ)</h3>
+                                <p id="chat-room-subtitle" class="text-[10px] text-green-200 truncate">সকল সদস্য এখানে বার্তা, ভয়েস ও ছবি পাঠাতে পারবেন</p>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="openVoiceCallModal()" class="px-3 py-1 bg-gold-400 hover:bg-gold-500 text-village-950 text-xs font-extrabold rounded-full shadow flex items-center gap-1.5 transition">
-                                <i class="fa-solid fa-phone-volume animate-bounce"></i> <span>ভয়েস কল</span>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button type="button" id="btn-view-group-info" onclick="openCurrentGroupInfoModal()" class="hidden px-2.5 py-1 bg-white/15 hover:bg-white/25 text-white text-xs font-bold rounded-full flex items-center gap-1 transition" title="গ্রুপের সদস্যদের দেখুন">
+                                <i class="fa-solid fa-circle-info"></i> <span class="hidden sm:inline">সদস্য</span>
+                            </button>
+                            <button id="btn-private-room-call" onclick="handleChatHeaderCall()" class="px-3 py-1 bg-gold-400 hover:bg-gold-500 text-village-950 text-xs font-extrabold rounded-full shadow flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-phone-volume"></i> <span id="chat-header-call-label">ওপেন কল</span>
                             </button>
                         </div>
                     </div>
+
+                    <!-- মেসেজ তালিকা -->
                     <div id="chat-messages-box" class="flex-1 p-4 overflow-y-auto space-y-3 bg-stone-50"></div>
+
+                    <!-- চ্যাটে ছবি প্রিভিউ বার -->
+                    <div id="chat-image-preview-bar" class="hidden px-3 py-2 bg-emerald-50 border-t border-emerald-200 flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2.5">
+                            <img id="chat-selected-img-preview" src="" alt="Preview" class="w-12 h-12 rounded-xl object-cover border border-village-500 shadow-xs">
+                            <div>
+                                <p class="text-xs font-extrabold text-village-900">ছবি পাঠানোর জন্য প্রস্তুত</p>
+                                <p class="text-[10px] text-gray-600">সাথে ক্যাপশন লিখতে পারেন অথবা সরাসরি সেন্ড বাটনে চাপুন</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="clearSelectedChatImage()" class="w-7 h-7 rounded-full bg-red-100 hover:bg-red-200 text-red-700 flex items-center justify-center text-xs transition" title="ছবি বাতিল করুন">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <!-- মেসেজ, ছবি ও ভয়েস ইনপুট বার -->
                     <div class="p-2.5 bg-white border-t border-gray-200 flex items-center gap-2">
+                        <input type="file" id="chat-image-file-input" accept="image/*" onchange="handleChatImageSelect(event)" class="hidden">
+                        <button type="button" onclick="triggerChatImagePicker()" title="ছবি পাঠান (গ্যালারি বা ক্যামেরা)" class="w-9 h-9 bg-emerald-100 hover:bg-emerald-200 text-village-800 rounded-full flex items-center justify-center shrink-0 transition">
+                            <i class="fa-solid fa-image text-sm"></i>
+                        </button>
                         <button type="button" id="btn-record-voice" onclick="toggleVoiceNoteRecording()" title="ভয়েস মেসেজ রেকর্ড করুন" class="w-9 h-9 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-full flex items-center justify-center shrink-0 transition">
                             <i class="fa-solid fa-microphone text-sm"></i>
                         </button>
-                        <input type="text" id="chat-input" onkeypress="if(event.key==='Enter') sendChatMessage()" placeholder="বার্তা লিখুন বা মাইকে ক্লিক করে ভয়েস দিন..." class="flex-1 px-3.5 py-2 bg-gray-100 rounded-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
+                        <input type="text" id="chat-input" onkeypress="if(event.key==='Enter') sendChatMessage()" placeholder="বার্তা লিখুন, ছবি বা ভয়েস দিন..." class="flex-1 px-3.5 py-2 bg-gray-100 rounded-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
                         <button onclick="sendChatMessage()" class="w-9 h-9 bg-village-700 hover:bg-village-800 text-white rounded-full flex items-center justify-center shadow shrink-0 transition">
                             <i class="fa-solid fa-paper-plane text-xs"></i>
                         </button>
@@ -523,32 +771,43 @@
                 </div>
             </div>
 
-            <!-- লাইভ ভয়েস কল মডাল (WebRTC) -->
+            <!-- লাইভ ভয়েস কল মডাল -->
             <div id="voice-call-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                 <div class="bg-gradient-to-b from-village-900 to-village-950 text-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-gold-400/30 text-center space-y-5">
                     <div class="w-20 h-20 bg-gold-400/20 border-2 border-gold-400 rounded-full flex items-center justify-center mx-auto animate-pulse">
-                        <i class="fa-solid fa-headset text-3xl text-gold-400"></i>
+                        <i id="call-modal-icon" class="fa-solid fa-headset text-3xl text-gold-400"></i>
                     </div>
                     <div>
                         <span id="call-status-badge" class="px-3 py-0.5 bg-emerald-500/20 text-emerald-300 text-xs font-bold rounded-full border border-emerald-400/30">লাইভ ভয়েস কল</span>
                         <h3 id="call-partner-name" class="text-xl font-extrabold mt-2">সুতারমুড়া ভয়েস রুম</h3>
-                        <p id="call-timer-text" class="text-xs text-green-200 mt-1">কল শুরু করতে নিচের বাটনে চাপুন</p>
+                        <p id="call-timer-text" class="text-xs text-green-200 mt-1">সদস্য নির্বাচন করুন অথবা ওপেন কল শুরু করুন</p>
+                        <p id="driver-dispatch-progress-text" class="hidden text-[11px] font-bold text-gold-300 mt-1.5 bg-white/10 px-2.5 py-1 rounded-xl"></p>
                     </div>
 
-                    <!-- কল রিসিভ বা নতুন কল শুরুর অপশন -->
-                    <div id="call-setup-controls" class="space-y-2.5">
+                    <div id="call-setup-controls" class="space-y-3">
+                        <div class="text-left space-y-1">
+                            <label class="text-[11px] font-bold text-green-200">কাকে কল করতে চান? (সদস্য বাছাই করুন)</label>
+                            <select id="call-target-member-select" class="w-full px-3 py-2.5 bg-village-800 border border-village-600 rounded-xl text-xs font-bold text-white focus:outline-none">
+                                <option value="all">সকল সদস্য (ওপেন গ্রুপ কল)</option>
+                            </select>
+                        </div>
                         <button onclick="startOutgoingVoiceCall()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold rounded-2xl shadow-lg flex items-center justify-center gap-2 text-sm transition">
-                            <i class="fa-solid fa-phone"></i> <span>নতুন ভয়েস কল শুরু করুন</span>
+                            <i class="fa-solid fa-phone"></i> <span>ভয়েস কল করুন</span>
                         </button>
-                        <div id="incoming-call-alert" class="hidden bg-amber-500/20 border border-amber-400 rounded-2xl p-3 space-y-2">
-                            <p id="incoming-caller-label" class="text-xs font-extrabold text-amber-300">কেউ একজন কল করছেন...</p>
-                            <button onclick="answerIncomingVoiceCall()" class="w-full py-2.5 bg-gold-400 hover:bg-gold-500 text-village-950 font-extrabold rounded-xl text-xs shadow transition">
-                                <i class="fa-solid fa-phone-volume mr-1"></i> কল রিসিভ করুন
-                            </button>
+                        <div id="incoming-call-alert" class="hidden bg-amber-500/20 border border-amber-400 rounded-2xl p-3 space-y-2.5">
+                            <p id="incoming-caller-label" class="text-xs font-extrabold text-amber-300">📞 কেউ একজন কল করছেন...</p>
+                            <p id="incoming-caller-distance" class="hidden text-[11px] font-bold text-emerald-200"></p>
+                            <div class="flex gap-2">
+                                <button onclick="answerIncomingVoiceCall()" class="flex-1 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold rounded-xl text-xs shadow transition">
+                                    <i class="fa-solid fa-phone-volume mr-1"></i> রিসিভ করুন
+                                </button>
+                                <button onclick="rejectIncomingVoiceCall()" class="px-3.5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-extrabold rounded-xl text-xs shadow transition">
+                                    <i class="fa-solid fa-phone-slash"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- চলমান কলের কন্ট্রোল -->
                     <div id="active-call-controls" class="hidden flex items-center justify-center gap-4 pt-2">
                         <button id="btn-mute-mic" onclick="toggleCallMicrophone()" class="w-12 h-12 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-lg transition" title="মিউট / আনমিউট">
                             <i class="fa-solid fa-microphone"></i>
@@ -564,13 +823,41 @@
                 </div>
             </div>
 
-            <!-- ট্যাব ৭: গ্রাম ডিরেক্টরি -->
+            <!-- ট্যাব ৭: গ্রাম ডিরেক্টরি ও স্মার্ট গাড়ি/অ্যাম্বুলেন্স কল -->
             <div id="view-directory" class="hidden tab-view space-y-4">
+                
+                <!-- স্মার্ট গাড়ি ও অ্যাম্বুলেন্স কল প্যানেল -->
+                <div class="bg-gradient-to-br from-blue-900 via-village-900 to-emerald-950 text-white rounded-3xl p-4 sm:p-5 shadow-lg border border-blue-400/30 space-y-3.5">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-0.5 bg-gold-400 text-village-950 text-[11px] font-extrabold rounded-full">স্মার্ট গাড়ি ও অ্যাম্বুলেন্স</span>
+                                <span id="my-gps-status-badge" class="text-[11px] text-green-300 font-semibold"><i class="fa-solid fa-location-crosshairs"></i> অবস্থান প্রস্তুত</span>
+                            </div>
+                            <h3 class="text-base sm:text-lg font-extrabold leading-snug">কাছাকাছি গাড়ি বা অ্যাম্বুলেন্স ডাকুন (এক ক্লিকে ফ্রি কল)</h3>
+                            <p class="text-xs text-blue-100 leading-relaxed">কল দিলে প্রথমে আপনার <strong>সবচেয়ে কাছের চালকের</strong> ফোনে রিং বাজবে; তিনি রিসিভ না করলে স্বয়ংক্রিয়ভাবে পরবর্তী কাছের চালকের কাছে কল চলে যাবে!</p>
+                        </div>
+                        <div class="flex flex-col sm:items-end gap-2 shrink-0">
+                            <button type="button" onclick="startSmartNearestDriverCall()" class="px-4 py-3 bg-gold-400 hover:bg-gold-500 text-village-950 font-extrabold rounded-2xl shadow-lg flex items-center justify-center gap-2 text-xs sm:text-sm transition">
+                                <i class="fa-solid fa-truck-medical text-base"></i> <span>কাছের গাড়ি/চালককে কল দিন</span>
+                            </button>
+                            <button type="button" id="btn-toggle-driver-gps" onclick="toggleDriverLiveGPS()" class="px-3 py-1.5 bg-white/15 hover:bg-white/25 text-white border border-white/25 font-bold rounded-xl flex items-center gap-1.5 text-[11px] transition">
+                                <i class="fa-solid fa-satellite-dish text-gold-400"></i> <span id="driver-gps-btn-label">চালক লাইভ অবস্থান (GPS) চালু করুন</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="nearest-drivers-strip" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 pt-2 border-t border-white/15">
+                        <p class="text-xs text-blue-200 col-span-full">চালকদের তথ্য লোড হচ্ছে...</p>
+                    </div>
+                </div>
+
+                <!-- ডিরেক্টরি নাম্বার যুক্ত ও ফিল্টার বক্স -->
                 <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-gray-100 space-y-3.5">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div>
                             <h3 class="text-base font-extrabold text-village-900 flex items-center gap-1.5"><i class="fa-solid fa-address-book text-amber-600"></i> সুতারমুড়া জরুরি নাম্বার ও গ্রাম ডিরেক্টরি</h3>
-                            <p class="text-xs text-gray-500">গ্রামের গুরুত্বপূর্ণ ব্যক্তিবর্গ ও জরুরি সেবাপ্রদানকারীদের নাম্বার যুক্ত করুন।</p>
+                            <p class="text-xs text-gray-500">তালিকাভুক্ত ব্যক্তি অ্যাপের নিবন্ধিত সদস্য হলে পাশের <strong class="text-emerald-700">অ্যাপ ফ্রি কল</strong> বাটনে চাপ দিয়ে সরাসরি বিনামূল্যে কথা বলতে পারবেন।</p>
                         </div>
                     </div>
 
@@ -592,10 +879,10 @@
 
                     <div id="directory-filter-bar" class="flex items-center gap-1.5 pt-2 border-t border-gray-100 overflow-x-auto no-scrollbar">
                         <button onclick="setDirectoryFilter('all')" data-dir-filter="all" class="dir-filter-btn px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-village-700 text-white whitespace-nowrap shadow-xs transition">সকল</button>
+                        <button onclick="setDirectoryFilter('গাড়ি / অ্যাম্বুলেন্স চালক')" data-dir-filter="গাড়ি / অ্যাম্বুলেন্স চালক" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-800 hover:bg-blue-100 whitespace-nowrap transition"><i class="fa-solid fa-car mr-1"></i> গাড়ি/চালক</button>
                         <button onclick="setDirectoryFilter('গ্রামের মুরুব্বি / জনপ্রতিনিধি')" data-dir-filter="গ্রামের মুরুব্বি / জনপ্রতিনিধি" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">মুরুব্বি</button>
                         <button onclick="setDirectoryFilter('গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী')" data-dir-filter="গ্রাম্য ডাক্তার / স্বাস্থ্যকর্মী" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">ডাক্তার</button>
                         <button onclick="setDirectoryFilter('মসজিদের ইমাম / খতিব')" data-dir-filter="মসজিদের ইমাম / খতিব" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">ইমাম</button>
-                        <button onclick="setDirectoryFilter('গাড়ি / অ্যাম্বুলেন্স চালক')" data-dir-filter="গাড়ি / অ্যাম্বুলেন্স চালক" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">গাড়ি</button>
                         <button onclick="setDirectoryFilter('ইলেকট্রিশিয়ান / মিস্ত্রি')" data-dir-filter="ইলেকট্রিশিয়ান / মিস্ত্রি" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">মিস্ত্রি</button>
                         <button onclick="setDirectoryFilter('শিক্ষক / শিক্ষিকা')" data-dir-filter="শিক্ষক / শিক্ষিকা" class="dir-filter-btn px-3 py-1.5 rounded-full text-xs font-bold bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap transition">শিক্ষক</button>
                     </div>
@@ -628,7 +915,7 @@
                 <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border-2 border-village-100">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b">
                         <div>
-                            <h3 class="text-base font-extrabold text-village-900 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-village-600"></i> সদস্য ভেরিফিকেশন ও অ্যাক্টিভিটি লগ</h3>
+                            <h3 class="text-base font-extrabold text-village-900 flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-village-600"></i> সদস্য ভেরিফিকেশন ও পাসওয়ার্ড রিসেট</h3>
                         </div>
                         <div class="flex items-center gap-2 text-xs font-bold">
                             <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 rounded-full">অপেক্ষমাণ: <span id="stat-pending-count">0</span></span>
@@ -646,6 +933,72 @@
                 </div>
             </div>
         </main>
+
+        <!-- সদস্য প্রোফাইল আপডেট মডাল -->
+        <div id="profile-edit-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+            <div class="bg-white rounded-3xl max-w-md w-full p-5 shadow-2xl border border-village-200 space-y-4 my-auto text-xs sm:text-sm">
+                <div class="flex items-center justify-between border-b pb-2.5">
+                    <h3 class="font-extrabold text-village-900 flex items-center gap-1.5 text-base">
+                        <i class="fa-solid fa-user-pen text-village-600"></i> প্রোফাইল ও ছবি আপডেট করুন
+                    </h3>
+                    <button onclick="closeProfileEditModal()" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <div class="flex flex-col items-center gap-2">
+                    <div class="relative w-24 h-24 rounded-full overflow-hidden border-2 border-village-600 shadow">
+                        <img id="edit-profile-avatar-preview" src="https://placehold.co/150x150/166534/ffffff?text=U" class="w-full h-full object-cover" alt="Profile">
+                    </div>
+                    <label class="cursor-pointer px-3 py-1.5 bg-village-50 hover:bg-village-100 border border-village-300 text-village-900 text-xs font-bold rounded-xl flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-camera text-village-600"></i> <span>প্রোফাইল ছবি পরিবর্তন করুন</span>
+                        <input type="file" id="edit-profile-photo-input" accept="image/*" onchange="handleEditProfilePhotoSelect(event)" class="hidden">
+                    </label>
+                </div>
+
+                <div class="space-y-2.5">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-0.5">আপনার পূর্ণ নাম *</label>
+                        <input type="text" id="edit-profile-name" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-0.5">পিতার নাম</label>
+                            <input type="text" id="edit-profile-father" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-0.5">পাড়া / অবস্থান</label>
+                            <select id="edit-profile-para" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm">
+                                <option value="উত্তর পাড়া">উত্তর পাড়া</option>
+                                <option value="দক্ষিণ পাড়া">দক্ষিণ পাড়া</option>
+                                <option value="পূর্ব পাড়া">পূর্ব পাড়া</option>
+                                <option value="পশ্চিম পাড়া">পশ্চিম পাড়া</option>
+                                <option value="মধ্য পাড়া">মধ্য পাড়া</option>
+                                <option value="নতুন পাড়া">নতুন পাড়া</option>
+                                <option value="প্রবাসী (বিদেশ)">প্রবাসী (বিদেশ)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-0.5">মোবাইল নাম্বার *</label>
+                            <input type="tel" id="edit-profile-phone" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-0.5">ইমেইল (পরিবর্তনযোগ্য নয়)</label>
+                            <input type="email" id="edit-profile-email" disabled class="w-full px-3 py-2 bg-gray-100 border border-gray-200 rounded-xl text-xs text-gray-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-0.5">নতুন পাসওয়ার্ড (বদলাতে চাইলে লিখুন)</label>
+                        <input type="password" id="edit-profile-password" placeholder="আগের পাসওয়ার্ড রাখতে ফাঁকা রাখুন" class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2 border-t">
+                    <button onclick="closeProfileEditModal()" class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-xs">বাতিল</button>
+                    <button onclick="saveUserProfileUpdates()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white font-extrabold rounded-xl shadow text-xs">পরিবর্তন সংরক্ষণ করুন</button>
+                </div>
+            </div>
+        </div>
 
         <!-- জরুরি ঘোষণা প্রকাশ ও এডিট করার মডাল -->
         <div id="ticker-editor-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
@@ -690,7 +1043,6 @@
                     <button onclick="closeInstitutionModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center shrink-0"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
-                <!-- প্রতিষ্ঠানের সময়সূচি কার্ড -->
                 <div class="bg-gradient-to-br from-blue-50 via-white to-emerald-50 border-2 border-blue-200 rounded-2xl p-3.5 space-y-2.5">
                     <div class="flex items-center justify-between">
                         <h4 class="font-extrabold text-blue-950 flex items-center gap-1.5"><i class="fa-solid fa-clock text-blue-700"></i> প্রতিষ্ঠানের সময়সূচি আপডেট</h4>
@@ -709,7 +1061,6 @@
                     <button onclick="saveInstitutionSchedule()" class="px-4 py-2 bg-village-700 hover:bg-village-800 text-white font-extrabold rounded-xl shadow transition"><i class="fa-solid fa-floppy-disk mr-1"></i> সময়সূচি সংরক্ষণ</button>
                 </div>
 
-                <!-- প্রধান ও সভাপতি তথ্য এডিট কার্ড -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="bg-gradient-to-br from-emerald-50 to-white border border-emerald-200 rounded-2xl p-3.5 space-y-2">
                         <span class="font-extrabold text-emerald-800 uppercase"><i class="fa-solid fa-user-tie mr-1"></i> প্রতিষ্ঠান প্রধান / খতিব ও ইমাম</span>
@@ -758,7 +1109,6 @@
                     </div>
                 </div>
 
-                <!-- শিক্ষকবৃন্দ তালিকা ও যুক্ত করার ফর্ম -->
                 <div class="bg-gray-50 border border-gray-200 rounded-2xl p-3.5 space-y-2.5">
                     <div class="flex items-center justify-between">
                         <h4 class="font-extrabold text-village-900"><i class="fa-solid fa-chalkboard-user text-village-600 mr-1"></i> শিক্ষক / ওস্তাদবৃন্দের তালিকা (<span id="modal-teachers-count">০</span>)</h4>
@@ -772,7 +1122,6 @@
                     <div id="modal-teachers-list" class="overflow-x-auto"></div>
                 </div>
 
-                <!-- পরিচালনা কমিটি তালিকা ও যুক্ত করার ফর্ম -->
                 <div class="bg-gray-50 border border-gray-200 rounded-2xl p-3.5 space-y-2.5">
                     <div class="flex items-center justify-between">
                         <h4 class="font-extrabold text-village-900"><i class="fa-solid fa-users-gear text-amber-600 mr-1"></i> পরিচালনা কমিটির সদস্যবৃন্দ (<span id="modal-committee-count">০</span>)</h4>
@@ -798,13 +1147,70 @@
         </footer>
     </div>
 
+    <!-- PWA Service Worker & Install Prompt Handler -->
+    <script>
+        let deferredInstallPrompt = null;
+
+        if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    self.addEventListener('install', () => self.skipWaiting());
+                    self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
+                    self.addEventListener('fetch', (e) => {
+                        if (e.request.method !== 'GET') return;
+                        e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+                    });
+                `;
+                try {
+                    const swBlob = new Blob([swCode], { type: 'application/javascript' });
+                    navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
+                } catch (err) {}
+            });
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredInstallPrompt = null;
+            const hdrBtn = document.getElementById('header-install-app-btn');
+            if (hdrBtn) hdrBtn.classList.add('hidden');
+            document.querySelectorAll('.auth-install-btn').forEach(b => b.classList.add('hidden'));
+            if (window.showToast) window.showToast("অ্যাপটি সফলভাবে ফোনে ইনস্টল হয়েছে!", "success");
+        });
+
+        window.triggerAppInstall = async function() {
+            if (deferredInstallPrompt) {
+                deferredInstallPrompt.prompt();
+                const { outcome } = await deferredInstallPrompt.userChoice;
+                if (outcome === 'accepted') deferredInstallPrompt = null;
+            } else {
+                document.getElementById('install-guide-modal')?.classList.remove('hidden');
+            }
+        };
+    </script>
+
     <!-- SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // অ্যাডমিন লগইন তথ্য
+        const memStorage = {};
+        const safeStore = {
+            get(k) {
+                try { return window.localStorage.getItem(k); } catch (e) { return memStorage[k] || null; }
+            },
+            set(k, v) {
+                try { window.localStorage.setItem(k, v); } catch (e) { memStorage[k] = v; }
+            },
+            remove(k) {
+                try { window.localStorage.removeItem(k); } catch (e) { delete memStorage[k]; }
+            }
+        };
+
         const ADMIN_CREDENTIALS = {
             email: "admin@sutarmora.com",
             phone: "01700000000",
@@ -826,7 +1232,6 @@
 
         let db = null;
         let auth = null;
-        let firebaseUser = null;
         let isCloudConnected = false;
         let currentUserProfile = null;
         let allUsers = [];
@@ -835,9 +1240,14 @@
         let allDirectory = [];
         let allDirectoryLogs = [];
         let allMessages = [];
+        let allCustomGroups = [];
         let allInstNotices = [];
         let allInstProfiles = {};
         let activeInstitutionId = null;
+
+        let activeChatTarget = { id: 'group', type: 'public_group', name: 'সুতারমুড়া গ্রাম ও প্রবাসী আড্ডা ঘর (সবার গ্রুপ)', para: '' };
+        let selectedChatImageBase64 = "";
+        let tempSelectedGroupMemberIds = new Set();
 
         let urgentTickerData = {
             category: 'জরুরি ঘোষণা',
@@ -849,7 +1259,6 @@
             opacity: 0.75
         };
 
-        // ভয়েস কল ও ভয়েস মেসেজ স্টেট
         let peerConnection = null;
         let localAudioStream = null;
         let activeCallDocId = null;
@@ -860,7 +1269,532 @@
         let mediaRecorder = null;
         let audioChunks = [];
         let isRecordingVoiceNote = false;
+        let toneAudioCtx = null;
+        let toneLoopInterval = null;
+        let editedProfilePhotoBase64 = "";
+        let presenceHeartbeatInterval = null;
         const rtcConfig = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun1.l.google.com:19302' }] };
+
+        let userCurrentCoords = null;
+        let isDriverLiveGpsActive = false;
+        let driverGpsWatchId = null;
+        let driverCascadeQueue = [];
+        let driverCascadeIndex = 0;
+        let driverCascadeTimer = null;
+        let isDriverCascadeActive = false;
+
+        function normalizePhoneKey(phone) {
+            if (!phone) return '';
+            const digits = phone.replace(/\D/g, '');
+            if (digits.length >= 10) return digits.slice(-10);
+            return digits;
+        }
+
+        function findRegisteredMemberByPhone(phone) {
+            const key = normalizePhoneKey(phone);
+            if (!key || key.length < 7) return null;
+            return allUsers.find(u => u.status === 'approved' && normalizePhoneKey(u.phone) === key) || null;
+        }
+
+        function findRegisteredMemberForItem(item) {
+            if (item?.authorId) {
+                const byId = allUsers.find(u => u.status === 'approved' && u.id === item.authorId);
+                if (byId) return byId;
+            }
+            return findRegisteredMemberByPhone(item?.contact || item?.phone);
+        }
+
+        function isMemberCurrentlyOnline(userObj) {
+            if (!userObj || !userObj.lastActiveAt) return false;
+            return (Date.now() - userObj.lastActiveAt) < 120000;
+        }
+
+        function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        function formatDistanceBangla(km) {
+            if (km === null || km === undefined || isNaN(km)) return 'দূরত্ব অজানা';
+            if (km < 1) return `${Math.round(km * 1000)} মিটার দূরে`;
+            return `${km.toFixed(1)} কি.মি. দূরে`;
+        }
+
+        function getBrowserLocationOnce() {
+            return new Promise((resolve) => {
+                if (!navigator.geolocation) {
+                    resolve(null);
+                    return;
+                }
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        userCurrentCoords = {
+                            lat: pos.coords.latitude,
+                            lng: pos.coords.longitude,
+                            updatedAt: Date.now()
+                        };
+                        const badge = document.getElementById('my-gps-status-badge');
+                        if (badge) badge.innerHTML = `<i class="fa-solid fa-location-dot text-gold-400"></i> GPS অবস্থান সক্রিয়`;
+                        resolve(userCurrentCoords);
+                    },
+                    () => resolve(null),
+                    { enableHighAccuracy: true, timeout: 6000, maximumAge: 30000 }
+                );
+            });
+        }
+
+        async function syncMyLocationToCloud(coords, isDriverSharing = isDriverLiveGpsActive) {
+            if (!currentUserProfile || currentUserProfile.role === 'admin' || !isCloudConnected || !db || !coords) return;
+            const locPayload = {
+                lat: coords.lat,
+                lng: coords.lng,
+                updatedAt: Date.now(),
+                isDriverActive: Boolean(isDriverSharing)
+            };
+            currentUserProfile.liveLocation = locPayload;
+            try { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', currentUserProfile.id), { liveLocation: locPayload, lastActiveAt: Date.now() }); } catch (e) {}
+            try { await updateDoc(doc(db, 'artifacts', 'amader-sutarmora-v1', 'public', 'data', 'users', currentUserProfile.id), { liveLocation: locPayload, lastActiveAt: Date.now() }); } catch (e) {}
+        }
+
+        window.toggleDriverLiveGPS = async function() {
+            if (!checkWritePermission()) return;
+            const btn = document.getElementById('btn-toggle-driver-gps');
+            const label = document.getElementById('driver-gps-btn-label');
+
+            if (!isDriverLiveGpsActive) {
+                if (!navigator.geolocation) {
+                    showToast("আপনার ফোনে GPS লোকেশন সাপোর্ট নেই।", "error");
+                    return;
+                }
+                showToast("আপনার লাইভ GPS অবস্থান নেওয়া হচ্ছে...", "warning");
+                const coords = await getBrowserLocationOnce();
+                if (!coords) {
+                    showToast("ফোনের Location / GPS চালু করে অনুমতি দিন।", "error");
+                    return;
+                }
+                isDriverLiveGpsActive = true;
+                await syncMyLocationToCloud(coords, true);
+                driverGpsWatchId = navigator.geolocation.watchPosition(
+                    (pos) => {
+                        userCurrentCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude, updatedAt: Date.now() };
+                        syncMyLocationToCloud(userCurrentCoords, true);
+                    },
+                    () => {},
+                    { enableHighAccuracy: true, maximumAge: 15000 }
+                );
+                if (btn) btn.className = "px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold rounded-xl flex items-center gap-1.5 text-[11px] shadow transition";
+                if (label) label.textContent = "চালক GPS চালু আছে (বন্ধ করতে চাপুন)";
+                renderNearestDriversList();
+                showToast("চালক লাইভ অবস্থান (GPS) চালু হয়েছে! যাত্রীরা এখন আপনার দূরত্ব দেখতে পাবেন।", "success");
+            } else {
+                isDriverLiveGpsActive = false;
+                if (driverGpsWatchId !== null) {
+                    navigator.geolocation.clearWatch(driverGpsWatchId);
+                    driverGpsWatchId = null;
+                }
+                if (userCurrentCoords) await syncMyLocationToCloud(userCurrentCoords, false);
+                if (btn) btn.className = "px-3 py-1.5 bg-white/15 hover:bg-white/25 text-white border border-white/25 font-bold rounded-xl flex items-center gap-1.5 text-[11px] transition";
+                if (label) label.textContent = "চালক লাইভ অবস্থান (GPS) চালু করুন";
+                renderNearestDriversList();
+                showToast("চালক লাইভ অবস্থান বন্ধ করা হয়েছে।", "warning");
+            }
+        };
+
+        function getSortedNearestDrivers(passengerCoords) {
+            const driverEntries = allDirectory.filter(d => d.role === 'গাড়ি / অ্যাম্বুলেন্স চালক');
+            const uniqueMembersMap = new Map();
+
+            driverEntries.forEach(entry => {
+                const member = findRegisteredMemberByPhone(entry.phone);
+                if (member && member.id !== currentUserProfile?.id) {
+                    if (!uniqueMembersMap.has(member.id)) {
+                        let distKm = null;
+                        if (passengerCoords && member.liveLocation && typeof member.liveLocation.lat === 'number') {
+                            distKm = calculateDistanceKm(
+                                passengerCoords.lat,
+                                passengerCoords.lng,
+                                member.liveLocation.lat,
+                                member.liveLocation.lng
+                            );
+                        }
+                        uniqueMembersMap.set(member.id, {
+                            member,
+                            dirEntry: entry,
+                            distanceKm: distKm,
+                            isOnline: isMemberCurrentlyOnline(member),
+                            hasLiveGps: Boolean(member.liveLocation?.isDriverActive)
+                        });
+                    }
+                }
+            });
+
+            const list = Array.from(uniqueMembersMap.values());
+            list.sort((a, b) => {
+                if (a.distanceKm !== null && b.distanceKm !== null) return a.distanceKm - b.distanceKm;
+                if (a.distanceKm !== null) return -1;
+                if (b.distanceKm !== null) return 1;
+                if (a.isOnline !== b.isOnline) return a.isOnline ? -1 : 1;
+                return 0;
+            });
+            return list;
+        }
+
+        function renderNearestDriversList() {
+            const strip = document.getElementById('nearest-drivers-strip');
+            if (!strip) return;
+            const drivers = getSortedNearestDrivers(userCurrentCoords);
+            if (drivers.length === 0) {
+                strip.innerHTML = `<div class="col-span-full text-xs text-blue-200 bg-white/10 px-3 py-2 rounded-2xl">অ্যাপে নিবন্ধিত কোনো গাড়ি/অ্যাম্বুলেন্স চালক এখনো অনলাইনে যুক্ত হননি। নিচের ডিরেক্টরি থেকে সরাসরি মোবাইলে কল করতে পারেন।</div>`;
+                return;
+            }
+            strip.innerHTML = drivers.map((item, idx) => {
+                const distLabel = item.distanceKm !== null ? formatDistanceBangla(item.distanceKm) : (item.isOnline ? 'অনলাইনে আছেন' : 'GPS বন্ধ');
+                return `
+                <div class="bg-white/10 backdrop-blur-xs border border-white/15 rounded-2xl p-2.5 flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <div class="relative shrink-0">
+                            <img src="${item.member.facePhoto || 'https://placehold.co/80x80/166534/ffffff?text=D'}" class="w-9 h-9 rounded-full object-cover border border-gold-400">
+                            <span class="absolute -top-1 -left-1 w-4 h-4 rounded-full bg-gold-400 text-village-950 text-[10px] font-black flex items-center justify-center">${idx + 1}</span>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-xs font-extrabold text-white truncate">${escapeHtml(item.member.name)}</p>
+                            <p class="text-[10px] text-emerald-300 font-bold truncate"><i class="fa-solid fa-location-dot mr-0.5"></i> ${distLabel}</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="initiateDirectMemberCall('${item.member.id}', '${escapeHtml(item.member.name)}')" class="px-2.5 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold rounded-xl text-[11px] shrink-0 transition">
+                        <i class="fa-solid fa-phone"></i> কল
+                    </button>
+                </div>`;
+            }).join('');
+        }
+
+        window.startSmartNearestDriverCall = async function() {
+            if (!checkWritePermission() || !isCloudConnected || !db) {
+                showToast("অনলাইন ডাটাবেস সংযুক্ত থাকতে হবে।", "warning");
+                return;
+            }
+            showToast("আপনার কাছাকাছি গাড়ি/চালক খোঁজা হচ্ছে...", "success");
+            const coords = await getBrowserLocationOnce();
+            if (coords) await syncMyLocationToCloud(coords, isDriverLiveGpsActive);
+            renderNearestDriversList();
+
+            const sortedDrivers = getSortedNearestDrivers(coords);
+            if (sortedDrivers.length === 0) {
+                showToast("অ্যাপে কোনো নিবন্ধিত চালক পাওয়া যায়নি। নিচের ডিরেক্টরি থেকে মোবাইল নাম্বারে কল দিন।", "warning");
+                return;
+            }
+
+            isDriverCascadeActive = true;
+            driverCascadeQueue = sortedDrivers;
+            driverCascadeIndex = 0;
+
+            document.getElementById('voice-call-modal').classList.remove('hidden');
+            document.getElementById('call-modal-icon').className = 'fa-solid fa-truck-medical text-3xl text-gold-400';
+            await dialDriverAtQueueIndex(0);
+        };
+
+        async function dialDriverAtQueueIndex(index) {
+            if (!isDriverCascadeActive || index >= driverCascadeQueue.length) {
+                isDriverCascadeActive = false;
+                clearTimeout(driverCascadeTimer);
+                document.getElementById('driver-dispatch-progress-text')?.classList.add('hidden');
+                document.getElementById('call-modal-icon').className = 'fa-solid fa-headset text-3xl text-gold-400';
+                showToast("কোনো চালক এই মুহূর্তে কল রিসিভ করেননি। অনুগ্রহ করে মোবাইল নাম্বারে কল দিন।", "warning");
+                endVoiceCall(false);
+                return;
+            }
+
+            driverCascadeIndex = index;
+            const currentDriver = driverCascadeQueue[index];
+            const totalDrivers = driverCascadeQueue.length;
+            const distText = currentDriver.distanceKm !== null ? formatDistanceBangla(currentDriver.distanceKm) : 'নিকটবর্তী এলাকা';
+
+            const progressEl = document.getElementById('driver-dispatch-progress-text');
+            if (progressEl) {
+                progressEl.classList.remove('hidden');
+                progressEl.textContent = `চালক ${index + 1}/${totalDrivers}: ${currentDriver.member.name} (${distText}) — ২০ সেকেন্ড অপেক্ষা...`;
+            }
+
+            if (peerConnection) {
+                peerConnection.close();
+                peerConnection = null;
+            }
+            if (activeCallDocId && db) {
+                try { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls', activeCallDocId), { status: 'missed_by_driver' }); } catch (e) {}
+                activeCallDocId = null;
+            }
+
+            const selectEl = document.getElementById('call-target-member-select');
+            if (selectEl) {
+                if (![...selectEl.options].some(o => o.value === currentDriver.member.id)) {
+                    const opt = document.createElement('option');
+                    opt.value = currentDriver.member.id;
+                    opt.textContent = currentDriver.member.name;
+                    selectEl.appendChild(opt);
+                }
+                selectEl.value = currentDriver.member.id;
+            }
+
+            await startOutgoingVoiceCall({
+                isDriverDispatch: true,
+                driverDistanceText: distText,
+                onRejectedOrTimeout: () => {
+                    if (isDriverCascadeActive && driverCascadeIndex === index) {
+                        clearTimeout(driverCascadeTimer);
+                        showToast(`${currentDriver.member.name} রিসিভ করেননি, পরবর্তী কাছের চালককে কল যাচ্ছে...`, "warning");
+                        dialDriverAtQueueIndex(index + 1);
+                    }
+                }
+            });
+
+            clearTimeout(driverCascadeTimer);
+            driverCascadeTimer = setTimeout(() => {
+                if (isDriverCascadeActive && driverCascadeIndex === index && (!peerConnection || !peerConnection.currentRemoteDescription)) {
+                    showToast(`${currentDriver.member.name} সাড়া দেননি, পরবর্তী চালককে কল পাঠানো হচ্ছে...`, "warning");
+                    dialDriverAtQueueIndex(index + 1);
+                }
+            }, 20000);
+        }
+
+        async function updateMyOnlinePresence() {
+            if (!currentUserProfile || currentUserProfile.role === 'admin' || !isCloudConnected || !db) return;
+            const now = Date.now();
+            currentUserProfile.lastActiveAt = now;
+            try { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', currentUserProfile.id), { lastActiveAt: now }); } catch (e) {}
+            try { await updateDoc(doc(db, 'artifacts', 'amader-sutarmora-v1', 'public', 'data', 'users', currentUserProfile.id), { lastActiveAt: now }); } catch (e) {}
+        }
+
+        function startPresenceHeartbeat() {
+            stopPresenceHeartbeat();
+            updateMyOnlinePresence();
+            presenceHeartbeatInterval = setInterval(updateMyOnlinePresence, 45000);
+        }
+
+        function stopPresenceHeartbeat() {
+            if (presenceHeartbeatInterval) {
+                clearInterval(presenceHeartbeatInterval);
+                presenceHeartbeatInterval = null;
+            }
+        }
+
+        window.openForgotPasswordModal = function() {
+            const currentIden = document.getElementById('login-identifier')?.value.trim() || '';
+            if (currentIden.includes('@')) {
+                document.getElementById('fp-email').value = currentIden;
+                document.getElementById('fp-phone').value = '';
+            } else {
+                document.getElementById('fp-phone').value = currentIden;
+                document.getElementById('fp-email').value = '';
+            }
+            document.getElementById('fp-new-password').value = '';
+            document.getElementById('forgot-password-modal')?.classList.remove('hidden');
+        };
+
+        window.closeForgotPasswordModal = function() {
+            document.getElementById('forgot-password-modal')?.classList.add('hidden');
+        };
+
+        window.handleResetForgottenPassword = async function() {
+            const email = document.getElementById('fp-email').value.trim().toLowerCase();
+            const rawPhone = document.getElementById('fp-phone').value.trim();
+            const newPassword = document.getElementById('fp-new-password').value;
+
+            if (!email || !rawPhone) {
+                showToast("নিবন্ধিত ইমেইল এবং মোবাইল নাম্বার দুটিই লিখুন।", "warning");
+                return;
+            }
+            if (!newPassword || newPassword.length < 6) {
+                showToast("নতুন পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।", "warning");
+                return;
+            }
+
+            const cleanedPhone = rawPhone.replace(/[\s\-()]/g, '');
+            const targetUser = allUsers.find(u => {
+                const uEmail = (u.email || '').toLowerCase();
+                const uPhone = (u.phone || '').replace(/[\s\-()]/g, '');
+                const phoneMatched = uPhone === cleanedPhone || (uPhone.endsWith(cleanedPhone.slice(-10)) && cleanedPhone.length >= 10);
+                return uEmail === email && phoneMatched;
+            });
+
+            if (!targetUser) {
+                showToast("প্রদত্ত ইমেইল ও মোবাইল নাম্বারের সাথে কোনো সদস্যের তথ্য মেলেনি।", "error");
+                return;
+            }
+
+            if (isCloudConnected && db) {
+                try { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', targetUser.id), { password: newPassword }); } catch (e) {}
+                try { await updateDoc(doc(db, 'artifacts', 'amader-sutarmora-v1', 'public', 'data', 'users', targetUser.id), { password: newPassword }); } catch (e) {}
+            } else {
+                targetUser.password = newPassword;
+                syncLocalFallbackData();
+            }
+
+            document.getElementById('login-identifier').value = email;
+            document.getElementById('login-password').value = newPassword;
+            saveLoginCredentialsToBrowser(email, newPassword);
+            closeForgotPasswordModal();
+            showToast("পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে! এখন প্রবেশ করুন।", "success");
+        };
+
+        window.resetUserPasswordByAdmin = async function(id, userName) {
+            if (currentUserProfile?.role !== 'admin') return;
+            const tempPass = 'sm' + Math.floor(100000 + Math.random() * 900000);
+            if (isCloudConnected && db) {
+                try { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', id), { password: tempPass }); } catch (e) {}
+                try { await updateDoc(doc(db, 'artifacts', 'amader-sutarmora-v1', 'public', 'data', 'users', id), { password: tempPass }); } catch (e) {}
+            } else {
+                const u = allUsers.find(x => x.id === id);
+                if (u) u.password = tempPass;
+                syncLocalFallbackData();
+            }
+            alert(`${userName}-এর নতুন পাসওয়ার্ড সেট করা হয়েছে: ${tempPass}\nসদস্যকে এই পাসওয়ার্ডটি জানিয়ে দিন।`);
+            showToast(`${userName}-এর নতুন পাসওয়ার্ড: ${tempPass}`, "success");
+        };
+
+        function saveLoginCredentialsToBrowser(identifier, password) {
+            const rememberBox = document.getElementById('remember-me-checkbox');
+            if (rememberBox && rememberBox.checked) {
+                try {
+                    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify({ identifier, password }))));
+                    safeStore.set('sm_saved_credentials', encoded);
+                } catch (e) {}
+            } else {
+                safeStore.remove('sm_saved_credentials');
+            }
+            populateSavedLoginCredentials();
+        }
+
+        function populateSavedLoginCredentials() {
+            const saved = safeStore.get('sm_saved_credentials');
+            const idInput = document.getElementById('login-identifier');
+            const passInput = document.getElementById('login-password');
+            const rememberBox = document.getElementById('remember-me-checkbox');
+            const clearBtn = document.getElementById('btn-clear-saved-creds');
+            if (!saved) {
+                if (clearBtn) clearBtn.classList.add('hidden');
+                return;
+            }
+            try {
+                const decoded = JSON.parse(decodeURIComponent(escape(atob(saved))));
+                if (idInput && decoded.identifier) idInput.value = decoded.identifier;
+                if (passInput && decoded.password) passInput.value = decoded.password;
+                if (rememberBox) rememberBox.checked = true;
+                if (clearBtn) clearBtn.classList.remove('hidden');
+            } catch (e) {}
+        }
+
+        window.clearSavedLoginCredentials = function() {
+            safeStore.remove('sm_saved_credentials');
+            const idInput = document.getElementById('login-identifier');
+            const passInput = document.getElementById('login-password');
+            const clearBtn = document.getElementById('btn-clear-saved-creds');
+            if (idInput) idInput.value = '';
+            if (passInput) passInput.value = '';
+            if (clearBtn) clearBtn.classList.add('hidden');
+            showToast("সেভ করা ইউজার ও পাসওয়ার্ড মুছে ফেলা হয়েছে।", "warning");
+        };
+
+        window.toggleLoginPasswordVisibility = function() {
+            const passInput = document.getElementById('login-password');
+            const eyeIcon = document.getElementById('login-pass-eye-icon');
+            if (!passInput || !eyeIcon) return;
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                eyeIcon.className = 'fa-solid fa-eye-slash text-village-700';
+            } else {
+                passInput.type = 'password';
+                eyeIcon.className = 'fa-solid fa-eye';
+            }
+        };
+
+        function playSingleBeep(freq1, freq2, durationSec, volume = 0.25) {
+            try {
+                if (!toneAudioCtx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (!AudioCtx) return;
+                    toneAudioCtx = new AudioCtx();
+                }
+                if (toneAudioCtx.state === 'suspended') toneAudioCtx.resume();
+                const now = toneAudioCtx.currentTime;
+                const osc1 = toneAudioCtx.createOscillator();
+                const osc2 = toneAudioCtx.createOscillator();
+                const gain = toneAudioCtx.createGain();
+                osc1.type = 'sine';
+                osc2.type = 'sine';
+                osc1.frequency.setValueAtTime(freq1, now);
+                osc2.frequency.setValueAtTime(freq2, now);
+                gain.gain.setValueAtTime(volume, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + durationSec);
+                osc1.connect(gain);
+                osc2.connect(gain);
+                gain.connect(toneAudioCtx.destination);
+                osc1.start(now);
+                osc2.start(now);
+                osc1.stop(now + durationSec);
+                osc2.stop(now + durationSec);
+            } catch (e) {}
+        }
+
+        function startCallTone(mode) {
+            stopCallTone();
+            if (mode === 'ringback') {
+                playSingleBeep(440, 480, 0.85, 0.22);
+                toneLoopInterval = setInterval(() => {
+                    playSingleBeep(440, 480, 0.85, 0.22);
+                }, 2600);
+            } else if (mode === 'ringtone') {
+                const playRingMelody = () => {
+                    playSingleBeep(659.25, 830.61, 0.35, 0.35);
+                    setTimeout(() => playSingleBeep(783.99, 987.77, 0.45, 0.35), 380);
+                };
+                playRingMelody();
+                toneLoopInterval = setInterval(playRingMelody, 2000);
+            }
+        }
+
+        function stopCallTone() {
+            if (toneLoopInterval) {
+                clearInterval(toneLoopInterval);
+                toneLoopInterval = null;
+            }
+        }
+
+        function validateRealEmail(email) {
+            if (!email) return { valid: false, msg: "ইমেইল ঠিকানা লিখুন।" };
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(email)) {
+                return { valid: false, msg: "সঠিক ইমেইল ফরম্যাট দিন (যেমন: name@gmail.com)।" };
+            }
+            const [localPart, domainPart] = email.toLowerCase().split('@');
+            const blockedDomains = ['test.com', 'example.com', 'fake.com', 'abc.com', 'xyz.com', 'mailinator.com', 'tempmail.com', '123.com', 'asd.com', 'qwe.com'];
+            const blockedLocals = ['test', 'fake', 'asdf', 'qwer', '1234', '12345', '123456', 'abcd', 'none', 'noemail', 'admin'];
+            if (localPart.length < 3 || blockedLocals.includes(localPart) || blockedDomains.includes(domainPart)) {
+                return { valid: false, msg: "দয়া করে আপনার আসল ও সক্রিয় ইমেইল ঠিকানা ব্যবহার করুন।" };
+            }
+            return { valid: true };
+        }
+
+        function validateRealPhone(rawPhone) {
+            if (!rawPhone) return { valid: false, msg: "মোবাইল নাম্বার লিখুন।" };
+            const cleaned = rawPhone.replace(/[\s\-()]/g, '');
+            const bdRegex = /^(?:\+?88)?01[3-9]\d{8}$/;
+            const intlRegex = /^\+[1-9]\d{7,14}$/;
+            const isRepeatedDigits = /^(\+?88)?0?(\d)\2{7,}$/.test(cleaned);
+
+            if (isRepeatedDigits) {
+                return { valid: false, msg: "ভুয়া বা একই সংখ্যা বারবার দেওয়া মোবাইল নাম্বার গ্রহণযোগ্য নয়।" };
+            }
+            if (bdRegex.test(cleaned) || intlRegex.test(cleaned)) {
+                return { valid: true, normalized: cleaned };
+            }
+            return { valid: false, msg: "সঠিক ১১ ডিজিটের মোবাইল নাম্বার দিন (যেমন: 017XXXXXXXX বা প্রবাসী হলে +9715XXXXXXX)।" };
+        }
 
         const DEFAULT_INSTITUTIONS = [
             { id: 'inst_rampur_high', badge: 'মাধ্যমিক উচ্চ বিদ্যালয়', theme: 'indigo', icon: 'fa-school-flag', name: 'রামপুর উচ্চ বিদ্যালয়', location: 'রামপুর / সুতারমুড়া সংলগ্ন', schedule: 'ক্লাস সময়: সকাল ১০:০০ — বিকাল ৪:০০', prayerSchedule: 'বিরতি ও প্রার্থনা: দুপুর ১:০০ টা', description: 'আমাদের সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের উচ্চ শিক্ষার প্রধান মাধ্যমিক বিদ্যালয়।', headRoleDefault: 'প্রধান শিক্ষক' },
@@ -883,6 +1817,7 @@
 
         window.showToast = function(message, type = 'success') {
             const container = document.getElementById('toast-container');
+            if (!container) return;
             const toast = document.createElement('div');
             const colors = { success: 'bg-village-800 text-white border-gold-400', error: 'bg-red-600 text-white border-red-300', warning: 'bg-amber-500 text-village-950 border-amber-700' };
             const icons = { success: 'fa-circle-check', error: 'fa-circle-exclamation', warning: 'fa-triangle-exclamation' };
@@ -893,56 +1828,73 @@
         };
 
         async function initAppSystem() {
+            populateSavedLoginCredentials();
+
+            const fallbackTimer = setTimeout(() => {
+                const loader = document.getElementById('global-loader');
+                if (loader && !loader.classList.contains('hidden')) {
+                    loader.classList.add('hidden');
+                    document.getElementById('auth-screen')?.classList.remove('hidden');
+                }
+            }, 3500);
+
             try {
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
                 try {
                     await signInAnonymously(auth);
-                    firebaseUser = auth.currentUser;
-                } catch (authErr) {
-                    console.warn("Anonymous auth skipped, using direct Firestore connection:", authErr.message);
-                }
+                } catch (authErr) {}
                 isCloudConnected = true;
                 setupRealtimeListeners();
             } catch (err) {
-                console.error("Firebase Connection Error:", err);
                 loadLocalFallbackData();
             } finally {
-                document.getElementById('global-loader').classList.add('hidden');
-                document.getElementById('auth-screen').classList.remove('hidden');
+                clearTimeout(fallbackTimer);
+                document.getElementById('global-loader')?.classList.add('hidden');
+                const savedSession = safeStore.get('sm_active_session');
+                if (savedSession) {
+                    try {
+                        currentUserProfile = JSON.parse(savedSession);
+                        enterMainApp();
+                        return;
+                    } catch (e) {}
+                }
+                document.getElementById('auth-screen')?.classList.remove('hidden');
             }
         }
 
         function loadLocalFallbackData() {
             isCloudConnected = false;
-            allUsers = JSON.parse(localStorage.getItem('sm_users') || '[]');
-            allPosts = JSON.parse(localStorage.getItem('sm_posts') || '[]');
-            allListings = JSON.parse(localStorage.getItem('sm_listings') || '[]');
-            allDirectory = JSON.parse(localStorage.getItem('sm_directory') || '[]');
-            allDirectoryLogs = JSON.parse(localStorage.getItem('sm_directory_logs') || '[]');
-            allMessages = JSON.parse(localStorage.getItem('sm_chat') || '[]');
-            allInstNotices = JSON.parse(localStorage.getItem('sm_inst_notices') || '[]');
-            allInstProfiles = JSON.parse(localStorage.getItem('sm_inst_profiles') || '{}');
-            const savedTicker = localStorage.getItem('sm_urgent_ticker');
+            allUsers = JSON.parse(safeStore.get('sm_users') || '[]');
+            allPosts = JSON.parse(safeStore.get('sm_posts') || '[]');
+            allListings = JSON.parse(safeStore.get('sm_listings') || '[]');
+            allDirectory = JSON.parse(safeStore.get('sm_directory') || '[]');
+            allDirectoryLogs = JSON.parse(safeStore.get('sm_directory_logs') || '[]');
+            allMessages = JSON.parse(safeStore.get('sm_chat') || '[]');
+            allCustomGroups = JSON.parse(safeStore.get('sm_custom_groups') || '[]');
+            allInstNotices = JSON.parse(safeStore.get('sm_inst_notices') || '[]');
+            allInstProfiles = JSON.parse(safeStore.get('sm_inst_profiles') || '{}');
+            const savedTicker = safeStore.get('sm_urgent_ticker');
             if (savedTicker) urgentTickerData = JSON.parse(savedTicker);
-            const savedHero = localStorage.getItem('sm_hero_config');
+            const savedHero = safeStore.get('sm_hero_config');
             if (savedHero) heroBannerConfig = JSON.parse(savedHero);
             refreshAllViews();
         }
 
         function syncLocalFallbackData() {
             if (isCloudConnected) return;
-            localStorage.setItem('sm_users', JSON.stringify(allUsers));
-            localStorage.setItem('sm_posts', JSON.stringify(allPosts));
-            localStorage.setItem('sm_listings', JSON.stringify(allListings));
-            localStorage.setItem('sm_directory', JSON.stringify(allDirectory));
-            localStorage.setItem('sm_directory_logs', JSON.stringify(allDirectoryLogs));
-            localStorage.setItem('sm_chat', JSON.stringify(allMessages));
-            localStorage.setItem('sm_inst_notices', JSON.stringify(allInstNotices));
-            localStorage.setItem('sm_inst_profiles', JSON.stringify(allInstProfiles));
-            localStorage.setItem('sm_urgent_ticker', JSON.stringify(urgentTickerData));
-            localStorage.setItem('sm_hero_config', JSON.stringify(heroBannerConfig));
+            safeStore.set('sm_users', JSON.stringify(allUsers));
+            safeStore.set('sm_posts', JSON.stringify(allPosts));
+            safeStore.set('sm_listings', JSON.stringify(allListings));
+            safeStore.set('sm_directory', JSON.stringify(allDirectory));
+            safeStore.set('sm_directory_logs', JSON.stringify(allDirectoryLogs));
+            safeStore.set('sm_chat', JSON.stringify(allMessages));
+            safeStore.set('sm_custom_groups', JSON.stringify(allCustomGroups));
+            safeStore.set('sm_inst_notices', JSON.stringify(allInstNotices));
+            safeStore.set('sm_inst_profiles', JSON.stringify(allInstProfiles));
+            safeStore.set('sm_urgent_ticker', JSON.stringify(urgentTickerData));
+            safeStore.set('sm_hero_config', JSON.stringify(heroBannerConfig));
             refreshAllViews();
         }
 
@@ -951,11 +1903,14 @@
             renderMarketTicker();
             renderHeroBanner();
             renderAdminPanel();
+            renderCustomGroupsList();
+            renderCallableMembers();
             renderRecentPhotosGallery();
             renderPostsFeed();
             renderInstitutionsGrid();
             renderInstitutionNotices();
             renderListings();
+            renderNearestDriversList();
             renderDirectory();
             renderChatMessages();
             if (activeInstitutionId) renderInstitutionModalContent(activeInstitutionId);
@@ -966,24 +1921,36 @@
             onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_settings', 'urgent_ticker'), (docSnap) => {
                 if (docSnap.exists()) urgentTickerData = docSnap.data();
                 renderUrgentTicker();
-            });
+            }, () => {});
             onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_settings', 'hero_banner'), (docSnap) => {
                 if (docSnap.exists()) heroBannerConfig = docSnap.data();
                 renderHeroBanner();
-            });
+            }, () => {});
 
-            // ইউজার ডাটা (live + v1 উভয় পাথ থেকে মার্জ করে লোড করবে)
             let liveUsers = [], v1Users = [];
             const syncUsers = () => {
                 const map = new Map();
                 [...v1Users, ...liveUsers].forEach(u => map.set(u.id, u));
                 allUsers = Array.from(map.values());
+                if (currentUserProfile && currentUserProfile.role !== 'admin') {
+                    const updatedMe = allUsers.find(u => u.id === currentUserProfile.id);
+                    if (updatedMe) {
+                        currentUserProfile = updatedMe;
+                        safeStore.set('sm_active_session', JSON.stringify(updatedMe));
+                        updateUserAccessUI();
+                    }
+                }
                 renderAdminPanel();
+                renderCustomGroupsList();
+                renderCallableMembers();
+                renderNearestDriversList();
+                renderListings();
+                renderDirectory();
             };
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users'), (snapshot) => {
                 liveUsers = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
                 syncUsers();
-            });
+            }, () => {});
             onSnapshot(collection(db, 'artifacts', 'amader-sutarmora-v1', 'public', 'data', 'users'), (snapshot) => {
                 v1Users = snapshot.docs.map(d => ({
                     ...d.data(),
@@ -992,9 +1959,8 @@
                     facePhoto: d.data().facePhoto || d.data().avatar || ''
                 }));
                 syncUsers();
-            });
+            }, () => {});
 
-            // পোস্ট ডাটা (live + v1 উভয় পাথ থেকে আগের ও নতুন সব পোস্ট লোড করবে)
             let livePosts = [], v1Posts = [];
             const syncPosts = () => {
                 const map = new Map();
@@ -1006,7 +1972,7 @@
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_posts'), (snapshot) => {
                 livePosts = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
                 syncPosts();
-            });
+            }, () => {});
             onSnapshot(collection(db, 'artifacts', 'amader-sutarmora-v1', 'public', 'data', 'posts'), (snapshot) => {
                 v1Posts = snapshot.docs.map(d => ({
                     ...d.data(),
@@ -1014,7 +1980,7 @@
                     authorPara: d.data().authorPara || d.data().authorBadge || 'সুতারমুড়া'
                 }));
                 syncPosts();
-            });
+            }, () => {});
 
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_institutions'), (snapshot) => {
                 allInstNotices = [];
@@ -1022,59 +1988,523 @@
                 allInstNotices.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 renderInstitutionNotices();
                 renderUrgentTicker();
-            });
+            }, () => {});
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_inst_profiles'), (snapshot) => {
                 allInstProfiles = {};
                 snapshot.forEach(d => { allInstProfiles[d.id] = d.data(); });
                 renderInstitutionsGrid();
                 if (activeInstitutionId) renderInstitutionModalContent(activeInstitutionId);
-            });
+            }, () => {});
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_listings'), (snapshot) => {
                 allListings = [];
                 snapshot.forEach(d => allListings.push({ ...d.data(), id: d.id }));
                 allListings.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 renderListings();
                 renderMarketTicker();
-            });
+            }, () => {});
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory'), (snapshot) => {
                 allDirectory = [];
                 snapshot.forEach(d => allDirectory.push({ ...d.data(), id: d.id }));
                 allDirectory.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                renderNearestDriversList();
                 renderDirectory();
-            });
+            }, () => {});
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_directory_logs'), (snapshot) => {
                 allDirectoryLogs = [];
                 snapshot.forEach(d => allDirectoryLogs.push({ ...d.data(), id: d.id }));
                 allDirectoryLogs.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
                 renderAdminPanel();
-            });
+            }, () => {});
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_custom_groups'), (snapshot) => {
+                allCustomGroups = [];
+                snapshot.forEach(d => allCustomGroups.push({ ...d.data(), id: d.id }));
+                allCustomGroups.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                renderCustomGroupsList();
+                if (activeChatTarget.type === 'custom_group') {
+                    const stillExists = allCustomGroups.find(g => g.id === activeChatTarget.id);
+                    if (!stillExists) switchChatRoom('group');
+                }
+            }, () => {});
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_chat'), (snapshot) => {
                 allMessages = [];
                 snapshot.forEach(d => allMessages.push({ ...d.data(), id: d.id }));
                 allMessages.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+                renderCallableMembers();
                 renderChatMessages();
-            });
-            // লাইভ ভয়েস কল লিসেনার
+            }, () => {});
             onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls'), (snapshot) => {
                 let latestRinging = null;
                 snapshot.forEach(d => {
                     const data = d.data();
-                    if (data.status === 'ringing' && data.callerId !== currentUserProfile?.id && (Date.now() - (data.createdAt || 0)) < 120000) {
+                    const isRecent = (Date.now() - (data.createdAt || 0)) < 120000;
+                    const isNotMe = data.callerId !== currentUserProfile?.id;
+                    const isForMe = !data.targetUserId || data.targetUserId === 'all' || data.targetUserId === currentUserProfile?.id;
+                    if (data.status === 'ringing' && isNotMe && isForMe && isRecent) {
                         latestRinging = { ...data, docId: d.id };
                     }
                 });
+                const prevDocId = activeIncomingCallData?.docId;
                 activeIncomingCallData = latestRinging;
                 const incomingAlert = document.getElementById('incoming-call-alert');
                 const callerLabel = document.getElementById('incoming-caller-label');
+                const callerDistEl = document.getElementById('incoming-caller-distance');
                 if (latestRinging && !peerConnection) {
                     if (incomingAlert) incomingAlert.classList.remove('hidden');
-                    if (callerLabel) callerLabel.textContent = `📞 ${latestRinging.callerName} কল করছেন...`;
+                    if (callerLabel) {
+                        const directTag = latestRinging.isDriverDispatch
+                            ? ' 🚑 (গাড়ি/অ্যাম্বুলেন্স কল)'
+                            : (latestRinging.targetUserId && latestRinging.targetUserId !== 'all' ? ' (সরাসরি কল)' : ' (গ্রুপ কল)');
+                        callerLabel.textContent = `📞 ${latestRinging.callerName}${directTag} কল করছেন...`;
+                    }
+                    if (callerDistEl) {
+                        if (latestRinging.isDriverDispatch && latestRinging.driverDistanceText) {
+                            callerDistEl.classList.remove('hidden');
+                            callerDistEl.textContent = `📍 যাত্রী আপনার থেকে প্রায় ${latestRinging.driverDistanceText} অবস্থানে আছেন`;
+                        } else {
+                            callerDistEl.classList.add('hidden');
+                        }
+                    }
                     document.getElementById('voice-call-modal')?.classList.remove('hidden');
-                } else if (incomingAlert && !peerConnection) {
-                    incomingAlert.classList.add('hidden');
+                    if (prevDocId !== latestRinging.docId) {
+                        startCallTone('ringtone');
+                    }
+                } else if (!latestRinging && !peerConnection) {
+                    if (incomingAlert) incomingAlert.classList.add('hidden');
+                    stopCallTone();
                 }
-            });
+            }, () => {});
         }
+
+        // কাস্টম প্রাইভেট গ্রুপ তৈরি ও পরিচালনা ফাংশনসমূহ
+        window.openCreateGroupModal = function() {
+            if (!checkWritePermission()) return;
+            tempSelectedGroupMemberIds = new Set();
+            document.getElementById('new-group-name-input').value = '';
+            document.getElementById('group-member-search-input').value = '';
+            updateSelectedGroupMembersCounter();
+            renderGroupMemberSelectionChecklist();
+            document.getElementById('create-group-modal')?.classList.remove('hidden');
+        };
+
+        window.closeCreateGroupModal = function() {
+            document.getElementById('create-group-modal')?.classList.add('hidden');
+        };
+
+        function updateSelectedGroupMembersCounter() {
+            const el = document.getElementById('selected-group-members-count');
+            if (el) el.textContent = `নির্বাচিত: ${tempSelectedGroupMemberIds.size} জন`;
+        }
+
+        window.toggleSelectMemberForGroup = function(memberId) {
+            if (tempSelectedGroupMemberIds.has(memberId)) {
+                tempSelectedGroupMemberIds.delete(memberId);
+            } else {
+                tempSelectedGroupMemberIds.add(memberId);
+            }
+            updateSelectedGroupMembersCounter();
+        };
+
+        window.filterGroupMemberSelection = function() {
+            renderGroupMemberSelectionChecklist();
+        };
+
+        function renderGroupMemberSelectionChecklist() {
+            const container = document.getElementById('group-members-checklist');
+            if (!container) return;
+            const query = (document.getElementById('group-member-search-input')?.value || '').trim().toLowerCase();
+            const candidates = allUsers.filter(u => u.status === 'approved' && u.id !== currentUserProfile?.id);
+            const filtered = query
+                ? candidates.filter(u => (u.name || '').toLowerCase().includes(query) || (u.para || '').toLowerCase().includes(query))
+                : candidates;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<p class="p-4 text-center text-xs text-gray-400">কোনো সদস্য পাওয়া যায়নি।</p>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(u => {
+                const checked = tempSelectedGroupMemberIds.has(u.id) ? 'checked' : '';
+                return `
+                <label class="flex items-center justify-between gap-2.5 p-2.5 hover:bg-village-50 cursor-pointer select-none transition">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <img src="${u.facePhoto || 'https://placehold.co/80x80/166534/ffffff?text=U'}" class="w-8 h-8 rounded-full object-cover border border-village-400 shrink-0">
+                        <div class="min-w-0">
+                            <p class="text-xs font-extrabold text-gray-900 truncate">${escapeHtml(u.name)}</p>
+                            <p class="text-[10px] text-gray-500 truncate">${escapeHtml(u.para || 'সুতারমুড়া')}</p>
+                        </div>
+                    </div>
+                    <input type="checkbox" ${checked} onchange="toggleSelectMemberForGroup('${u.id}')" class="w-4 h-4 rounded accent-village-700 cursor-pointer shrink-0">
+                </label>`;
+            }).join('');
+        }
+
+        window.submitCreateCustomGroup = async function() {
+            if (!checkWritePermission()) return;
+            const groupName = document.getElementById('new-group-name-input').value.trim();
+            if (!groupName || groupName.length < 2) {
+                showToast("গ্রুপের একটি নাম লিখুন।", "warning");
+                return;
+            }
+            if (tempSelectedGroupMemberIds.size === 0) {
+                showToast("কমপক্ষে ১ জন সদস্য নির্বাচন করুন।", "warning");
+                return;
+            }
+
+            const memberIds = [currentUserProfile.id, ...Array.from(tempSelectedGroupMemberIds)];
+            const groupId = 'cgrp_' + Date.now();
+            const groupObj = {
+                id: groupId,
+                name: groupName,
+                creatorId: currentUserProfile.id,
+                creatorName: currentUserProfile.name,
+                memberIds,
+                createdAt: Date.now()
+            };
+
+            if (isCloudConnected && db) {
+                await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_custom_groups', groupId), groupObj);
+            } else {
+                allCustomGroups.unshift(groupObj);
+                syncLocalFallbackData();
+            }
+
+            closeCreateGroupModal();
+            renderCustomGroupsList();
+            switchChatRoom(groupId, groupName, `${memberIds.length} জন সদস্য`, 'custom_group');
+            showToast(`"${groupName}" গ্রুপটি তৈরি হয়েছে!`, "success");
+        };
+
+        function getMyVisibleCustomGroups() {
+            if (!currentUserProfile) return [];
+            if (currentUserProfile.role === 'admin') return allCustomGroups;
+            return allCustomGroups.filter(g => Array.isArray(g.memberIds) && g.memberIds.includes(currentUserProfile.id));
+        }
+
+        function renderCustomGroupsList() {
+            const listEl = document.getElementById('custom-groups-list');
+            if (!listEl) return;
+
+            const isMainGroupActive = activeChatTarget.id === 'group';
+            const mainChip = `
+                <button type="button" onclick="switchChatRoom('group')" class="flex items-center gap-2 ${isMainGroupActive ? 'bg-village-700 text-white border-village-800 shadow-xs' : 'bg-stone-100 hover:bg-stone-200 text-gray-800 border-gray-200'} border px-3 py-1.5 rounded-2xl shrink-0 transition">
+                    <span class="w-7 h-7 rounded-full ${isMainGroupActive ? 'bg-gold-400 text-village-950' : 'bg-village-700 text-white'} flex items-center justify-center text-xs">
+                        <i class="fa-solid fa-mosque"></i>
+                    </span>
+                    <div class="text-left">
+                        <p class="text-xs font-extrabold leading-tight">সবার মূল আড্ডা</p>
+                        <p class="text-[10px] ${isMainGroupActive ? 'text-green-200' : 'text-gray-500'} leading-tight">সকল গ্রামবাসী</p>
+                    </div>
+                </button>`;
+
+            const myGroups = getMyVisibleCustomGroups();
+            if (myGroups.length === 0) {
+                listEl.innerHTML = mainChip + `<span class="text-[11px] text-gray-400 pl-1">আপনার কোনো প্রাইভেট গ্রুপ নেই।</span>`;
+                return;
+            }
+
+            const customChips = myGroups.map(g => {
+                const isActive = activeChatTarget.id === g.id;
+                const count = Array.isArray(g.memberIds) ? g.memberIds.length : 1;
+                return `
+                <button type="button" onclick="switchChatRoom('${g.id}', '${escapeHtml(g.name)}', '${count} জন সদস্য', 'custom_group')" class="flex items-center gap-2 ${isActive ? 'bg-amber-600 text-white border-amber-700 shadow-xs' : 'bg-amber-50 hover:bg-amber-100 text-amber-950 border-amber-200'} border px-3 py-1.5 rounded-2xl shrink-0 transition">
+                    <span class="w-7 h-7 rounded-full ${isActive ? 'bg-white text-amber-700' : 'bg-amber-500 text-white'} flex items-center justify-center text-xs">
+                        <i class="fa-solid fa-users-line"></i>
+                    </span>
+                    <div class="text-left">
+                        <p class="text-xs font-extrabold leading-tight">${escapeHtml(g.name)}</p>
+                        <p class="text-[10px] ${isActive ? 'text-amber-100' : 'text-amber-700'} leading-tight">${count} জন সদস্য</p>
+                    </div>
+                </button>`;
+            }).join('');
+
+            listEl.innerHTML = mainChip + customChips;
+        }
+
+        window.openCurrentGroupInfoModal = function() {
+            if (activeChatTarget.type !== 'custom_group') return;
+            const grp = allCustomGroups.find(g => g.id === activeChatTarget.id);
+            if (!grp) return;
+
+            document.getElementById('info-group-title').textContent = grp.name;
+            document.getElementById('info-group-creator').textContent = `গ্রুপ অ্যাডমিন: ${grp.creatorName} • মোট ${(grp.memberIds || []).length} জন সদস্য`;
+
+            const listEl = document.getElementById('info-group-members-list');
+            const members = (grp.memberIds || []).map(uid => {
+                if (uid === 'admin_sutarmora') return { id: uid, name: 'গ্রাম অ্যাডমিন (সুতারমুড়া)', para: 'মধ্য পাড়া', facePhoto: '' };
+                return allUsers.find(u => u.id === uid) || { id: uid, name: 'সদস্য', para: 'সুতারমুড়া', facePhoto: '' };
+            });
+
+            listEl.innerHTML = members.map(m => `
+                <div class="flex items-center justify-between p-2.5 text-xs">
+                    <div class="flex items-center gap-2">
+                        <img src="${m.facePhoto || 'https://placehold.co/80x80/166534/ffffff?text=U'}" class="w-8 h-8 rounded-full object-cover border">
+                        <div>
+                            <p class="font-extrabold text-gray-900">${escapeHtml(m.name)} ${m.id === grp.creatorId ? '<span class="text-[10px] text-amber-700 bg-amber-100 px-1.5 rounded">অ্যাডমিন</span>' : ''}</p>
+                            <p class="text-[10px] text-gray-500">${escapeHtml(m.para || 'সুতারমুড়া')}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            const actionsEl = document.getElementById('info-group-actions');
+            const isCreatorOrAdmin = currentUserProfile?.id === grp.creatorId || currentUserProfile?.role === 'admin';
+            actionsEl.innerHTML = isCreatorOrAdmin
+                ? `<button type="button" onclick="deleteCustomGroup('${grp.id}')" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs"><i class="fa-solid fa-trash mr-1"></i> গ্রুপ মুছুন</button>
+                   <button type="button" onclick="document.getElementById('group-members-info-modal').classList.add('hidden')" class="px-3.5 py-1.5 bg-gray-100 text-gray-700 font-bold rounded-xl text-xs">বন্ধ করুন</button>`
+                : `<button type="button" onclick="leaveCustomGroup('${grp.id}')" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs">গ্রুপ ত্যাগ করুন</button>
+                   <button type="button" onclick="document.getElementById('group-members-info-modal').classList.add('hidden')" class="px-3.5 py-1.5 bg-gray-100 text-gray-700 font-bold rounded-xl text-xs">বন্ধ করুন</button>`;
+
+            document.getElementById('group-members-info-modal')?.classList.remove('hidden');
+        };
+
+        window.deleteCustomGroup = async function(groupId) {
+            if (isCloudConnected && db) {
+                try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_custom_groups', groupId)); } catch (e) {}
+            } else {
+                allCustomGroups = allCustomGroups.filter(g => g.id !== groupId);
+                syncLocalFallbackData();
+            }
+            document.getElementById('group-members-info-modal')?.classList.add('hidden');
+            switchChatRoom('group');
+            showToast("গ্রুপটি মুছে ফেলা হয়েছে।", "warning");
+        };
+
+        window.leaveCustomGroup = async function(groupId) {
+            const grp = allCustomGroups.find(g => g.id === groupId);
+            if (!grp || !currentUserProfile) return;
+            const updatedMembers = (grp.memberIds || []).filter(id => id !== currentUserProfile.id);
+            if (isCloudConnected && db) {
+                try { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_custom_groups', groupId), { memberIds: updatedMembers }); } catch (e) {}
+            } else {
+                grp.memberIds = updatedMembers;
+                syncLocalFallbackData();
+            }
+            document.getElementById('group-members-info-modal')?.classList.add('hidden');
+            switchChatRoom('group');
+            showToast("আপনি গ্রুপ থেকে বের হয়ে এসেছেন।", "warning");
+        };
+
+        window.openProfileEditModal = function() {
+            if (!currentUserProfile) return;
+            editedProfilePhotoBase64 = currentUserProfile.facePhoto || '';
+            document.getElementById('edit-profile-avatar-preview').src = editedProfilePhotoBase64 || 'https://placehold.co/150x150/166534/ffffff?text=U';
+            document.getElementById('edit-profile-name').value = currentUserProfile.name || '';
+            document.getElementById('edit-profile-father').value = currentUserProfile.father || '';
+            document.getElementById('edit-profile-para').value = currentUserProfile.para || 'মধ্য পাড়া';
+            document.getElementById('edit-profile-phone').value = currentUserProfile.phone || '';
+            document.getElementById('edit-profile-email').value = currentUserProfile.email || '';
+            document.getElementById('edit-profile-password').value = '';
+            document.getElementById('profile-edit-modal').classList.remove('hidden');
+        };
+
+        window.closeProfileEditModal = function() {
+            document.getElementById('profile-edit-modal').classList.add('hidden');
+        };
+
+        window.handleEditProfilePhotoSelect = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            compressImageFile(file, 260, (base64) => {
+                editedProfilePhotoBase64 = base64;
+                document.getElementById('edit-profile-avatar-preview').src = base64;
+                showToast("নতুন প্রোফাইল ছবি নির্বাচিত হয়েছে!", "success");
+            });
+        };
+
+        window.saveUserProfileUpdates = async function() {
+            if (!currentUserProfile) return;
+            const name = document.getElementById('edit-profile-name').value.trim();
+            const father = document.getElementById('edit-profile-father').value.trim();
+            const para = document.getElementById('edit-profile-para').value;
+            const phone = document.getElementById('edit-profile-phone').value.trim();
+            const newPass = document.getElementById('edit-profile-password').value.trim();
+
+            if (!name) { showToast("আপনার নাম লিখুন।", "warning"); return; }
+            const phoneCheck = validateRealPhone(phone);
+            if (!phoneCheck.valid) { showToast(phoneCheck.msg, "warning"); return; }
+            if (newPass && newPass.length < 6) { showToast("নতুন পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।", "warning"); return; }
+
+            const updates = {
+                name,
+                father,
+                para,
+                phone: phoneCheck.normalized,
+                facePhoto: editedProfilePhotoBase64 || currentUserProfile.facePhoto || ''
+            };
+            if (newPass) {
+                updates.password = newPass;
+                if (safeStore.get('sm_saved_credentials')) {
+                    saveLoginCredentialsToBrowser(currentUserProfile.email || phoneCheck.normalized, newPass);
+                }
+            }
+
+            currentUserProfile = { ...currentUserProfile, ...updates };
+            safeStore.set('sm_active_session', JSON.stringify(currentUserProfile));
+
+            if (currentUserProfile.role !== 'admin') {
+                if (isCloudConnected && db) {
+                    try { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', currentUserProfile.id), updates); } catch (e) {}
+                    try { await updateDoc(doc(db, 'artifacts', 'amader-sutarmora-v1', 'public', 'data', 'users', currentUserProfile.id), { ...updates, avatar: updates.facePhoto }); } catch (e) {}
+                } else {
+                    const idx = allUsers.findIndex(u => u.id === currentUserProfile.id);
+                    if (idx !== -1) allUsers[idx] = { ...allUsers[idx], ...updates };
+                    syncLocalFallbackData();
+                }
+            }
+
+            updateUserAccessUI();
+            renderCallableMembers();
+            renderNearestDriversList();
+            renderListings();
+            renderDirectory();
+            closeProfileEditModal();
+            showToast("আপনার প্রোফাইল তথ্য ও ছবি আপডেট হয়েছে!", "success");
+        };
+
+        // সদস্য তালিকা (ব্যক্তিগত চ্যাট, ছবি ও কল বাটন সহ)
+        function renderCallableMembers() {
+            const listEl = document.getElementById('callable-members-list');
+            const selectEl = document.getElementById('call-target-member-select');
+            const callableUsers = allUsers.filter(u => u.status === 'approved' && u.id !== currentUserProfile?.id);
+
+            if (selectEl) {
+                const prevVal = selectEl.value;
+                selectEl.innerHTML = `<option value="all">সকল সদস্য (ওপেন গ্রুপ কল)</option>` +
+                    callableUsers.map(u => `<option value="${u.id}">${escapeHtml(u.name)} (${escapeHtml(u.para || 'সুতারমুড়া')})</option>`).join('');
+                if ([...selectEl.options].some(o => o.value === prevVal)) selectEl.value = prevVal;
+            }
+
+            if (!listEl) return;
+
+            if (callableUsers.length === 0) {
+                listEl.innerHTML = `<p class="text-xs text-gray-400 pl-1">অন্য কোনো অনুমোদিত সদস্য এখনো যুক্ত হননি।</p>`;
+                return;
+            }
+
+            listEl.innerHTML = callableUsers.map(u => {
+                const online = isMemberCurrentlyOnline(u);
+                const isSelectedChat = activeChatTarget.type === 'private' && activeChatTarget.id === u.id;
+                return `
+                <div class="flex items-center gap-2 ${isSelectedChat ? 'bg-emerald-100 border-emerald-500 ring-1 ring-emerald-400' : 'bg-village-50 hover:bg-emerald-50 border-village-200'} border px-2.5 py-1.5 rounded-2xl shrink-0 transition">
+                    <button type="button" onclick="switchChatRoom('${u.id}', '${escapeHtml(u.name)}', '${escapeHtml(u.para || 'সুতারমুড়া')}', 'private')" title="ব্যক্তিগত মেসেজ ও ছবি পাঠান" class="flex items-center gap-2 text-left">
+                        <div class="relative">
+                            <img src="${u.facePhoto || 'https://placehold.co/80x80/166534/ffffff?text=U'}" class="w-7 h-7 rounded-full object-cover border border-village-500">
+                            ${online ? `<span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full" title="অনলাইন"></span>` : ''}
+                        </div>
+                        <div>
+                            <p class="text-xs font-extrabold text-gray-900 leading-tight">${escapeHtml(u.name)}</p>
+                            <p class="text-[10px] text-gray-500 leading-tight">${escapeHtml(u.para || 'সুতারমুড়া')}</p>
+                        </div>
+                    </button>
+                    <button type="button" onclick="switchChatRoom('${u.id}', '${escapeHtml(u.name)}', '${escapeHtml(u.para || 'সুতারমুড়া')}', 'private')" title="মেসেজ ও ছবি পাঠান" class="w-6 h-6 rounded-full bg-village-700 hover:bg-village-800 text-white flex items-center justify-center text-[10px] ml-0.5 shadow-2xs">
+                        <i class="fa-solid fa-comment-dots"></i>
+                    </button>
+                    <button type="button" onclick="initiateDirectMemberCall('${u.id}', '${escapeHtml(u.name)}')" title="সরাসরি ফ্রি কল করুন" class="w-6 h-6 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center text-[10px] shadow-2xs">
+                        <i class="fa-solid fa-phone"></i>
+                    </button>
+                </div>`;
+            }).join('');
+        }
+
+        // সবার গ্রুপ, কাস্টম প্রাইভেট গ্রুপ বা সদস্য-টু-সদস্য ব্যক্তিগত চ্যাট পরিবর্তন
+        window.switchChatRoom = function(targetId, targetName = '', targetSubtitle = '', roomType = 'private') {
+            const titleEl = document.getElementById('chat-room-title');
+            const subEl = document.getElementById('chat-room-subtitle');
+            const backBtn = document.getElementById('btn-back-to-group-chat');
+            const callLabel = document.getElementById('chat-header-call-label');
+            const groupInfoBtn = document.getElementById('btn-view-group-info');
+
+            if (targetId === 'group') {
+                activeChatTarget = { id: 'group', type: 'public_group', name: 'সুতারমুড়া গ্রাম ও প্রবাসী আড্ডা ঘর (সবার গ্রুপ)', para: '' };
+                if (titleEl) titleEl.textContent = activeChatTarget.name;
+                if (subEl) subEl.textContent = 'সকল সদস্য এখানে বার্তা, ভয়েস ও ছবি পাঠাতে পারবেন';
+                if (backBtn) backBtn.classList.add('hidden');
+                if (groupInfoBtn) groupInfoBtn.classList.add('hidden');
+                if (callLabel) callLabel.textContent = 'ওপেন কল';
+            } else if (roomType === 'custom_group') {
+                activeChatTarget = { id: targetId, type: 'custom_group', name: targetName, para: targetSubtitle };
+                if (titleEl) titleEl.textContent = `${targetName} (প্রাইভেট গ্রুপ)`;
+                if (subEl) subEl.textContent = `${targetSubtitle} • শুধুমাত্র নির্বাচিত সদস্যদের জন্য`;
+                if (backBtn) backBtn.classList.remove('hidden');
+                if (groupInfoBtn) groupInfoBtn.classList.remove('hidden');
+                if (callLabel) callLabel.textContent = 'ওপেন কল';
+            } else {
+                activeChatTarget = { id: targetId, type: 'private', name: targetName, para: targetSubtitle };
+                if (titleEl) titleEl.textContent = `${targetName} (ব্যক্তিগত চ্যাট)`;
+                if (subEl) subEl.textContent = `${targetSubtitle || 'সুতারমুড়া'} • শুধুমাত্র আপনারা দুজন দেখতে পাবেন`;
+                if (backBtn) backBtn.classList.remove('hidden');
+                if (groupInfoBtn) groupInfoBtn.classList.add('hidden');
+                if (callLabel) callLabel.textContent = 'কল করুন';
+            }
+            renderCustomGroupsList();
+            renderCallableMembers();
+            renderChatMessages();
+        };
+
+        window.handleChatHeaderCall = function() {
+            if (activeChatTarget.type === 'private') {
+                initiateDirectMemberCall(activeChatTarget.id, activeChatTarget.name);
+            } else {
+                openVoiceCallModal();
+            }
+        };
+
+        window.triggerChatImagePicker = function() {
+            if (!checkWritePermission()) return;
+            document.getElementById('chat-image-file-input')?.click();
+        };
+
+        window.handleChatImageSelect = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            compressImageFile(file, 720, (base64) => {
+                selectedChatImageBase64 = base64;
+                const previewImg = document.getElementById('chat-selected-img-preview');
+                const previewBar = document.getElementById('chat-image-preview-bar');
+                if (previewImg) previewImg.src = base64;
+                if (previewBar) previewBar.classList.remove('hidden');
+                document.getElementById('chat-input')?.focus();
+                showToast("ছবি যুক্ত হয়েছে! সেন্ড বাটনে চাপুন।", "success");
+            });
+        };
+
+        window.clearSelectedChatImage = function() {
+            selectedChatImageBase64 = "";
+            const fileInput = document.getElementById('chat-image-file-input');
+            if (fileInput) fileInput.value = "";
+            document.getElementById('chat-image-preview-bar')?.classList.add('hidden');
+        };
+
+        window.openChatLightbox = function(imgSrc) {
+            if (!imgSrc) return;
+            const lb = document.getElementById('chat-image-lightbox');
+            const img = document.getElementById('chat-lightbox-img');
+            if (lb && img) {
+                img.src = imgSrc;
+                lb.classList.remove('hidden');
+            }
+        };
+
+        window.initiateDirectMemberCall = function(targetId, targetName) {
+            if (!checkWritePermission()) return;
+            isDriverCascadeActive = false;
+            clearTimeout(driverCascadeTimer);
+            document.getElementById('driver-dispatch-progress-text')?.classList.add('hidden');
+            document.getElementById('call-modal-icon').className = 'fa-solid fa-headset text-3xl text-gold-400';
+
+            const selectEl = document.getElementById('call-target-member-select');
+            if (selectEl) {
+                if (![...selectEl.options].some(o => o.value === targetId)) {
+                    const opt = document.createElement('option');
+                    opt.value = targetId;
+                    opt.textContent = targetName;
+                    selectEl.appendChild(opt);
+                }
+                selectEl.value = targetId;
+            }
+            document.getElementById('voice-call-modal').classList.remove('hidden');
+            startOutgoingVoiceCall();
+        };
 
         window.handleAuthHeaderPhoto = function(event) {
             const file = event.target.files[0];
@@ -1093,6 +2523,7 @@
             const btnReg = document.getElementById('tab-register-btn');
             if (tab === 'login') {
                 stopFaceCamera();
+                populateSavedLoginCredentials();
                 loginBox.classList.remove('hidden'); regBox.classList.add('hidden');
                 btnLogin.className = "flex-1 py-2.5 text-sm font-bold rounded-xl bg-white text-village-800 shadow-sm transition";
                 btnReg.className = "flex-1 py-2.5 text-sm font-bold rounded-xl text-gray-500 hover:text-village-700 transition";
@@ -1105,7 +2536,15 @@
 
         window.sendEmailOTP = function() {
             const email = document.getElementById('reg-email').value.trim().toLowerCase();
-            if (!email || !email.includes('@')) { showToast("সঠিক ইমেইল দিন।", "warning"); return; }
+            const emailCheck = validateRealEmail(email);
+            if (!emailCheck.valid) { showToast(emailCheck.msg, "warning"); return; }
+
+            const duplicateEmail = allUsers.some(u => u.email && u.email.toLowerCase() === email);
+            if (duplicateEmail) {
+                showToast("এই ইমেইল দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট খোলা আছে!", "error");
+                return;
+            }
+
             generatedEmailOTP = Math.floor(100000 + Math.random() * 900000).toString();
             verifiedEmailAddress = email;
             isEmailVerified = false;
@@ -1128,13 +2567,21 @@
             const video = document.getElementById('face-video');
             const preview = document.getElementById('face-preview');
             const placeholder = document.getElementById('camera-placeholder');
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                showToast("গ্যালারি থেকে ছবি নির্বাচন করুন।", "warning");
+                document.getElementById('reg-face-file-input')?.click();
+                return;
+            }
             try {
                 videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
                 video.srcObject = videoStream;
                 video.classList.remove('hidden'); preview.classList.add('hidden'); placeholder.classList.add('hidden');
                 document.getElementById('btn-start-cam').classList.add('hidden');
                 document.getElementById('btn-capture-face').classList.remove('hidden');
-            } catch (e) { showToast("ক্যামেরা চালু করা যায়নি। ছবি আপলোড ব্যবহার করুন।", "warning"); }
+            } catch (e) {
+                showToast("ব্রাউজারে ক্যামেরা ব্লক করা—গ্যালারি থেকে ছবি দিন।", "warning");
+                document.getElementById('reg-face-file-input')?.click();
+            }
         };
         function stopFaceCamera() { if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; } }
 
@@ -1180,7 +2627,7 @@
                     if (w > maxW) { h = Math.round((h * maxW) / w); w = maxW; }
                     canvas.width = w; canvas.height = h;
                     canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-                    callback(canvas.toDataURL('image/jpeg', 0.8));
+                    callback(canvas.toDataURL('image/jpeg', 0.78));
                 };
                 img.src = e.target.result;
             };
@@ -1192,15 +2639,30 @@
             const father = document.getElementById('reg-father').value.trim();
             const para = document.getElementById('reg-para').value;
             const email = document.getElementById('reg-email').value.trim().toLowerCase();
-            const phone = document.getElementById('reg-phone').value.trim();
+            const rawPhone = document.getElementById('reg-phone').value.trim();
             const password = document.getElementById('reg-password').value;
 
-            if (!name || !father || !email || !phone || !password) { showToast("সকল ঘর পূরণ করুন।", "warning"); return; }
+            if (!name || name.length < 3) { showToast("আপনার সঠিক পূর্ণ নাম লিখুন।", "warning"); return; }
+            if (!father || father.length < 3) { showToast("পিতার সঠিক নাম লিখুন।", "warning"); return; }
+
+            const phoneCheck = validateRealPhone(rawPhone);
+            if (!phoneCheck.valid) { showToast(phoneCheck.msg, "warning"); return; }
+
+            const emailCheck = validateRealEmail(email);
+            if (!emailCheck.valid) { showToast(emailCheck.msg, "warning"); return; }
+
+            const duplicateUser = allUsers.find(u => (u.email && u.email.toLowerCase() === email) || u.phone === phoneCheck.normalized);
+            if (duplicateUser) {
+                showToast("এই ইমেইল বা মোবাইল নাম্বার দিয়ে আগেই নিবন্ধন করা হয়েছে!", "error");
+                return;
+            }
+
             if (!isEmailVerified || email !== verifiedEmailAddress) { showToast("আগে ইমেইল OTP যাচাই করুন।", "warning"); return; }
-            if (!capturedFaceBase64) { showToast("ফেস স্ক্যান সম্পন্ন করুন।", "warning"); return; }
+            if (!capturedFaceBase64) { showToast("ফেস স্ক্যান বা ছবি আপলোড সম্পন্ন করুন।", "warning"); return; }
+            if (!password || password.length < 6) { showToast("কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।", "warning"); return; }
 
             const newUserId = 'user_' + Date.now();
-            const newUser = { id: newUserId, name, father, para, email, phone, password, role: 'member', status: 'pending', facePhoto: capturedFaceBase64, createdAt: Date.now() };
+            const newUser = { id: newUserId, name, father, para, email, phone: phoneCheck.normalized, password, role: 'member', status: 'pending', facePhoto: capturedFaceBase64, lastActiveAt: Date.now(), createdAt: Date.now() };
 
             if (isCloudConnected && db) {
                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_users', newUserId), newUser);
@@ -1209,8 +2671,10 @@
                 syncLocalFallbackData();
             }
             currentUserProfile = newUser;
+            safeStore.set('sm_active_session', JSON.stringify(newUser));
+            saveLoginCredentialsToBrowser(email, password);
             enterMainApp();
-            showToast("নিবন্ধন সম্পন্ন হয়েছে!", "success");
+            showToast("নিবন্ধন সম্পন্ন ও পাসওয়ার্ড সেভ হয়েছে!", "success");
         };
 
         window.handleUserLogin = function() {
@@ -1218,9 +2682,10 @@
             const pass = document.getElementById('login-password').value;
             if (!iden || !pass) { showToast("আইডি ও পাসওয়ার্ড দিন।", "warning"); return; }
 
-            // সুরক্ষিত অ্যাডমিন লগইন যাচাই
             if ((iden === ADMIN_CREDENTIALS.email.toLowerCase() || iden === ADMIN_CREDENTIALS.phone) && pass === ADMIN_CREDENTIALS.password) {
                 currentUserProfile = { id: 'admin_sutarmora', name: 'গ্রাম অ্যাডমিন (সুতারমুড়া)', para: 'মধ্য পাড়া', role: 'admin', status: 'approved', facePhoto: 'https://placehold.co/100x100/14532d/fbbf24?text=ADMIN' };
+                safeStore.set('sm_active_session', JSON.stringify(currentUserProfile));
+                saveLoginCredentialsToBrowser(iden, pass);
                 enterMainApp();
                 showToast("অ্যাডমিন প্যানেলে স্বাগতম!", "success");
                 return;
@@ -1229,6 +2694,8 @@
             const found = allUsers.find(u => ((u.email && u.email.toLowerCase() === iden) || u.phone === iden) && u.password === pass);
             if (!found) { showToast("ইমেইল/মোবাইল অথবা পাসওয়ার্ড সঠিক নয়।", "error"); return; }
             currentUserProfile = found;
+            safeStore.set('sm_active_session', JSON.stringify(found));
+            saveLoginCredentialsToBrowser(iden, pass);
             enterMainApp();
             showToast(`স্বাগতম, ${found.name}!`, "success");
         };
@@ -1236,16 +2703,32 @@
         window.handleLogout = function() {
             stopFaceCamera();
             closePostCamera();
+            stopCallTone();
+            stopPresenceHeartbeat();
+            if (driverGpsWatchId !== null) {
+                navigator.geolocation.clearWatch(driverGpsWatchId);
+                driverGpsWatchId = null;
+            }
+            isDriverLiveGpsActive = false;
             currentUserProfile = null;
+            safeStore.remove('sm_active_session');
             document.getElementById('main-app').classList.add('hidden');
             document.getElementById('auth-screen').classList.remove('hidden');
-            showToast("লগআউট হয়েছে।", "success");
+            populateSavedLoginCredentials();
+            showToast("লগআউট হয়েছে। আপনার ইউজার ও পাসওয়ার্ড সেভ রাখা আছে।", "success");
         };
 
         function enterMainApp() {
             document.getElementById('auth-screen').classList.add('hidden');
             document.getElementById('main-app').classList.remove('hidden');
             updateUserAccessUI();
+            startPresenceHeartbeat();
+            getBrowserLocationOnce().then(coords => {
+                if (coords) {
+                    syncMyLocationToCloud(coords, false);
+                    renderNearestDriversList();
+                }
+            });
             refreshAllViews();
         }
 
@@ -1446,11 +2929,14 @@
             });
         };
 
-        // পোস্টের জন্য লাইভ ক্যামেরা ফাংশনসমূহ
         window.openPostCamera = async function() {
             if (!checkWritePermission()) return;
             const camBox = document.getElementById('post-live-camera-box');
             const video = document.getElementById('post-camera-video');
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                document.getElementById('post-image-input')?.click();
+                return;
+            }
             try {
                 if (postCameraStream) {
                     postCameraStream.getTracks().forEach(t => t.stop());
@@ -1463,7 +2949,8 @@
                 camBox.classList.remove('hidden');
                 document.getElementById('post-image-preview-box').classList.add('hidden');
             } catch (e) {
-                showToast("ক্যামেরা চালু করা যায়নি। ব্রাউজারে ক্যামেরার অনুমতি দিন।", "error");
+                showToast("ব্রাউজারে ক্যামেরা বন্ধ—গ্যালারি থেকে ছবি দিন।", "warning");
+                document.getElementById('post-image-input')?.click();
             }
         };
 
@@ -1609,7 +3096,7 @@
                         ${currentUserProfile?.role === 'admin' ? `<button onclick="deletePostByAdmin('${p.id}')" class="px-2 py-1 bg-red-50 text-red-600 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></button>` : ''}
                     </div>
                     ${p.content ? `<p class="text-xs sm:text-sm text-gray-800 whitespace-pre-line leading-relaxed">${escapeHtml(p.content)}</p>` : ''}
-                    ${p.image ? `<img src="${p.image}" class="w-full max-h-80 object-cover rounded-xl border">` : ''}
+                    ${p.image ? `<img src="${p.image}" onclick="openChatLightbox('${p.image}')" class="w-full max-h-80 object-cover rounded-xl border cursor-zoom-in">` : ''}
 
                     <div class="flex items-center gap-4 pt-2 border-t text-xs font-bold text-gray-600">
                         <button onclick="togglePostLike('${p.id}')" class="flex items-center gap-1 px-3 py-1.5 rounded-lg transition ${isLiked ? 'bg-red-50 text-red-600' : 'bg-gray-100 hover:bg-gray-200'}">
@@ -1868,7 +3355,13 @@
 
         window.submitListing = async function(category) {
             if (!checkWritePermission()) return;
-            let itemObj = { id: 'list_' + Date.now(), category, authorName: `${currentUserProfile.name} (${currentUserProfile.para || 'সুতারমুড়া'})`, createdAt: Date.now() };
+            let itemObj = {
+                id: 'list_' + Date.now(),
+                category,
+                authorId: currentUserProfile.id,
+                authorName: `${currentUserProfile.name} (${currentUserProfile.para || 'সুতারমুড়া'})`,
+                createdAt: Date.now()
+            };
             if (category === 'jobs') {
                 itemObj.subType = document.getElementById('job-type').value;
                 itemObj.title = document.getElementById('job-title').value.trim();
@@ -1908,6 +3401,38 @@
             showToast("মুছে ফেলা হয়েছে।", "success");
         };
 
+        function buildListingActionFooter(item, isAdmin, phoneBtnColor) {
+            const matchedMember = findRegisteredMemberForItem(item);
+            const isSelf = matchedMember && currentUserProfile && matchedMember.id === currentUserProfile.id;
+            const isOnline = matchedMember ? isMemberCurrentlyOnline(matchedMember) : false;
+
+            const statusBadge = matchedMember
+                ? (isOnline
+                    ? `<span class="inline-flex items-center gap-1 text-[10px] font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> অনলাইন</span>`
+                    : `<span class="inline-flex items-center gap-1 text-[10px] font-bold text-village-700 bg-village-50 border border-village-200 px-1.5 py-0.5 rounded-full">✓ সদস্য</span>`)
+                : '';
+
+            const freeCallBtn = (matchedMember && !isSelf)
+                ? `<button type="button" onclick="initiateDirectMemberCall('${matchedMember.id}', '${escapeHtml(matchedMember.name)}')" title="অ্যাপের মাধ্যমে সরাসরি ফ্রি ভয়েস কল করুন" class="px-2.5 py-1 ${isOnline ? 'bg-gold-400 hover:bg-gold-500 text-village-950 ring-2 ring-emerald-400/50' : 'bg-amber-100 hover:bg-amber-200 text-amber-950'} font-extrabold rounded-lg flex items-center gap-1 text-[11px] shadow-2xs transition">
+                    <i class="fa-solid fa-headset"></i> <span>অ্যাপ ফ্রি কল</span>
+                </button>`
+                : '';
+
+            return `
+                <div class="flex flex-wrap justify-between items-center gap-2 pt-2 border-t text-[11px]">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <span class="truncate text-gray-600 font-semibold">${escapeHtml(item.authorName)}</span>
+                        ${statusBadge}
+                    </div>
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        ${freeCallBtn}
+                        <a href="tel:${escapeHtml(item.contact)}" class="px-2.5 py-1 ${phoneBtnColor} text-white font-bold rounded-lg flex items-center gap-1">
+                            <i class="fa-solid fa-phone"></i> <span>${escapeHtml(item.contact)}</span>
+                        </a>
+                    </div>
+                </div>`;
+        }
+
         function renderListings() {
             const jobsEl = document.getElementById('jobs-list');
             const marketEl = document.getElementById('market-list');
@@ -1918,9 +3443,9 @@
             const mItems = allListings.filter(l => l.category === 'market');
             const tItems = allListings.filter(l => l.category === 'tuition');
 
-            if (jobsEl) jobsEl.innerHTML = jItems.length === 0 ? `<div class="bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border">বিজ্ঞাপন নেই।</div>` : jItems.map(j => `<div class="bg-white p-3.5 rounded-2xl shadow-sm border flex flex-col justify-between gap-2 text-xs"><div><div class="flex justify-between"><span class="px-2 py-0.5 bg-blue-50 text-blue-700 font-bold rounded-full">${escapeHtml(j.subType)}</span>${isAdmin ? `<button onclick="deleteListingByAdmin('${j.id}')" class="text-red-600"><i class="fa-solid fa-trash"></i></button>` : ''}</div><h4 class="font-bold mt-1">${escapeHtml(j.title)}</h4><p class="text-gray-600">${escapeHtml(j.desc || '')}</p></div><div class="flex justify-between items-center pt-2 border-t text-[11px]"><span>${escapeHtml(j.authorName)}</span><a href="tel:${escapeHtml(j.contact)}" class="px-2 py-1 bg-blue-600 text-white font-bold rounded"><i class="fa-solid fa-phone"></i> ${escapeHtml(j.contact)}</a></div></div>`).join('');
-            if (marketEl) marketEl.innerHTML = mItems.length === 0 ? `<div class="bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border">পণ্য নেই।</div>` : mItems.map(m => `<div class="bg-white p-3.5 rounded-2xl shadow-sm border flex flex-col justify-between gap-2 text-xs"><div><div class="flex justify-between"><span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 font-bold rounded-full">হাট-বাজার</span><div class="flex items-center gap-2">${m.price ? `<span class="text-emerald-700 font-bold">${escapeHtml(m.price)}</span>` : ''}${isAdmin ? `<button onclick="deleteListingByAdmin('${m.id}')" class="text-red-600"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div><h4 class="font-bold mt-1">${escapeHtml(m.title)}</h4><p class="text-gray-600">${escapeHtml(m.desc || '')}</p></div><div class="flex justify-between items-center pt-2 border-t text-[11px]"><span>${escapeHtml(m.authorName)}</span><a href="tel:${escapeHtml(m.contact)}" class="px-2 py-1 bg-emerald-600 text-white font-bold rounded"><i class="fa-solid fa-phone"></i> ${escapeHtml(m.contact)}</a></div></div>`).join('');
-            if (tuitionEl) tuitionEl.innerHTML = tItems.length === 0 ? `<div class="bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border">তথ্য নেই।</div>` : tItems.map(t => `<div class="bg-white p-3.5 rounded-2xl shadow-sm border flex flex-col justify-between gap-2 text-xs"><div><div class="flex justify-between"><span class="px-2 py-0.5 bg-purple-50 text-purple-700 font-bold rounded-full">${escapeHtml(t.subType)}</span>${isAdmin ? `<button onclick="deleteListingByAdmin('${t.id}')" class="text-red-600"><i class="fa-solid fa-trash"></i></button>` : ''}</div><h4 class="font-bold mt-1">${escapeHtml(t.title)}</h4><p class="text-gray-600">${escapeHtml(t.desc || '')}</p></div><div class="flex justify-between items-center pt-2 border-t text-[11px]"><span>${escapeHtml(t.authorName)}</span><a href="tel:${escapeHtml(t.contact)}" class="px-2 py-1 bg-purple-600 text-white font-bold rounded"><i class="fa-solid fa-phone"></i> ${escapeHtml(t.contact)}</a></div></div>`).join('');
+            if (jobsEl) jobsEl.innerHTML = jItems.length === 0 ? `<div class="bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border">বিজ্ঞাপন নেই।</div>` : jItems.map(j => `<div class="bg-white p-3.5 rounded-2xl shadow-sm border flex flex-col justify-between gap-2 text-xs"><div><div class="flex justify-between"><span class="px-2 py-0.5 bg-blue-50 text-blue-700 font-bold rounded-full">${escapeHtml(j.subType)}</span>${isAdmin ? `<button onclick="deleteListingByAdmin('${j.id}')" class="text-red-600"><i class="fa-solid fa-trash"></i></button>` : ''}</div><h4 class="font-bold mt-1">${escapeHtml(j.title)}</h4><p class="text-gray-600">${escapeHtml(j.desc || '')}</p></div>${buildListingActionFooter(j, isAdmin, 'bg-blue-600 hover:bg-blue-700')}</div>`).join('');
+            if (marketEl) marketEl.innerHTML = mItems.length === 0 ? `<div class="bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border">পণ্য নেই।</div>` : mItems.map(m => `<div class="bg-white p-3.5 rounded-2xl shadow-sm border flex flex-col justify-between gap-2 text-xs"><div><div class="flex justify-between"><span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 font-bold rounded-full">হাট-বাজার</span><div class="flex items-center gap-2">${m.price ? `<span class="text-emerald-700 font-bold">${escapeHtml(m.price)}</span>` : ''}${isAdmin ? `<button onclick="deleteListingByAdmin('${m.id}')" class="text-red-600"><i class="fa-solid fa-trash"></i></button>` : ''}</div></div><h4 class="font-bold mt-1 text-sm text-gray-900">${escapeHtml(m.title)}</h4><p class="text-gray-600">${escapeHtml(m.desc || '')}</p></div>${buildListingActionFooter(m, isAdmin, 'bg-emerald-600 hover:bg-emerald-700')}</div>`).join('');
+            if (tuitionEl) tuitionEl.innerHTML = tItems.length === 0 ? `<div class="bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border">তথ্য নেই।</div>` : tItems.map(t => `<div class="bg-white p-3.5 rounded-2xl shadow-sm border flex flex-col justify-between gap-2 text-xs"><div><div class="flex justify-between"><span class="px-2 py-0.5 bg-purple-50 text-purple-700 font-bold rounded-full">${escapeHtml(t.subType)}</span>${isAdmin ? `<button onclick="deleteListingByAdmin('${t.id}')" class="text-red-600"><i class="fa-solid fa-trash"></i></button>` : ''}</div><h4 class="font-bold mt-1">${escapeHtml(t.title)}</h4><p class="text-gray-600">${escapeHtml(t.desc || '')}</p></div>${buildListingActionFooter(t, isAdmin, 'bg-purple-600 hover:bg-purple-700')}</div>`).join('');
         }
 
         let activeDirectoryFilter = 'all';
@@ -1991,41 +3516,92 @@
 
         function renderDirectory() {
             const container = document.getElementById('directory-list');
+            if (!container) return;
             const list = activeDirectoryFilter === 'all' ? allDirectory : allDirectory.filter(d => d.role === activeDirectoryFilter);
             if (list.length === 0) { container.innerHTML = `<div class="bg-white p-5 rounded-2xl text-center text-xs text-gray-400 border col-span-full">কোনো নাম্বার নেই।</div>`; return; }
             container.innerHTML = list.map(d => {
                 const st = DIRECTORY_ROLE_STYLES[d.role] || { badge: 'bg-amber-50 text-amber-700', icon: 'fa-address-card' };
+                const matchedMember = findRegisteredMemberByPhone(d.phone);
+                const isSelf = matchedMember && currentUserProfile && matchedMember.id === currentUserProfile.id;
+                const isOnline = matchedMember ? isMemberCurrentlyOnline(matchedMember) : false;
+
+                let distancePillHtml = '';
+                if (matchedMember && userCurrentCoords && matchedMember.liveLocation && typeof matchedMember.liveLocation.lat === 'number') {
+                    const km = calculateDistanceKm(userCurrentCoords.lat, userCurrentCoords.lng, matchedMember.liveLocation.lat, matchedMember.liveLocation.lng);
+                    distancePillHtml = `<span class="inline-flex items-center gap-1 text-[10px] font-extrabold text-blue-700 bg-blue-50 border border-blue-200 px-1.5 py-0.5 rounded-full"><i class="fa-solid fa-location-dot"></i> ${formatDistanceBangla(km)}</span>`;
+                }
+
+                const statusBadgeHtml = matchedMember
+                    ? (isOnline
+                        ? `<span class="inline-flex items-center gap-1 text-[10px] font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span> অনলাইন</span>`
+                        : `<span class="inline-flex items-center gap-1 text-[10px] font-bold text-village-700 bg-village-50 border border-village-200 px-1.5 py-0.5 rounded-full">✓ অ্যাপ সদস্য</span>`)
+                    : '';
+
+                const appFreeCallBtnHtml = (matchedMember && !isSelf)
+                    ? `<button type="button" onclick="initiateDirectMemberCall('${matchedMember.id}', '${escapeHtml(matchedMember.name)}')" title="অ্যাপের মাধ্যমে সরাসরি ফ্রি ভয়েস কল করুন" class="px-2.5 py-1.5 ${isOnline ? 'bg-gold-400 hover:bg-gold-500 text-village-950 ring-2 ring-emerald-400/50' : 'bg-amber-100 hover:bg-amber-200 text-amber-950'} font-extrabold rounded-xl flex items-center gap-1 text-[11px] shadow-2xs transition">
+                        <i class="fa-solid fa-headset"></i> <span>অ্যাপ ফ্রি কল</span>
+                    </button>`
+                    : '';
+
                 return `
-                <div class="bg-white p-3.5 rounded-2xl shadow-sm border flex flex-col justify-between gap-2 text-xs">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded border ${st.badge}"><i class="fa-solid ${st.icon}"></i> ${escapeHtml(d.role)}</span>
-                            <h4 class="font-extrabold text-gray-900 mt-1">${escapeHtml(d.name)}</h4>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 hover:border-village-200 flex flex-col justify-between gap-2.5 text-xs transition">
+                    <div class="flex justify-between items-start gap-2">
+                        <div class="min-w-0">
+                            <div class="flex flex-wrap items-center gap-1">
+                                <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded border ${st.badge}"><i class="fa-solid ${st.icon}"></i> ${escapeHtml(d.role)}</span>
+                                ${statusBadgeHtml}
+                                ${distancePillHtml}
+                            </div>
+                            <h4 class="font-extrabold text-gray-900 mt-1.5 text-sm truncate">${escapeHtml(d.name)}</h4>
                             <p class="font-semibold text-gray-600">${escapeHtml(d.phone)}</p>
                         </div>
-                        <div class="flex gap-1">
-                            <a href="tel:${escapeHtml(d.phone)}" class="w-8 h-8 bg-green-100 text-village-700 hover:bg-village-700 hover:text-white rounded-full flex items-center justify-center transition"><i class="fa-solid fa-phone"></i></a>
-                            ${currentUserProfile?.role === 'admin' ? `<button onclick="deleteDirectoryByAdmin('${d.id}')" class="w-7 h-7 bg-red-50 text-red-600 rounded-full flex items-center justify-center text-[10px]"><i class="fa-solid fa-trash"></i></button>` : ''}
-                        </div>
+                        ${currentUserProfile?.role === 'admin' ? `<button onclick="deleteDirectoryByAdmin('${d.id}')" class="w-7 h-7 bg-red-50 hover:bg-red-100 text-red-600 rounded-full flex items-center justify-center text-[10px] shrink-0"><i class="fa-solid fa-trash"></i></button>` : ''}
+                    </div>
+                    <div class="flex flex-wrap items-center gap-1.5 pt-1">
+                        <a href="tel:${escapeHtml(d.phone)}" class="px-2.5 py-1.5 bg-green-100 text-village-800 hover:bg-village-700 hover:text-white font-extrabold rounded-xl flex items-center gap-1 text-[11px] transition">
+                            <i class="fa-solid fa-phone"></i> <span>মোবাইল কল</span>
+                        </a>
+                        ${appFreeCallBtnHtml}
                     </div>
                     <div class="pt-1.5 border-t text-[11px] text-gray-500">যুক্ত করেছেন: <strong>${escapeHtml(d.addedByName)}</strong></div>
                 </div>`;
             }).join('');
         }
 
+        // চ্যাটে বার্তা, ছবি ও ভয়েস পাঠানো
         window.sendChatMessage = async function() {
             if (!checkWritePermission()) return;
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
-            if (!text) return;
+            const imageToSend = selectedChatImageBase64;
+
+            if (!text && !imageToSend) return;
+
             input.value = "";
-            const msgObj = { id: 'msg_' + Date.now(), senderId: currentUserProfile.id, senderName: currentUserProfile.name, text, createdAt: Date.now() };
+            clearSelectedChatImage();
+
+            const isPublicGroup = activeChatTarget.id === 'group';
+            const msgObj = {
+                id: 'msg_' + Date.now(),
+                senderId: currentUserProfile.id,
+                senderName: currentUserProfile.name,
+                recipientId: isPublicGroup ? 'group' : activeChatTarget.id,
+                recipientName: isPublicGroup ? 'গ্রুপ' : activeChatTarget.name,
+                roomType: activeChatTarget.type,
+                text: text || (imageToSend ? '📷 ছবি' : ''),
+                imageUrl: imageToSend || '',
+                createdAt: Date.now()
+            };
+
             if (isCloudConnected && db) {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_chat'), msgObj);
-            } else { allMessages.push(msgObj); syncLocalFallbackData(); }
+            } else {
+                allMessages.push(msgObj);
+                syncLocalFallbackData();
+            }
+            if (imageToSend) showToast("ছবি পাঠানো হয়েছে!", "success");
         };
 
-        // ভয়েস মেসেজ রেকর্ড ও পাঠানো
         window.toggleVoiceNoteRecording = async function() {
             if (!checkWritePermission()) return;
             const btn = document.getElementById('btn-record-voice');
@@ -2041,7 +3617,18 @@
                         const reader = new FileReader();
                         reader.onloadend = async () => {
                             const audioBase64 = reader.result;
-                            const msgObj = { id: 'msg_' + Date.now(), senderId: currentUserProfile.id, senderName: currentUserProfile.name, audioUrl: audioBase64, text: '🎤 ভয়েস মেসেজ', createdAt: Date.now() };
+                            const isPublicGroup = activeChatTarget.id === 'group';
+                            const msgObj = {
+                                id: 'msg_' + Date.now(),
+                                senderId: currentUserProfile.id,
+                                senderName: currentUserProfile.name,
+                                recipientId: isPublicGroup ? 'group' : activeChatTarget.id,
+                                recipientName: isPublicGroup ? 'গ্রুপ' : activeChatTarget.name,
+                                roomType: activeChatTarget.type,
+                                audioUrl: audioBase64,
+                                text: '🎤 ভয়েস মেসেজ',
+                                createdAt: Date.now()
+                            };
                             if (isCloudConnected && db) {
                                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_chat'), msgObj);
                             } else { allMessages.push(msgObj); syncLocalFallbackData(); }
@@ -2063,13 +3650,20 @@
             }
         };
 
-        // লাইভ ভয়েস কল ফাংশনসমূহ (WebRTC)
         window.openVoiceCallModal = function() {
             if (!checkWritePermission()) return;
+            isDriverCascadeActive = false;
+            clearTimeout(driverCascadeTimer);
+            document.getElementById('driver-dispatch-progress-text')?.classList.add('hidden');
+            document.getElementById('call-modal-icon').className = 'fa-solid fa-headset text-3xl text-gold-400';
             document.getElementById('voice-call-modal').classList.remove('hidden');
         };
 
         window.closeVoiceCallModal = function() {
+            stopCallTone();
+            isDriverCascadeActive = false;
+            clearTimeout(driverCascadeTimer);
+            document.getElementById('driver-dispatch-progress-text')?.classList.add('hidden');
             if (peerConnection) { endVoiceCall(); }
             document.getElementById('voice-call-modal').classList.add('hidden');
         };
@@ -2085,13 +3679,20 @@
             }, 1000);
         }
 
-        window.startOutgoingVoiceCall = async function() {
+        window.startOutgoingVoiceCall = async function(options = {}) {
             if (!checkWritePermission() || !isCloudConnected || !db) {
                 showToast("অনলাইন ডাটাবেস সংযুক্ত থাকতে হবে।", "warning");
                 return;
             }
+            const targetSelect = document.getElementById('call-target-member-select');
+            const targetUserId = targetSelect ? targetSelect.value : 'all';
+            const targetUserObj = allUsers.find(u => u.id === targetUserId);
+            const targetName = targetUserId === 'all' ? 'সকল সদস্য (ওপেন রুম)' : (targetUserObj?.name || 'সদস্য');
+
             try {
-                localAudioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                if (!localAudioStream) {
+                    localAudioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                }
                 peerConnection = new RTCPeerConnection(rtcConfig);
                 localAudioStream.getTracks().forEach(track => peerConnection.addTrack(track, localAudioStream));
 
@@ -2115,26 +3716,43 @@
                 await setDoc(callRef, {
                     callerId: currentUserProfile.id,
                     callerName: currentUserProfile.name,
+                    targetUserId,
+                    targetUserName: targetName,
+                    isDriverDispatch: Boolean(options.isDriverDispatch),
+                    driverDistanceText: options.driverDistanceText || '',
                     status: 'ringing',
                     offer: { sdp: offerDescription.sdp, type: offerDescription.type },
                     createdAt: Date.now()
                 });
 
+                startCallTone('ringback');
+
                 document.getElementById('call-setup-controls').classList.add('hidden');
                 document.getElementById('active-call-controls').classList.remove('hidden');
-                document.getElementById('call-status-badge').textContent = 'রিং হচ্ছে...';
-                document.getElementById('call-timer-text').textContent = 'অন্য সদস্যের রিসিভ করার অপেক্ষায়...';
+                document.getElementById('call-status-badge').textContent = options.isDriverDispatch ? 'গাড়ি কল রিং হচ্ছে...' : 'রিং হচ্ছে...';
+                document.getElementById('call-partner-name').textContent = targetName;
+                document.getElementById('call-timer-text').textContent = `${targetName}-কে রিং হচ্ছে...`;
 
                 onSnapshot(callRef, (snap) => {
                     const data = snap.data();
                     if (!peerConnection) return;
                     if (!peerConnection.currentRemoteDescription && data?.answer) {
+                        stopCallTone();
+                        isDriverCascadeActive = false;
+                        clearTimeout(driverCascadeTimer);
+                        document.getElementById('driver-dispatch-progress-text')?.classList.add('hidden');
                         peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
                         document.getElementById('call-status-badge').textContent = 'সংযুক্ত (Connected)';
-                        document.getElementById('call-partner-name').textContent = data.receiverName || 'সদস্য যুক্ত হয়েছেন';
+                        document.getElementById('call-partner-name').textContent = data.receiverName || targetName;
                         startCallTimer();
                     }
-                    if (data?.status === 'ended') { endVoiceCall(true); }
+                    if (data?.status === 'rejected' && options.isDriverDispatch && typeof options.onRejectedOrTimeout === 'function') {
+                        options.onRejectedOrTimeout();
+                        return;
+                    }
+                    if (data?.status === 'ended' || data?.status === 'rejected') {
+                        endVoiceCall(true);
+                    }
                 });
 
                 onSnapshot(answerCandidates, (snap) => {
@@ -2145,12 +3763,16 @@
                     });
                 });
             } catch (e) {
+                stopCallTone();
+                isDriverCascadeActive = false;
+                clearTimeout(driverCascadeTimer);
                 showToast("মাইক্রোফোন চালু করা যায়নি। অনুমতি দিন।", "error");
             }
         };
 
         window.answerIncomingVoiceCall = async function() {
             if (!activeIncomingCallData || !db) return;
+            stopCallTone();
             try {
                 const callId = activeIncomingCallData.docId;
                 activeCallDocId = callId;
@@ -2203,6 +3825,19 @@
             }
         };
 
+        window.rejectIncomingVoiceCall = async function() {
+            stopCallTone();
+            if (activeIncomingCallData?.docId && db) {
+                try {
+                    await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls', activeIncomingCallData.docId), { status: 'rejected' });
+                } catch (e) {}
+            }
+            activeIncomingCallData = null;
+            document.getElementById('incoming-call-alert')?.classList.add('hidden');
+            document.getElementById('voice-call-modal')?.classList.add('hidden');
+            showToast("কল কেটে দেওয়া হয়েছে।", "warning");
+        };
+
         window.toggleCallMicrophone = function() {
             if (!localAudioStream) return;
             isMicMuted = !isMicMuted;
@@ -2213,7 +3848,13 @@
         };
 
         window.endVoiceCall = async function(remoteEnded = false) {
+            stopCallTone();
+            isDriverCascadeActive = false;
+            clearTimeout(driverCascadeTimer);
             clearInterval(callTimerInterval);
+            document.getElementById('driver-dispatch-progress-text')?.classList.add('hidden');
+            document.getElementById('call-modal-icon').className = 'fa-solid fa-headset text-3xl text-gold-400';
+
             if (localAudioStream) { localAudioStream.getTracks().forEach(t => t.stop()); localAudioStream = null; }
             if (peerConnection) { peerConnection.close(); peerConnection = null; }
             if (activeCallDocId && db && !remoteEnded) {
@@ -2230,11 +3871,48 @@
 
         function renderChatMessages() {
             const box = document.getElementById('chat-messages-box');
-            if (allMessages.length === 0) { box.innerHTML = `<div class="text-center text-xs text-gray-400 my-auto pt-10">কোনো বার্তা নেই।</div>`; return; }
-            box.innerHTML = allMessages.map(msg => {
-                const isMe = currentUserProfile && msg.senderId === currentUserProfile.id;
-                const audioHtml = msg.audioUrl ? `<audio controls src="${msg.audioUrl}" class="h-8 max-w-[210px] mt-1"></audio>` : '';
-                return `<div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}"><span class="text-[10px] text-gray-500">${escapeHtml(msg.senderName)}</span><div class="max-w-[85%] px-3.5 py-2 rounded-2xl text-xs ${isMe ? 'bg-village-700 text-white rounded-br-none' : 'bg-white text-gray-800 border rounded-bl-none'}">${escapeHtml(msg.text)}${audioHtml}</div></div>`;
+            if (!box) return;
+
+            const roomType = activeChatTarget.type;
+            const targetId = activeChatTarget.id;
+            const myId = currentUserProfile?.id;
+
+            const filteredMessages = allMessages.filter(msg => {
+                const rec = msg.recipientId || 'group';
+                if (roomType === 'public_group') {
+                    return rec === 'group';
+                } else if (roomType === 'custom_group') {
+                    return rec === targetId;
+                } else {
+                    return (msg.senderId === myId && rec === targetId) || (msg.senderId === targetId && rec === myId);
+                }
+            });
+
+            if (filteredMessages.length === 0) {
+                const emptyText = roomType === 'public_group'
+                    ? 'সবার মূল আড্ডা ঘরে এখনো কোনো বার্তা নেই।'
+                    : (roomType === 'custom_group'
+                        ? `"${escapeHtml(activeChatTarget.name)}" গ্রুপে এখনো কোনো বার্তা নেই। বার্তা বা ছবি পাঠিয়ে গ্রুপ আড্ডা শুরু করুন!`
+                        : `${escapeHtml(activeChatTarget.name)}-এর সাথে এখনো কোনো ব্যক্তিগত বার্তা নেই। নিচে লিখে বা ছবি পাঠিয়ে কথা শুরু করুন!`);
+                box.innerHTML = `<div class="text-center text-xs text-gray-400 my-auto pt-10 px-4">${emptyText}</div>`;
+                return;
+            }
+
+            box.innerHTML = filteredMessages.map(msg => {
+                const isMe = myId && msg.senderId === myId;
+                const audioHtml = msg.audioUrl ? `<audio controls src="${msg.audioUrl}" class="h-8 max-w-[210px] mt-1.5"></audio>` : '';
+                const imgHtml = msg.imageUrl ? `<img src="${msg.imageUrl}" onclick="openChatLightbox('${msg.imageUrl}')" alt="Shared Photo" class="max-w-[220px] sm:max-w-[260px] max-h-60 object-cover rounded-xl mt-1 border border-black/10 cursor-zoom-in shadow-2xs">` : '';
+                const showText = msg.text && !(msg.imageUrl && msg.text === '📷 ছবি');
+                const textHtml = showText ? `<p class="leading-relaxed whitespace-pre-line">${escapeHtml(msg.text)}</p>` : '';
+
+                return `<div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+                    <span class="text-[10px] text-gray-500 mb-0.5 px-1">${escapeHtml(msg.senderName)}</span>
+                    <div class="max-w-[85%] px-3.5 py-2 rounded-2xl text-xs ${isMe ? 'bg-village-700 text-white rounded-br-none' : 'bg-white text-gray-800 border rounded-bl-none shadow-2xs'}">
+                        ${imgHtml}
+                        ${textHtml}
+                        ${audioHtml}
+                    </div>
+                </div>`;
             }).join('');
             box.scrollTop = box.scrollHeight;
         }
@@ -2269,17 +3947,20 @@
         function renderAdminPanel() {
             const pending = allUsers.filter(u => u.status === 'pending');
             const approved = allUsers.filter(u => u.status === 'approved');
-            document.getElementById('admin-pending-badge').textContent = pending.length;
-            document.getElementById('stat-pending-count').textContent = pending.length;
-            document.getElementById('stat-approved-count').textContent = approved.length;
+            const pBadge = document.getElementById('admin-pending-badge');
+            const sPending = document.getElementById('stat-pending-count');
+            const sApproved = document.getElementById('stat-approved-count');
+            if (pBadge) pBadge.textContent = pending.length;
+            if (sPending) sPending.textContent = pending.length;
+            if (sApproved) sApproved.textContent = approved.length;
             const logBadge = document.getElementById('admin-dirlog-badge');
             if (logBadge) logBadge.textContent = allDirectoryLogs.length;
 
             const pEl = document.getElementById('admin-pending-list');
-            pEl.innerHTML = pending.length === 0 ? `<div class="bg-gray-50 p-5 rounded-2xl text-center text-xs text-gray-500 col-span-full">অপেক্ষমাণ সদস্য নেই।</div>` : pending.map(u => `<div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 flex justify-between items-center gap-2"><div class="flex items-center gap-2.5"><img src="${u.facePhoto}" class="w-12 h-12 rounded-xl object-cover border"><div><h4 class="font-bold">${escapeHtml(u.name)}</h4><p class="text-[11px] text-gray-600">${escapeHtml(u.para)} • ${escapeHtml(u.phone)}</p></div></div><div class="flex gap-1"><button onclick="approveUserByAdmin('${u.id}')" class="px-2.5 py-1 bg-village-700 text-white font-bold rounded-lg">অনুমোদন</button><button onclick="deleteUserByAdmin('${u.id}')" class="px-2.5 py-1 bg-red-600 text-white font-bold rounded-lg">বাতিল</button></div></div>`).join('');
+            if (pEl) pEl.innerHTML = pending.length === 0 ? `<div class="bg-gray-50 p-5 rounded-2xl text-center text-xs text-gray-500 col-span-full">অপেক্ষমাণ সদস্য নেই।</div>` : pending.map(u => `<div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 flex justify-between items-center gap-2"><div class="flex items-center gap-2.5"><img src="${u.facePhoto}" class="w-12 h-12 rounded-xl object-cover border"><div><h4 class="font-bold">${escapeHtml(u.name)}</h4><p class="text-[11px] text-gray-600">${escapeHtml(u.para)} • ${escapeHtml(u.phone)}</p></div></div><div class="flex gap-1"><button onclick="approveUserByAdmin('${u.id}')" class="px-2.5 py-1 bg-village-700 text-white font-bold rounded-lg">অনুমোদন</button><button onclick="deleteUserByAdmin('${u.id}')" class="px-2.5 py-1 bg-red-600 text-white font-bold rounded-lg">বাতিল</button></div></div>`).join('');
 
             const aEl = document.getElementById('admin-approved-list');
-            aEl.innerHTML = approved.length === 0 ? `<div class="bg-gray-50 p-5 rounded-2xl text-center text-xs text-gray-500 col-span-full">অনুমোদিত সদস্য নেই।</div>` : approved.map(u => `<div class="bg-white border rounded-2xl p-3 flex justify-between items-center gap-2"><div class="flex items-center gap-2.5"><img src="${u.facePhoto}" class="w-10 h-10 rounded-xl object-cover border"><div><h4 class="font-bold">${escapeHtml(u.name)}</h4><p class="text-[11px] text-gray-600">${escapeHtml(u.para)}</p></div></div><button onclick="deleteUserByAdmin('${u.id}')" class="px-2.5 py-1 bg-red-600 text-white font-bold rounded-lg">রদ</button></div>`).join('');
+            if (aEl) aEl.innerHTML = approved.length === 0 ? `<div class="bg-gray-50 p-5 rounded-2xl text-center text-xs text-gray-500 col-span-full">অনুমোদিত সদস্য নেই।</div>` : approved.map(u => `<div class="bg-white border rounded-2xl p-3 flex justify-between items-center gap-2"><div class="flex items-center gap-2.5"><img src="${u.facePhoto}" class="w-10 h-10 rounded-xl object-cover border"><div><h4 class="font-bold">${escapeHtml(u.name)}</h4><p class="text-[11px] text-gray-600">${escapeHtml(u.para)} • ${escapeHtml(u.phone || '')}</p></div></div><div class="flex gap-1"><button onclick="resetUserPasswordByAdmin('${u.id}', '${escapeHtml(u.name)}')" title="পাসওয়ার্ড রিসেট করুন" class="px-2 py-1 bg-amber-500 text-village-950 font-bold rounded-lg"><i class="fa-solid fa-key"></i> রিসেট</button><button onclick="deleteUserByAdmin('${u.id}')" class="px-2.5 py-1 bg-red-600 text-white font-bold rounded-lg">রদ</button></div></div>`).join('');
 
             const logContainer = document.getElementById('admin-dirlogs-list');
             if (logContainer) {
@@ -2310,7 +3991,11 @@
             const d = document.createElement('div'); d.textContent = text; return d.innerHTML;
         }
 
-        window.addEventListener('load', initAppSystem);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAppSystem);
+        } else {
+            initAppSystem();
+        }
     </script>
 </body>
 </html>
