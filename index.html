@@ -327,6 +327,27 @@
                     </div>
                     <textarea id="post-content-input" rows="3" placeholder="সুতারমুড়া গ্রামের কোনো খবর, অনুষ্ঠান বা ছবি সম্পর্কে লিখুন..." class="w-full p-3 bg-gray-50 border border-gray-200 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600"></textarea>
                     
+                    <!-- লাইভ ক্যামেরা বক্স (পোস্টের ছবি তোলার জন্য) -->
+                    <div id="post-live-camera-box" class="hidden bg-gray-900 rounded-2xl p-3 space-y-2.5 max-w-sm border-2 border-village-600">
+                        <div class="relative rounded-xl overflow-hidden bg-black aspect-video flex items-center justify-center">
+                            <video id="post-camera-video" autoplay playsinline class="w-full h-full object-cover"></video>
+                            <canvas id="post-camera-canvas" class="hidden"></canvas>
+                        </div>
+                        <div class="flex items-center justify-between gap-2">
+                            <button type="button" onclick="switchPostCameraFacing()" class="px-3 py-1.5 bg-white/15 hover:bg-white/25 text-white text-xs font-bold rounded-xl flex items-center gap-1 transition">
+                                <i class="fa-solid fa-camera-rotate"></i> <span>ক্যামেরা ঘোরান</span>
+                            </button>
+                            <div class="flex items-center gap-2">
+                                <button type="button" onclick="capturePostCameraPhoto()" class="px-4 py-1.5 bg-gold-400 hover:bg-gold-500 text-village-950 text-xs font-extrabold rounded-xl shadow flex items-center gap-1 transition">
+                                    <i class="fa-solid fa-camera"></i> <span>ছবি তুলুন</span>
+                                </button>
+                                <button type="button" onclick="closePostCamera()" class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition">
+                                    বাতিল
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="post-image-preview-box" class="hidden relative w-full max-w-xs rounded-2xl overflow-hidden border border-gray-200">
                         <img id="post-image-preview" src="" alt="Preview" class="w-full h-36 object-cover">
                         <button onclick="clearPostImage()" class="absolute top-2 right-2 w-6 h-6 bg-red-600 text-white rounded-full text-xs flex items-center justify-center shadow">
@@ -335,12 +356,16 @@
                     </div>
 
                     <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-100">
-                        <div class="flex items-center gap-2">
-                            <label class="cursor-pointer flex items-center gap-1.5 px-3.5 py-2 bg-green-50 hover:bg-green-100 text-village-800 text-xs font-bold rounded-xl transition">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <label class="cursor-pointer flex items-center gap-1.5 px-3 py-2 bg-green-50 hover:bg-green-100 text-village-800 text-xs font-bold rounded-xl transition">
                                 <i class="fa-solid fa-image text-village-600"></i>
                                 <span>ছবি যোগ করুন</span>
                                 <input type="file" id="post-image-input" accept="image/*" onchange="handlePostImageSelect(event)" class="hidden">
                             </label>
+                            <button type="button" onclick="openPostCamera()" class="flex items-center gap-1.5 px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-xs font-bold rounded-xl transition">
+                                <i class="fa-solid fa-camera text-amber-600"></i>
+                                <span>ক্যামেরা</span>
+                            </button>
                             <button type="button" onclick="openTickerEditorModal()" class="flex items-center gap-1.5 px-3 py-2 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold rounded-xl transition">
                                 <i class="fa-solid fa-bullhorn"></i>
                                 <span>জরুরি ঘোষণা</span>
@@ -467,15 +492,63 @@
                             <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></span>
                             <h3 class="text-sm font-bold">সুতারমুড়া গ্রাম ও প্রবাসী আড্ডা ঘর</h3>
                         </div>
-                        <span class="text-[11px] text-green-200">লাইভ চ্যাট</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="openVoiceCallModal()" class="px-3 py-1 bg-gold-400 hover:bg-gold-500 text-village-950 text-xs font-extrabold rounded-full shadow flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-phone-volume animate-bounce"></i> <span>ভয়েস কল</span>
+                            </button>
+                        </div>
                     </div>
                     <div id="chat-messages-box" class="flex-1 p-4 overflow-y-auto space-y-3 bg-stone-50"></div>
-                    <div class="p-2.5 bg-white border-t border-gray-200 flex gap-2">
-                        <input type="text" id="chat-input" onkeypress="if(event.key==='Enter') sendChatMessage()" placeholder="বার্তা লিখুন..." class="flex-1 px-3.5 py-2 bg-gray-100 rounded-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
-                        <button onclick="sendChatMessage()" class="w-9 h-9 bg-village-700 hover:bg-village-800 text-white rounded-full flex items-center justify-center shadow transition">
+                    <div class="p-2.5 bg-white border-t border-gray-200 flex items-center gap-2">
+                        <button type="button" id="btn-record-voice" onclick="toggleVoiceNoteRecording()" title="ভয়েস মেসেজ রেকর্ড করুন" class="w-9 h-9 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-full flex items-center justify-center shrink-0 transition">
+                            <i class="fa-solid fa-microphone text-sm"></i>
+                        </button>
+                        <input type="text" id="chat-input" onkeypress="if(event.key==='Enter') sendChatMessage()" placeholder="বার্তা লিখুন বা মাইকে ক্লিক করে ভয়েস দিন..." class="flex-1 px-3.5 py-2 bg-gray-100 rounded-full text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-village-600">
+                        <button onclick="sendChatMessage()" class="w-9 h-9 bg-village-700 hover:bg-village-800 text-white rounded-full flex items-center justify-center shadow shrink-0 transition">
                             <i class="fa-solid fa-paper-plane text-xs"></i>
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <!-- লাইভ ভয়েস কল মডাল (WebRTC) -->
+            <div id="voice-call-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div class="bg-gradient-to-b from-village-900 to-village-950 text-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-gold-400/30 text-center space-y-5">
+                    <div class="w-20 h-20 bg-gold-400/20 border-2 border-gold-400 rounded-full flex items-center justify-center mx-auto animate-pulse">
+                        <i class="fa-solid fa-headset text-3xl text-gold-400"></i>
+                    </div>
+                    <div>
+                        <span id="call-status-badge" class="px-3 py-0.5 bg-emerald-500/20 text-emerald-300 text-xs font-bold rounded-full border border-emerald-400/30">লাইভ ভয়েস কল</span>
+                        <h3 id="call-partner-name" class="text-xl font-extrabold mt-2">সুতারমুড়া ভয়েস রুম</h3>
+                        <p id="call-timer-text" class="text-xs text-green-200 mt-1">কল শুরু করতে নিচের বাটনে চাপুন</p>
+                    </div>
+
+                    <!-- কল রিসিভ বা নতুন কল শুরুর অপশন -->
+                    <div id="call-setup-controls" class="space-y-2.5">
+                        <button onclick="startOutgoingVoiceCall()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold rounded-2xl shadow-lg flex items-center justify-center gap-2 text-sm transition">
+                            <i class="fa-solid fa-phone"></i> <span>নতুন ভয়েস কল শুরু করুন</span>
+                        </button>
+                        <div id="incoming-call-alert" class="hidden bg-amber-500/20 border border-amber-400 rounded-2xl p-3 space-y-2">
+                            <p id="incoming-caller-label" class="text-xs font-extrabold text-amber-300">কেউ একজন কল করছেন...</p>
+                            <button onclick="answerIncomingVoiceCall()" class="w-full py-2.5 bg-gold-400 hover:bg-gold-500 text-village-950 font-extrabold rounded-xl text-xs shadow transition">
+                                <i class="fa-solid fa-phone-volume mr-1"></i> কল রিসিভ করুন
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- চলমান কলের কন্ট্রোল -->
+                    <div id="active-call-controls" class="hidden flex items-center justify-center gap-4 pt-2">
+                        <button id="btn-mute-mic" onclick="toggleCallMicrophone()" class="w-12 h-12 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-lg transition" title="মিউট / আনমিউট">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+                        <button onclick="endVoiceCall()" class="w-14 h-14 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center text-xl shadow-lg transition" title="কল কাটুন">
+                            <i class="fa-solid fa-phone-slash"></i>
+                        </button>
+                    </div>
+
+                    <audio id="remote-call-audio" autoplay playsinline class="hidden"></audio>
+
+                    <button onclick="closeVoiceCallModal()" class="text-xs text-green-300/70 hover:text-white underline pt-1">বন্ধ করুন</button>
                 </div>
             </div>
 
@@ -755,18 +828,27 @@
         let activeInstitutionId = null;
 
         let urgentTickerData = {
-            category: 'রামপুর উচ্চ বিদ্যালয়',
+            category: 'জরুরি ঘোষণা',
             text: 'রামপুর উচ্চ বিদ্যালয়ে সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের বার্ষিক ক্রীড়া প্রতিযোগিতা ও সাংস্কৃতিক অনুষ্ঠান আগামী বৃহস্পতিবার সকাল ১০টায় অনুষ্ঠিত হবে।',
-            publisherName: 'গ্রাম অ্যাডমিন',
-            publisherPara: 'মধ্য পাড়া',
-            publisherPhone: '',
             updatedAt: Date.now()
         };
-
         let heroBannerConfig = {
             imageUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=90&w=1400&auto=format&fit=crop',
             opacity: 0.75
         };
+
+        // ভয়েস কল ও ভয়েস মেসেজ স্টেট
+        let peerConnection = null;
+        let localAudioStream = null;
+        let activeCallDocId = null;
+        let activeIncomingCallData = null;
+        let isMicMuted = false;
+        let callTimerInterval = null;
+        let callSeconds = 0;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let isRecordingVoiceNote = false;
+        const rtcConfig = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:stun1.l.google.com:19302' }] };
 
         const DEFAULT_INSTITUTIONS = [
             { id: 'inst_rampur_high', badge: 'মাধ্যমিক উচ্চ বিদ্যালয়', theme: 'indigo', icon: 'fa-school-flag', name: 'রামপুর উচ্চ বিদ্যালয়', location: 'রামপুর / সুতারমুড়া সংলগ্ন', schedule: 'ক্লাস সময়: সকাল ১০:০০ — বিকাল ৪:০০', prayerSchedule: 'বিরতি ও প্রার্থনা: দুপুর ১:০০ টা', description: 'আমাদের সুতারমুড়া গ্রামের ছাত্র-ছাত্রীদের উচ্চ শিক্ষার প্রধান মাধ্যমিক বিদ্যালয়।', headRoleDefault: 'প্রধান শিক্ষক' },
@@ -784,6 +866,8 @@
         let capturedFaceBase64 = "";
         let selectedPostImageBase64 = "";
         let videoStream = null;
+        let postCameraStream = null;
+        let postCameraFacingMode = 'environment';
 
         window.showToast = function(message, type = 'success') {
             const container = document.getElementById('toast-container');
@@ -924,6 +1008,26 @@
                 snapshot.forEach(d => allMessages.push({ ...d.data(), id: d.id }));
                 allMessages.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
                 renderChatMessages();
+            });
+            // লাইভ ভয়েস কল লিসেনার
+            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls'), (snapshot) => {
+                let latestRinging = null;
+                snapshot.forEach(d => {
+                    const data = d.data();
+                    if (data.status === 'ringing' && data.callerId !== currentUserProfile?.id && (Date.now() - (data.createdAt || 0)) < 120000) {
+                        latestRinging = { ...data, docId: d.id };
+                    }
+                });
+                activeIncomingCallData = latestRinging;
+                const incomingAlert = document.getElementById('incoming-call-alert');
+                const callerLabel = document.getElementById('incoming-caller-label');
+                if (latestRinging && !peerConnection) {
+                    if (incomingAlert) incomingAlert.classList.remove('hidden');
+                    if (callerLabel) callerLabel.textContent = `📞 ${latestRinging.callerName} কল করছেন...`;
+                    document.getElementById('voice-call-modal')?.classList.remove('hidden');
+                } else if (incomingAlert && !peerConnection) {
+                    incomingAlert.classList.add('hidden');
+                }
             });
         }
 
@@ -1086,6 +1190,7 @@
 
         window.handleLogout = function() {
             stopFaceCamera();
+            closePostCamera();
             currentUserProfile = null;
             document.getElementById('main-app').classList.add('hidden');
             document.getElementById('auth-screen').classList.remove('hidden');
@@ -1288,12 +1393,66 @@
         window.handlePostImageSelect = function(event) {
             const file = event.target.files[0];
             if (!file) return;
+            closePostCamera();
             compressImageFile(file, 850, (base64) => {
                 selectedPostImageBase64 = base64;
                 document.getElementById('post-image-preview').src = base64;
                 document.getElementById('post-image-preview-box').classList.remove('hidden');
             });
         };
+
+        // পোস্টের জন্য লাইভ ক্যামেরা ফাংশনসমূহ
+        window.openPostCamera = async function() {
+            if (!checkWritePermission()) return;
+            const camBox = document.getElementById('post-live-camera-box');
+            const video = document.getElementById('post-camera-video');
+            try {
+                if (postCameraStream) {
+                    postCameraStream.getTracks().forEach(t => t.stop());
+                }
+                postCameraStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: postCameraFacingMode },
+                    audio: false
+                });
+                video.srcObject = postCameraStream;
+                camBox.classList.remove('hidden');
+                document.getElementById('post-image-preview-box').classList.add('hidden');
+            } catch (e) {
+                showToast("ক্যামেরা চালু করা যায়নি। ব্রাউজারে ক্যামেরার অনুমতি দিন।", "error");
+            }
+        };
+
+        window.switchPostCameraFacing = function() {
+            postCameraFacingMode = postCameraFacingMode === 'environment' ? 'user' : 'environment';
+            openPostCamera();
+        };
+
+        window.capturePostCameraPhoto = function() {
+            const video = document.getElementById('post-camera-video');
+            const canvas = document.getElementById('post-camera-canvas');
+            if (!video.videoWidth) return;
+            let w = video.videoWidth, h = video.videoHeight;
+            const maxW = 850;
+            if (w > maxW) { h = Math.round((h * maxW) / w); w = maxW; }
+            canvas.width = w;
+            canvas.height = h;
+            canvas.getContext('2d').drawImage(video, 0, 0, w, h);
+            selectedPostImageBase64 = canvas.toDataURL('image/jpeg', 0.82);
+            closePostCamera();
+            document.getElementById('post-image-preview').src = selectedPostImageBase64;
+            document.getElementById('post-image-preview-box').classList.remove('hidden');
+            showToast("ক্যামেরা থেকে ছবি তোলা হয়েছে!", "success");
+        };
+
+        window.closePostCamera = function() {
+            if (postCameraStream) {
+                postCameraStream.getTracks().forEach(t => t.stop());
+                postCameraStream = null;
+            }
+            const camBox = document.getElementById('post-live-camera-box');
+            if (camBox) camBox.classList.add('hidden');
+        };
+
         window.clearPostImage = function() { selectedPostImageBase64 = ""; document.getElementById('post-image-input').value = ""; document.getElementById('post-image-preview-box').classList.add('hidden'); };
 
         window.submitNewPost = async function() {
@@ -1818,12 +1977,216 @@
             } else { allMessages.push(msgObj); syncLocalFallbackData(); }
         };
 
+        // ভয়েস মেসেজ রেকর্ড ও পাঠানো
+        window.toggleVoiceNoteRecording = async function() {
+            if (!checkWritePermission()) return;
+            const btn = document.getElementById('btn-record-voice');
+            if (!isRecordingVoiceNote) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+                    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+                    mediaRecorder.onstop = async () => {
+                        stream.getTracks().forEach(t => t.stop());
+                        const blob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const reader = new FileReader();
+                        reader.onloadend = async () => {
+                            const audioBase64 = reader.result;
+                            const msgObj = { id: 'msg_' + Date.now(), senderId: currentUserProfile.id, senderName: currentUserProfile.name, audioUrl: audioBase64, text: '🎤 ভয়েস মেসেজ', createdAt: Date.now() };
+                            if (isCloudConnected && db) {
+                                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_chat'), msgObj);
+                            } else { allMessages.push(msgObj); syncLocalFallbackData(); }
+                            showToast("ভয়েস মেসেজ পাঠানো হয়েছে!", "success");
+                        };
+                        reader.readAsDataURL(blob);
+                    };
+                    mediaRecorder.start();
+                    isRecordingVoiceNote = true;
+                    btn.className = "w-9 h-9 bg-red-600 text-white rounded-full flex items-center justify-center shrink-0 animate-pulse shadow";
+                    showToast("ভয়েস রেকর্ড হচ্ছে... থামাতে আবার চাপুন", "warning");
+                } catch (e) {
+                    showToast("মাইক্রোফোন অনুমতি দিন।", "error");
+                }
+            } else {
+                mediaRecorder?.stop();
+                isRecordingVoiceNote = false;
+                btn.className = "w-9 h-9 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-full flex items-center justify-center shrink-0 transition";
+            }
+        };
+
+        // লাইভ ভয়েস কল ফাংশনসমূহ (WebRTC)
+        window.openVoiceCallModal = function() {
+            if (!checkWritePermission()) return;
+            document.getElementById('voice-call-modal').classList.remove('hidden');
+        };
+
+        window.closeVoiceCallModal = function() {
+            if (peerConnection) { endVoiceCall(); }
+            document.getElementById('voice-call-modal').classList.add('hidden');
+        };
+
+        function startCallTimer() {
+            callSeconds = 0;
+            clearInterval(callTimerInterval);
+            callTimerInterval = setInterval(() => {
+                callSeconds++;
+                const mins = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+                const secs = String(callSeconds % 60).padStart(2, '0');
+                document.getElementById('call-timer-text').textContent = `কথা চলছে • ${mins}:${secs}`;
+            }, 1000);
+        }
+
+        window.startOutgoingVoiceCall = async function() {
+            if (!checkWritePermission() || !isCloudConnected || !db) {
+                showToast("অনলাইন ডাটাবেস সংযুক্ত থাকতে হবে।", "warning");
+                return;
+            }
+            try {
+                localAudioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                peerConnection = new RTCPeerConnection(rtcConfig);
+                localAudioStream.getTracks().forEach(track => peerConnection.addTrack(track, localAudioStream));
+
+                peerConnection.ontrack = (event) => {
+                    const remoteAudio = document.getElementById('remote-call-audio');
+                    if (remoteAudio && event.streams[0]) remoteAudio.srcObject = event.streams[0];
+                };
+
+                const callRef = doc(collection(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls'));
+                activeCallDocId = callRef.id;
+                const offerCandidates = collection(callRef, 'offerCandidates');
+                const answerCandidates = collection(callRef, 'answerCandidates');
+
+                peerConnection.onicecandidate = (event) => {
+                    if (event.candidate) addDoc(offerCandidates, event.candidate.toJSON());
+                };
+
+                const offerDescription = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offerDescription);
+
+                await setDoc(callRef, {
+                    callerId: currentUserProfile.id,
+                    callerName: currentUserProfile.name,
+                    status: 'ringing',
+                    offer: { sdp: offerDescription.sdp, type: offerDescription.type },
+                    createdAt: Date.now()
+                });
+
+                document.getElementById('call-setup-controls').classList.add('hidden');
+                document.getElementById('active-call-controls').classList.remove('hidden');
+                document.getElementById('call-status-badge').textContent = 'রিং হচ্ছে...';
+                document.getElementById('call-timer-text').textContent = 'অন্য সদস্যের রিসিভ করার অপেক্ষায়...';
+
+                onSnapshot(callRef, (snap) => {
+                    const data = snap.data();
+                    if (!peerConnection) return;
+                    if (!peerConnection.currentRemoteDescription && data?.answer) {
+                        peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+                        document.getElementById('call-status-badge').textContent = 'সংযুক্ত (Connected)';
+                        document.getElementById('call-partner-name').textContent = data.receiverName || 'সদস্য যুক্ত হয়েছেন';
+                        startCallTimer();
+                    }
+                    if (data?.status === 'ended') { endVoiceCall(true); }
+                });
+
+                onSnapshot(answerCandidates, (snap) => {
+                    snap.docChanges().forEach(change => {
+                        if (change.type === 'added' && peerConnection) {
+                            peerConnection.addIceCandidate(new RTCIceCandidate(change.doc.data()));
+                        }
+                    });
+                });
+            } catch (e) {
+                showToast("মাইক্রোফোন চালু করা যায়নি। অনুমতি দিন।", "error");
+            }
+        };
+
+        window.answerIncomingVoiceCall = async function() {
+            if (!activeIncomingCallData || !db) return;
+            try {
+                const callId = activeIncomingCallData.docId;
+                activeCallDocId = callId;
+                const callRef = doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls', callId);
+                const offerCandidates = collection(callRef, 'offerCandidates');
+                const answerCandidates = collection(callRef, 'answerCandidates');
+
+                localAudioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                peerConnection = new RTCPeerConnection(rtcConfig);
+                localAudioStream.getTracks().forEach(track => peerConnection.addTrack(track, localAudioStream));
+
+                peerConnection.ontrack = (event) => {
+                    const remoteAudio = document.getElementById('remote-call-audio');
+                    if (remoteAudio && event.streams[0]) remoteAudio.srcObject = event.streams[0];
+                };
+
+                peerConnection.onicecandidate = (event) => {
+                    if (event.candidate) addDoc(answerCandidates, event.candidate.toJSON());
+                };
+
+                await peerConnection.setRemoteDescription(new RTCSessionDescription(activeIncomingCallData.offer));
+                const answerDescription = await peerConnection.createAnswer();
+                await peerConnection.setLocalDescription(answerDescription);
+
+                await updateDoc(callRef, {
+                    status: 'connected',
+                    receiverName: currentUserProfile.name,
+                    answer: { type: answerDescription.type, sdp: answerDescription.sdp }
+                });
+
+                document.getElementById('call-setup-controls').classList.add('hidden');
+                document.getElementById('active-call-controls').classList.remove('hidden');
+                document.getElementById('call-status-badge').textContent = 'সংযুক্ত (Connected)';
+                document.getElementById('call-partner-name').textContent = activeIncomingCallData.callerName;
+                startCallTimer();
+
+                onSnapshot(offerCandidates, (snap) => {
+                    snap.docChanges().forEach(change => {
+                        if (change.type === 'added' && peerConnection) {
+                            peerConnection.addIceCandidate(new RTCIceCandidate(change.doc.data()));
+                        }
+                    });
+                });
+
+                onSnapshot(callRef, (snap) => {
+                    if (snap.data()?.status === 'ended') endVoiceCall(true);
+                });
+            } catch (e) {
+                showToast("কল রিসিভ করতে সমস্যা হয়েছে।", "error");
+            }
+        };
+
+        window.toggleCallMicrophone = function() {
+            if (!localAudioStream) return;
+            isMicMuted = !isMicMuted;
+            localAudioStream.getAudioTracks().forEach(t => t.enabled = !isMicMuted);
+            const btn = document.getElementById('btn-mute-mic');
+            btn.innerHTML = isMicMuted ? '<i class="fa-solid fa-microphone-slash text-red-400"></i>' : '<i class="fa-solid fa-microphone"></i>';
+            showToast(isMicMuted ? "মাইক্রোফোন মিউট করা হয়েছে" : "মাইক্রোফোন চালু করা হয়েছে", "success");
+        };
+
+        window.endVoiceCall = async function(remoteEnded = false) {
+            clearInterval(callTimerInterval);
+            if (localAudioStream) { localAudioStream.getTracks().forEach(t => t.stop()); localAudioStream = null; }
+            if (peerConnection) { peerConnection.close(); peerConnection = null; }
+            if (activeCallDocId && db && !remoteEnded) {
+                try { await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls', activeCallDocId), { status: 'ended' }); } catch (e) {}
+            }
+            activeCallDocId = null;
+            document.getElementById('active-call-controls').classList.add('hidden');
+            document.getElementById('call-setup-controls').classList.remove('hidden');
+            document.getElementById('call-status-badge').textContent = 'লাইভ ভয়েস কল';
+            document.getElementById('call-partner-name').textContent = 'সুতারমুড়া ভয়েস রুম';
+            document.getElementById('call-timer-text').textContent = 'কল শেষ হয়েছে';
+            showToast("কল শেষ হয়েছে।", "warning");
+        };
+
         function renderChatMessages() {
             const box = document.getElementById('chat-messages-box');
             if (allMessages.length === 0) { box.innerHTML = `<div class="text-center text-xs text-gray-400 my-auto pt-10">কোনো বার্তা নেই।</div>`; return; }
             box.innerHTML = allMessages.map(msg => {
                 const isMe = currentUserProfile && msg.senderId === currentUserProfile.id;
-                return `<div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}"><span class="text-[10px] text-gray-500">${escapeHtml(msg.senderName)}</span><div class="max-w-[80%] px-3.5 py-1.5 rounded-2xl text-xs ${isMe ? 'bg-village-700 text-white rounded-br-none' : 'bg-white text-gray-800 border rounded-bl-none'}">${escapeHtml(msg.text)}</div></div>`;
+                const audioHtml = msg.audioUrl ? `<audio controls src="${msg.audioUrl}" class="h-8 max-w-[210px] mt-1"></audio>` : '';
+                return `<div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}"><span class="text-[10px] text-gray-500">${escapeHtml(msg.senderName)}</span><div class="max-w-[85%] px-3.5 py-2 rounded-2xl text-xs ${isMe ? 'bg-village-700 text-white rounded-br-none' : 'bg-white text-gray-800 border rounded-bl-none'}">${escapeHtml(msg.text)}${audioHtml}</div></div>`;
             }).join('');
             box.scrollTop = box.scrollHeight;
         }
