@@ -784,9 +784,9 @@
                 </div>
             </div>
 
-            <!-- লাইভ ভয়েস কল মডাল (লাউড স্পিকার ও দুবাই-বাংলাদেশ রিলে সাপোর্ট সহ) -->
+            <!-- লাইভ ভয়েস কল মডাল (দুবাই-বাংলাদেশ TCP/TLS রিলে ও লাউড স্পিকার সহ) -->
             <div id="voice-call-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                <div class="bg-gradient-to-b from-village-900 to-village-950 text-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-gold-400/30 text-center space-y-5">
+                <div class="bg-gradient-to-b from-village-900 to-village-950 text-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-gold-400/30 text-center space-y-4">
                     <div class="w-20 h-20 bg-gold-400/20 border-2 border-gold-400 rounded-full flex items-center justify-center mx-auto animate-pulse">
                         <i id="call-modal-icon" class="fa-solid fa-headset text-3xl text-gold-400"></i>
                     </div>
@@ -794,7 +794,7 @@
                         <span id="call-status-badge" class="px-3 py-0.5 bg-emerald-500/20 text-emerald-300 text-xs font-bold rounded-full border border-emerald-400/30">লাইভ ভয়েস কল</span>
                         <h3 id="call-partner-name" class="text-xl font-extrabold mt-2">সুতারমুড়া ভয়েস রুম</h3>
                         <p id="call-timer-text" class="text-xs text-green-200 mt-1">সদস্য নির্বাচন করুন অথবা ওপেন কল শুরু করুন</p>
-                        <p id="call-network-quality-text" class="text-[10px] text-emerald-300/90 mt-1">🌐 আন্তর্জাতিক রিলে সার্ভার (UAE ↔ BD) প্রস্তুত</p>
+                        <p id="call-network-quality-text" class="text-[11px] text-emerald-300 mt-1 font-semibold">🌐 দুবাই-বাংলাদেশ TCP/443 সুরক্ষিত রিলে প্রস্তুত</p>
                         <p id="driver-dispatch-progress-text" class="hidden text-[11px] font-bold text-gold-300 mt-1.5 bg-white/10 px-2.5 py-1 rounded-xl"></p>
                     </div>
 
@@ -823,25 +823,32 @@
                     </div>
 
                     <!-- কল চলাকালীন কন্ট্রোল (মিউট + লাউড স্পিকার + কল কাটুন) -->
-                    <div id="active-call-controls" class="hidden flex items-center justify-center gap-5 pt-2">
-                        <div class="flex flex-col items-center gap-1">
-                            <button id="btn-mute-mic" onclick="toggleCallMicrophone()" class="w-12 h-12 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-lg transition" title="মিউট / আনমিউট">
-                                <i class="fa-solid fa-microphone"></i>
-                            </button>
-                            <span id="mute-mic-label" class="text-[10px] text-green-200 font-bold">মিউট</span>
+                    <div id="active-call-controls" class="hidden space-y-3 pt-1">
+                        <div class="flex items-center justify-center gap-5">
+                            <div class="flex flex-col items-center gap-1">
+                                <button id="btn-mute-mic" onclick="toggleCallMicrophone()" class="w-12 h-12 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-lg transition" title="মিউট / আনমিউট">
+                                    <i class="fa-solid fa-microphone"></i>
+                                </button>
+                                <span id="mute-mic-label" class="text-[10px] text-green-200 font-bold">মিউট</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-1">
+                                <button id="btn-loudspeaker" onclick="toggleCallLoudspeaker()" class="w-12 h-12 rounded-full bg-gold-400 text-village-950 shadow-md flex items-center justify-center text-lg transition" title="লাউড স্পিকার চালু/বন্ধ">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                                <span id="loudspeaker-label" class="text-[10px] text-gold-300 font-extrabold">স্পিকার চালু</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-1">
+                                <button onclick="endVoiceCall()" class="w-14 h-14 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center text-xl shadow-lg transition" title="কল কাটুন">
+                                    <i class="fa-solid fa-phone-slash"></i>
+                                </button>
+                                <span class="text-[10px] text-red-300 font-bold">কাটুন</span>
+                            </div>
                         </div>
-                        <div class="flex flex-col items-center gap-1">
-                            <button id="btn-loudspeaker" onclick="toggleCallLoudspeaker()" class="w-12 h-12 rounded-full bg-gold-400 text-village-950 shadow-md flex items-center justify-center text-lg transition" title="লাউড স্পিকার চালু/বন্ধ">
-                                <i class="fa-solid fa-volume-high"></i>
-                            </button>
-                            <span id="loudspeaker-label" class="text-[10px] text-gold-300 font-extrabold">স্পিকার চালু</span>
-                        </div>
-                        <div class="flex flex-col items-center gap-1">
-                            <button onclick="endVoiceCall()" class="w-14 h-14 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center text-xl shadow-lg transition" title="কল কাটুন">
-                                <i class="fa-solid fa-phone-slash"></i>
-                            </button>
-                            <span class="text-[10px] text-red-300 font-bold">কাটুন</span>
-                        </div>
+
+                        <!-- শব্দ না শুনলে অডিও ও রিলে আনলক বাটন -->
+                        <button type="button" onclick="forceUnlockCallAudioAndRelay()" class="w-full py-2 bg-white/15 hover:bg-white/25 border border-gold-400/40 text-gold-300 font-extrabold rounded-xl text-[11px] flex items-center justify-center gap-1.5 transition">
+                            <i class="fa-solid fa-bolt"></i> <span>কথা না শুনলে এখানে চাপুন (অডিও সচল করুন)</span>
+                        </button>
                     </div>
 
                     <audio id="remote-call-audio" autoplay playsinline class="hidden"></audio>
@@ -1303,24 +1310,11 @@
         let presenceHeartbeatInterval = null;
         let onlineUiRefreshInterval = null;
 
-        // আন্তর্জাতিক ও দুবাই-বাংলাদেশ ফায়ারওয়াল অতিক্রম করার জন্য STUN + একাধিক TURN রিলে সার্ভার কনফিগারেশন
+        // দুবাই (UAE) ও আন্তর্জাতিক নেটওয়ার্ক ফায়ারওয়াল বাইপাস করার জন্য ফোর্সড TCP/TLS (port 443) রিলে কনফিগারেশন
         let rtcConfig = {
             iceServers: [
-                { urls: 'stun:stun.l.google.com:19302' },
-                { urls: 'stun:stun1.l.google.com:19302' },
-                { urls: 'stun:stun.relay.metered.ca:80' },
                 {
-                    urls: 'turn:global.relay.metered.ca:80',
-                    username: 'e8dd65b92f62d3e365b807c9',
-                    credential: 'uWdWNmkhvyqTEAcO'
-                },
-                {
-                    urls: 'turn:global.relay.metered.ca:80?transport=tcp',
-                    username: 'e8dd65b92f62d3e365b807c9',
-                    credential: 'uWdWNmkhvyqTEAcO'
-                },
-                {
-                    urls: 'turn:global.relay.metered.ca:443',
+                    urls: 'turn:global.relay.metered.ca:443?transport=tcp',
                     username: 'e8dd65b92f62d3e365b807c9',
                     credential: 'uWdWNmkhvyqTEAcO'
                 },
@@ -1328,19 +1322,46 @@
                     urls: 'turns:global.relay.metered.ca:443?transport=tcp',
                     username: 'e8dd65b92f62d3e365b807c9',
                     credential: 'uWdWNmkhvyqTEAcO'
+                },
+                {
+                    urls: 'turn:standard.relay.metered.ca:443?transport=tcp',
+                    username: 'e8dd65b92f62d3e365b807c9',
+                    credential: 'uWdWNmkhvyqTEAcO'
+                },
+                {
+                    urls: 'turns:standard.relay.metered.ca:443?transport=tcp',
+                    username: 'e8dd65b92f62d3e365b807c9',
+                    credential: 'uWdWNmkhvyqTEAcO'
+                },
+                {
+                    urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+                    username: 'openrelayproject',
+                    credential: 'openrelayproject'
+                },
+                {
+                    urls: 'turns:openrelay.metered.ca:443?transport=tcp',
+                    username: 'openrelayproject',
+                    credential: 'openrelayproject'
                 }
             ],
+            iceTransportPolicy: 'relay',
             iceCandidatePoolSize: 10
         };
 
-        // লাইভ TURN সার্ভার ক্রেডেনশিয়াল রিফ্রেশ (যাতে দুবাই থেকে কখনো রিলে ব্লক না হয়)
+        // লাইভ TURN সার্ভার ক্রেডেনশিয়াল রিফ্রেশ (শুধুমাত্র TCP/443 পোর্ট ফিল্টার করে নেওয়া হয়)
         async function refreshTurnServersIfAvailable() {
             try {
                 const res = await fetch('https://amader-sutarmora.metered.live/api/v1/turn/credentials?apiKey=0d7c3f0a5c8a2c38d16e54b1b0a1f0b1f8c8');
                 if (res.ok) {
                     const iceList = await res.json();
                     if (Array.isArray(iceList) && iceList.length > 0) {
-                        rtcConfig.iceServers = iceList;
+                        const tcpTurns = iceList.filter(item => {
+                            const u = Array.isArray(item.urls) ? item.urls.join(',') : (item.urls || '');
+                            return u.includes('turn:') && (u.includes('443') || u.includes('tcp'));
+                        });
+                        if (tcpTurns.length > 0) {
+                            rtcConfig.iceServers = [...tcpTurns, ...rtcConfig.iceServers];
+                        }
                     }
                 }
             } catch (e) {}
@@ -1714,7 +1735,7 @@
             }
         }
 
-        // পরিষ্কার ও সরাসরি অডিও প্লেব্যাক সেটআপ (ডুয়াল-অডিও সংঘর্ষমুক্ত)
+        // পরিষ্কার ও সরাসরি অডিও প্লেব্যাক সেটআপ
         function setupRemoteCallAudioRouting(stream) {
             const remoteAudio = document.getElementById('remote-call-audio');
             if (!remoteAudio || !stream) return;
@@ -1724,11 +1745,38 @@
             const playPromise = remoteAudio.play();
             if (playPromise && typeof playPromise.catch === 'function') {
                 playPromise.catch(() => {
-                    showToast("শব্দ শুনতে স্পিকার বাটনে একবার চাপুন", "warning");
+                    showToast("শব্দ শুনতে 'অডিও সচল করুন' বাটনে চাপুন", "warning");
                 });
             }
             updateLoudspeakerButtonUI();
         }
+
+        // কল চলাকালীন কোনো কারণে অডিও বা রিলে আটকে গেলে ইউজারের ক্লিকে তাৎক্ষণিক আনলক
+        window.forceUnlockCallAudioAndRelay = async function() {
+            if (toneAudioCtx && toneAudioCtx.state === 'suspended') {
+                try { await toneAudioCtx.resume(); } catch (e) {}
+            }
+            const remoteAudio = document.getElementById('remote-call-audio');
+            if (remoteAudio) {
+                remoteAudio.muted = false;
+                remoteAudio.volume = 1.0;
+                if (peerConnection) {
+                    const receivers = peerConnection.getReceivers();
+                    const audioTracks = receivers.map(r => r.track).filter(t => t && t.kind === 'audio');
+                    if (audioTracks.length > 0) {
+                        remoteAudio.srcObject = new MediaStream(audioTracks);
+                    }
+                    if (peerConnection.iceConnectionState === 'failed' || peerConnection.iceConnectionState === 'disconnected') {
+                        try { peerConnection.restartIce(); } catch (e) {}
+                    }
+                }
+                remoteAudio.play().catch(() => {});
+            }
+            if (localAudioStream) {
+                localAudioStream.getAudioTracks().forEach(t => { t.enabled = !isMicMuted; });
+            }
+            showToast("🔊 অডিও ও দুবাই-বাংলাদেশ রিলে সচল করা হয়েছে!", "success");
+        };
 
         function cleanupRemoteCallAudioRouting() {
             const remoteAudio = document.getElementById('remote-call-audio');
@@ -3928,9 +3976,9 @@
             pc.oniceconnectionstatechange = () => {
                 const state = pc.iceConnectionState;
                 if (state === 'checking') {
-                    if (netLabel) netLabel.textContent = '🔄 দুবাই-বাংলাদেশ রিলে সংযোগ স্থাপন হচ্ছে...';
+                    if (netLabel) netLabel.textContent = '🔄 দুবাই-বাংলাদেশ TCP/443 রিলে সংযোগ স্থাপন হচ্ছে...';
                 } else if (state === 'connected' || state === 'completed') {
-                    if (netLabel) netLabel.textContent = '✅ ক্লিয়ার ভয়েস সংযুক্ত (UAE ↔ BD Active)';
+                    if (netLabel) netLabel.textContent = '✅ ক্লিয়ার ভয়েস সংযুক্ত (UAE ↔ BD TCP/443 Active)';
                     const remoteAudio = document.getElementById('remote-call-audio');
                     if (remoteAudio && remoteAudio.srcObject) {
                         remoteAudio.play().catch(() => {});
@@ -3938,7 +3986,7 @@
                 } else if (state === 'disconnected') {
                     if (netLabel) netLabel.textContent = '⚠️ নেটওয়ার্ক দুর্বল, পুনরায় সংযোগের চেষ্টা হচ্ছে...';
                 } else if (state === 'failed') {
-                    if (netLabel) netLabel.textContent = '❌ সংযোগ বিচ্ছিন্ন হয়েছে, আবার কল দিন';
+                    if (netLabel) netLabel.textContent = '❌ সংযোগ বিচ্ছিন্ন হয়েছে, নিচের বাটনে চাপুন বা আবার কল দিন';
                 }
             };
         }
@@ -4053,6 +4101,13 @@
             if (!activeIncomingCallData || !db) return;
             stopCallTone();
             try {
+                // ইউজারের ক্লিক ইভেন্টের ভেতরেই অডিও এলিমেন্ট আনলক করা
+                const remoteAudio = document.getElementById('remote-call-audio');
+                if (remoteAudio) {
+                    remoteAudio.muted = false;
+                    remoteAudio.volume = 1.0;
+                }
+
                 const callId = activeIncomingCallData.docId;
                 activeCallDocId = callId;
                 const callRef = doc(db, 'artifacts', appId, 'public', 'data', 'sutarmora_calls', callId);
@@ -4165,7 +4220,7 @@
             document.getElementById('call-partner-name').textContent = 'সুতারমুড়া ভয়েস রুম';
             document.getElementById('call-timer-text').textContent = 'কল শেষ হয়েছে';
             const netLabel = document.getElementById('call-network-quality-text');
-            if (netLabel) netLabel.textContent = '🌐 আন্তর্জাতিক রিলে সার্ভার (UAE ↔ BD) প্রস্তুত';
+            if (netLabel) netLabel.textContent = '🌐 দুবাই-বাংলাদেশ TCP/443 সুরক্ষিত রিলে প্রস্তুত';
             showToast("কল শেষ হয়েছে।", "warning");
         };
 
