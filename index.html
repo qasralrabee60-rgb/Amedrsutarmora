@@ -280,7 +280,7 @@
     <!-- ১. লগইন এবং রেজিস্ট্রেশন স্ক্রিন -->
     <div id="auth-screen" class="hidden min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-village-950 via-village-900 to-emerald-950">
         <div class="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border border-village-700/30">
-            <div class="relative bg-village-900 text-white p-6 text-center overflow-hidden rounded-b-3xl" style="background-image: linear-gradient(to bottom, rgba(20, 83, 45, 0.88), rgba(20, 83, 45, 0.96)), url('https://images.unsplash.com/photo-1544717305-2782549b5136?q=90&w=1000&auto=format&fit=crop'); background-size: cover; background-position: center;">
+            <div class="relative bg-village-900 text-white p-6 text-center overflow-hidden" style="background-image: linear-gradient(to bottom, rgba(20, 83, 45, 0.88), rgba(20, 83, 45, 0.96)), url('https://images.unsplash.com/photo-1544717305-2782549b5136?q=90&w=1000&auto=format&fit=crop'); background-size: cover; background-position: center;">
                 <button type="button" onclick="triggerAppInstall()" class="auth-install-btn absolute top-3 left-3 bg-gold-400 hover:bg-gold-500 text-village-950 text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow flex items-center gap-1 transition">
                     <i class="fa-brands fa-android"></i> অ্যাপ ইনস্টল
                 </button>
@@ -441,7 +441,7 @@
     <div id="main-app" class="hidden min-h-screen flex flex-col">
         
         <!-- টপ নেভিগেশন বার -->
-        <header class="sticky top-0 z-40 bg-village-900 text-white shadow-lg border-b border-village-800 rounded-b-3xl overflow-hidden">
+        <header class="sticky top-0 z-40 bg-village-900 text-white shadow-lg border-b border-village-800 overflow-hidden">
             <div class="max-w-6xl mx-auto px-3 sm:px-4 h-14 flex items-center justify-between gap-2">
                 <div class="flex items-center gap-2 cursor-pointer" onclick="switchMainTab('feed')">
                     <div class="w-9 h-9 bg-gold-400 text-village-950 rounded-xl flex items-center justify-center shadow">
@@ -505,10 +505,10 @@
                 </div>
             </nav>
 
-            <!-- ১ম টিকার লাইন: বামে কম জায়গায় "জরুরি ঘোষণা" -->
+            <!-- ১ম টিকার লাইন: বামে "জরুরি ঘোষণা" (বড় ও মোটা ফন্টে) -->
             <div id="urgent-ticker-bar" onclick="openTickerEditorModal()" title="ঘোষণা যুক্ত করতে ক্লিক করুন" class="ticker-bar-container bg-gradient-to-r from-red-700 via-red-600 to-amber-700 text-white border-t border-red-400/40 shadow-inner transition-colors duration-300 cursor-pointer">
-                <div class="max-w-6xl mx-auto flex items-center h-8 sm:h-9">
-                    <div class="w-[74px] sm:w-[82px] bg-black/30 h-full px-1.5 flex items-center justify-center shrink-0 border-r border-white/20 text-[11px] sm:text-xs font-extrabold tracking-tight text-gold-300 leading-none">
+                <div class="max-w-6xl mx-auto flex items-center h-9 sm:h-10">
+                    <div class="w-[96px] sm:w-[114px] bg-black/35 h-full px-2 flex items-center justify-center shrink-0 border-r border-white/25 text-[14px] sm:text-[16px] font-black tracking-normal text-gold-300 leading-none">
                         জরুরি ঘোষণা
                     </div>
                     <div class="flex-1 overflow-hidden relative h-full flex items-center">
@@ -519,10 +519,10 @@
                 </div>
             </div>
 
-            <!-- ২য় টিকার লাইন: বামে কম জায়গায় "বিজ্ঞাপন" -->
+            <!-- ২য় টিকার লাইন: বামে "বিজ্ঞাপন" (বড় ও মোটা ফন্টে) -->
             <div id="market-ticker-bar" onclick="switchMainTab('market')" title="হাট-বাজার পাতায় যেতে ক্লিক করুন" class="ticker-bar-container bg-gradient-to-r from-emerald-900 via-teal-800 to-village-900 text-white border-t border-emerald-400/30 shadow-inner cursor-pointer">
-                <div class="max-w-6xl mx-auto flex items-center h-8 sm:h-9">
-                    <div class="w-[74px] sm:w-[82px] bg-black/30 h-full px-1.5 flex items-center justify-center shrink-0 border-r border-white/20 text-[11px] sm:text-xs font-extrabold tracking-tight text-amber-300 leading-none">
+                <div class="max-w-6xl mx-auto flex items-center h-9 sm:h-10">
+                    <div class="w-[96px] sm:w-[114px] bg-black/35 h-full px-2 flex items-center justify-center shrink-0 border-r border-white/25 text-[14px] sm:text-[16px] font-black tracking-normal text-amber-300 leading-none">
                         বিজ্ঞাপন
                     </div>
                     <div class="flex-1 overflow-hidden relative h-full flex items-center">
