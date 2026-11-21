@@ -1,0 +1,26 @@
+{
+  "id": "com.sutarmora.community.app",
+  "name": "আমাদের সুতারমুড়া",
+  "short_name": "সুতারমুড়া",
+  "description": "আমাদের সুতারমুড়া গ্রাম ও প্রবাসীদের নিরাপদ ডিজিটাল মিলনমেলা",
+  "start_url": "https://qasralrabee60-rgb.github.io/Amedrsutarmora/",
+  "scope": "https://qasralrabee60-rgb.github.io/Amedrsutarmora/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#052e16",
+  "theme_color": "#14532d",
+  "icons": [
+    {
+      "src": "https://qasralrabee60-rgb.github.io/Amedrsutarmora/amader-sutarmora-logo-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://qasralrabee60-rgb.github.io/Amedrsutarmora/amader-sutarmora-logo-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
