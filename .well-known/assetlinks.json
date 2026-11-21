@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.qasralrabee60_rgb.twa",
+        "sha256_cert_fingerprints": ["D0:86:73:4A:58:FD:5F:3F:5F:E3:38:E5:C1:BF:EE:91:22:91:11:D6:7C:CA:2A:8F:C6:5C:26:7E:B5:94:76:5F"]
+      }
+    }]
