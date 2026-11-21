@@ -1397,6 +1397,11 @@
 
         let rtcConfig = {
             iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    { urls: 'stun:stun2.l.google.com:19302' },
+                    { urls: 'stun:stun3.l.google.com:19302' },
+                    { urls: 'stun:stun4.l.google.com:19302' },
                 {
                     urls: 'turn:global.relay.metered.ca:443?transport=tcp',
                     username: 'e8dd65b92f62d3e365b807c9',
@@ -1428,7 +1433,7 @@
                     credential: 'openrelayproject'
                 }
             ],
-            iceTransportPolicy: 'relay',
+            iceTransportPolicy: 'all',
             iceCandidatePoolSize: 10
         };
 
@@ -4602,5 +4607,29 @@
         function escapeHtml(str) { if (!str) return ''; return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
         initAppSystem();
     </script>
+
+<script>
+(function() {
+    // রিমোট ভিডিও/অডিও এলিমেন্ট সবসময় আনমিউট এবং সচল রাখা
+    setInterval(() => {
+        const remoteVid = document.getElementById('remote-video');
+        if (remoteVid && remoteVid.srcObject) {
+            remoteVid.muted = false;
+            remoteVid.volume = 1.0;
+            if (remoteVid.paused) {
+                remoteVid.play().catch(() => {});
+            }
+        }
+        const localVid = document.getElementById('local-video');
+        if (localVid && localVid.srcObject) {
+            localVid.muted = true;
+            if (localVid.paused) {
+                localVid.play().catch(() => {});
+            }
+        }
+    }, 1000);
+})();
+</script>
+
 </body>
 </html>
