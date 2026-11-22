@@ -107,6 +107,9 @@
 
 
 
+
+
+
 <!-- IMO-MESSENGER-CALL-SYSTEM-START -->
 <style>
     @keyframes imoPulseRing {
@@ -117,74 +120,59 @@
     .imo-avatar-pulse { animation: imoPulseRing 1.8s infinite; }
 
     /* imo / Botim এর মতো ১০০% ফুল-স্ক্রিন ভিডিও কল লেআউট */
-    #call-modal {
-        padding: 0 !important;
-        margin: 0 !important;
-        background: #000000 !important;
+    .imo-fullscreen-modal {
+        position: fixed !important;
         inset: 0 !important;
         width: 100vw !important;
         height: 100dvh !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #000000 !important;
+        z-index: 9999 !important;
     }
-    #call-modal > div {
+    .imo-fullscreen-card {
+        position: fixed !important;
+        inset: 0 !important;
         width: 100vw !important;
         height: 100dvh !important;
         max-width: 100vw !important;
         max-height: 100dvh !important;
         border-radius: 0 !important;
         border: none !important;
-        padding: 0 !important;
         margin: 0 !important;
-        background: #000000 !important;
-        position: relative !important;
+        padding: 0 16px 32px 16px !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: flex-end !important;
+        align-items: center !important;
+        background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 38%, transparent 70%) !important;
     }
-    /* অপর প্রান্তের ভিডিও পুরো স্ক্রিন জুড়ে থাকবে */
-    #remote-video {
+    .imo-remote-video-full {
         position: fixed !important;
         inset: 0 !important;
         width: 100vw !important;
         height: 100dvh !important;
         object-fit: cover !important;
         z-index: 1 !important;
+        border-radius: 0 !important;
         background: radial-gradient(circle at top, #064e3b 0%, #022c22 60%, #000000 100%) !important;
     }
-    /* ভিডিওর উপরের বক্স কনটেইনারও ফুল স্ক্রিন করা */
-    #remote-video.parentElement,
-    #call-modal .relative.w-full.aspect-video,
-    #call-modal [class*="aspect-video"],
-    #call-modal [class*="rounded-2xl"]:has(#remote-video) {
+    .imo-local-video-pip {
         position: fixed !important;
-        inset: 0 !important;
-        width: 100vw !important;
-        height: 100dvh !important;
-        max-height: 100dvh !important;
-        border-radius: 0 !important;
-        margin: 0 !important;
-        z-index: 1 !important;
-    }
-    /* নিজের ছোট ফ্লোটিং ক্যামেরা (imo স্টাইল ডান কোণায়) */
-    #local-video {
-        position: fixed !important;
-        top: 64px !important;
+        top: 66px !important;
         right: 16px !important;
         width: 112px !important;
-        height: 158px !important;
+        height: 160px !important;
         border: 2px solid #fbbf24 !important;
         border-radius: 18px !important;
-        box-shadow: 0 12px 30px rgba(0,0,0,0.75) !important;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.8) !important;
         object-fit: cover !important;
-        z-index: 30 !important;
+        z-index: 40 !important;
     }
-    /* নিচের কন্ট্রোল বাটনগুলো ভিডিওর উপরে ভাসমান থাকবে */
-    #call-modal > div > *:not(:has(#remote-video)):not(#remote-video):not(#local-video) {
+    .imo-controls-layer {
         position: relative !important;
-        z-index: 25 !important;
-    }
-    #call-modal > div {
-        padding-bottom: 28px !important;
-        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 35%, transparent 65%) !important;
+        z-index: 30 !important;
+        width: 100% !important;
     }
 </style>
 
@@ -284,6 +272,73 @@
 
     ['click', 'touchstart'].forEach(evt => document.addEventListener(evt, () => getAudioCtx(), { passive: true }));
 
+    // ভিডিও এলিমেন্ট ও বাইরের সবুজ বক্সকে imo/Botim-এর মতো ১০০% ফুল-স্ক্রিন রূপান্তর
+    function enforceImoFullscreenLayout() {
+        const videos = Array.from(document.querySelectorAll('video'));
+        if (videos.length === 0) return;
+
+        let remoteVid = document.getElementById('remote-video') || videos.find(v => !v.muted) || videos[0];
+        let localVid = document.getElementById('local-video') || videos.find(v => v !== remoteVid);
+
+        if (!remoteVid) return;
+
+        // ভিডিওগুলোর প্যারেন্ট মোডাল ও কার্ড খুঁজে বের করা
+        let cardEl = remoteVid.parentElement;
+        while (cardEl && cardEl !== document.body) {
+            const cls = cardEl.className || '';
+            if (typeof cls === 'string' && (cls.includes('rounded-3xl') || cls.includes('rounded-2xl') || cls.includes('bg-green') || cls.includes('bg-emerald'))) {
+                if (cardEl.querySelectorAll('button').length >= 3) break;
+            }
+            cardEl = cardEl.parentElement;
+        }
+
+        if (cardEl && cardEl !== document.body) {
+            const modalEl = cardEl.parentElement;
+            if (modalEl && modalEl !== document.body) {
+                modalEl.classList.add('imo-fullscreen-modal');
+            }
+            cardEl.classList.add('imo-fullscreen-card');
+
+            // কার্ডের ভেতরের সব শিশু এলিমেন্টকে বাটন লেয়ারে আনা
+            Array.from(cardEl.children).forEach(child => {
+                if (!child.contains(remoteVid) && child !== remoteVid && child !== localVid) {
+                    child.classList.add('imo-controls-layer');
+                }
+            });
+
+            // ভিডিও র‍্যাপার বক্সটিকেও ফুল-স্ক্রিন করা
+            if (remoteVid.parentElement && remoteVid.parentElement !== cardEl) {
+                remoteVid.parentElement.style.position = 'fixed';
+                remoteVid.parentElement.style.inset = '0';
+                remoteVid.parentElement.style.width = '100vw';
+                remoteVid.parentElement.style.height = '100dvh';
+                remoteVid.parentElement.style.borderRadius = '0';
+                remoteVid.parentElement.style.zIndex = '1';
+            }
+
+            // টাইমার ও ক্যামেরা ফ্লিপ বাটন যুক্ত করা
+            if (!document.getElementById('imo-live-timer')) {
+                const timerDiv = document.createElement('div');
+                timerDiv.id = 'imo-live-timer';
+                timerDiv.className = 'hidden fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-amber-300 text-xs font-extrabold border border-amber-400/40 shadow-lg';
+                timerDiv.textContent = '🟢 Metered HD • 00:00';
+                cardEl.appendChild(timerDiv);
+
+                const flipBtn = document.createElement('button');
+                flipBtn.type = 'button';
+                flipBtn.onclick = window.flipImoCamera;
+                flipBtn.className = 'fixed top-4 right-4 z-50 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-white flex items-center justify-center text-base shadow-lg border border-white/30';
+                flipBtn.innerHTML = '🔄';
+                cardEl.appendChild(flipBtn);
+            }
+        }
+
+        remoteVid.classList.add('imo-remote-video-full');
+        if (localVid && localVid !== remoteVid) {
+            localVid.classList.add('imo-local-video-pip');
+        }
+    }
+
     // ডেডিকেটেড Metered WebRTC ইঞ্জিন
     const OriginalRTC = window.RTCPeerConnection;
     window.RTCPeerConnection = function(config = {}) {
@@ -298,7 +353,8 @@
 
         pc.addEventListener('track', (event) => {
             window.stopSutarmoraCallTone();
-            const remoteVid = document.getElementById('remote-video');
+            enforceImoFullscreenLayout();
+            const remoteVid = document.getElementById('remote-video') || Array.from(document.querySelectorAll('video')).find(v => !v.muted);
             if (remoteVid && event.streams && event.streams[0]) {
                 if (remoteVid.srcObject !== event.streams[0]) remoteVid.srcObject = event.streams[0];
                 remoteVid.muted = false;
@@ -361,7 +417,7 @@
 
     window.flipImoCamera = async function() {
         try {
-            const localVid = document.getElementById('local-video');
+            const localVid = document.getElementById('local-video') || Array.from(document.querySelectorAll('video')).find(v => v.muted);
             if (!localVid || !localVid.srcObject) return;
             currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
             const newStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode }, audio: false });
@@ -375,36 +431,17 @@
     };
 
     setInterval(() => {
-        const callModal = document.getElementById('call-modal');
-        const incomingModal = document.getElementById('incoming-call-modal');
-        const remoteVid = document.getElementById('remote-video');
-
-        if (callModal && !document.getElementById('imo-live-timer')) {
-            const timerDiv = document.createElement('div');
-            timerDiv.id = 'imo-live-timer';
-            timerDiv.className = 'hidden fixed top-4 left-1/2 -translate-x-1/2 z-[10005] px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-amber-300 text-xs font-extrabold border border-amber-400/40 shadow-lg';
-            timerDiv.textContent = '🟢 Metered HD • 00:00';
-            callModal.appendChild(timerDiv);
-
-            const flipBtn = document.createElement('button');
-            flipBtn.type = 'button';
-            flipBtn.onclick = window.flipImoCamera;
-            flipBtn.className = 'fixed top-4 right-4 z-[10005] w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-white flex items-center justify-center text-base shadow-lg border border-white/30';
-            flipBtn.innerHTML = '🔄';
-            callModal.appendChild(flipBtn);
-        }
-
-        const isIncomingOpen = incomingModal && !incomingModal.classList.contains('hidden') && incomingModal.style.display !== 'none';
-        const isCallOpen = callModal && !callModal.classList.contains('hidden') && callModal.style.display !== 'none';
+        enforceImoFullscreenLayout();
+        const videos = Array.from(document.querySelectorAll('video'));
+        const remoteVid = document.getElementById('remote-video') || videos.find(v => !v.muted) || videos[0];
+        const isCallVisible = videos.some(v => v.offsetParent !== null);
         const isConnected = remoteVid && remoteVid.srcObject && remoteVid.srcObject.getTracks().length > 0;
 
-        if (isIncomingOpen) {
-            window.startSutarmoraCallTone('ringtone');
-        } else if (isCallOpen && !isConnected) {
+        if (isCallVisible && !isConnected) {
             window.startSutarmoraCallTone('callertune');
         } else {
             window.stopSutarmoraCallTone();
-            if (!isCallOpen) stopImoCallTimer();
+            if (!isCallVisible) stopImoCallTimer();
         }
 
         if (remoteVid && remoteVid.srcObject) {
@@ -412,7 +449,7 @@
             remoteVid.volume = 1.0;
             if (remoteVid.paused) remoteVid.play().catch(() => {});
         }
-    }, 600);
+    }, 500);
 })();
 </script>
 <!-- IMO-MESSENGER-CALL-SYSTEM-END -->
