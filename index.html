@@ -113,6 +113,9 @@
 
 
 
+
+
+
 <!-- IMO-MESSENGER-CALL-SYSTEM-START -->
 <style>
     @keyframes imoPulseRing {
@@ -397,6 +400,48 @@
         return pc;
     };
     window.RTCPeerConnection.prototype = OriginalRTC.prototype;
+
+    // স্ক্রিন স্লিপ মোড রোধ (Wake Lock) ও ব্যাকগ্রাউন্ড অনলাইন হার্টবিট
+    let wakeLockSentinel = null;
+    async function keepScreenAwake() {
+        try {
+            if ('wakeLock' in navigator && !wakeLockSentinel && document.visibilityState === 'visible') {
+                wakeLockSentinel = await navigator.wakeLock.request('screen');
+                wakeLockSentinel.addEventListener('release', () => { wakeLockSentinel = null; });
+            }
+        } catch (e) {}
+    }
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            keepScreenAwake();
+            window.dispatchEvent(new Event('focus'));
+        }
+    });
+    ['click', 'touchstart'].forEach(evt => document.addEventListener(evt, () => {
+        keepScreenAwake();
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission().catch(() => {});
+        }
+    }, { passive: true }));
+
+    // প্রতি ১৫ সেকেন্ডে ব্যাকগ্রাউন্ড অনলাইন সিগন্যাল ও ইনকামিং কল নোটিফিকেশন
+    setInterval(() => {
+        try {
+            window.dispatchEvent(new Event('mousemove'));
+            const incomingModal = document.getElementById('incoming-call-modal');
+            const isRinging = incomingModal && !incomingModal.classList.contains('hidden') && incomingModal.style.display !== 'none';
+            if (isRinging) {
+                window.startSutarmoraCallTone('ringtone');
+                if ('Notification' in window && Notification.permission === 'granted' && document.visibilityState !== 'visible') {
+                    new Notification('📞 আমাদের সুতারমুড়া — ইনকামিং কল!', {
+                        body: 'আপনাকে কেউ অডিও বা ভিডিও কল দিচ্ছে, রিসিভ করতে ট্যাপ করুন।',
+                        tag: 'sutarmora-incoming-call',
+                        renotify: true
+                    });
+                }
+            }
+        } catch (e) {}
+    }, 15000);
 
     let currentFacingMode = 'user';
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
