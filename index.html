@@ -103,6 +103,249 @@
     <link rel="icon" type="image/png" sizes="192x192" href="./amader-sutarmora-logo-192x192.png">
     <link rel="apple-touch-icon" href="./amader-sutarmora-logo-512x512.png">
     <link rel="manifest" href="./manifest.json">
+
+<!-- IMO-MESSENGER-CALL-SYSTEM-START -->
+<style>
+    @keyframes imoPulseRing {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { transform: scale(1.03); box-shadow: 0 0 0 22px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    .imo-avatar-pulse { animation: imoPulseRing 1.8s infinite; }
+    #call-modal { background: radial-gradient(circle at top, #064e3b 0%, #022c22 55%, #000000 100%) !important; }
+    #remote-video { object-fit: cover !important; width: 100% !important; height: 100% !important; }
+    #local-video { border: 2px solid #fbbf24 !important; border-radius: 18px !important; box-shadow: 0 10px 25px rgba(0,0,0,0.6) !important; object-fit: cover !important; }
+</style>
+
+<script>
+(function() {
+    const METERED_APP_DOMAIN = "amadersutarmora.metered.live";
+    const METERED_API_KEY = "7a25f124dda1f5005f03979c9416c9d72ad2";
+
+    let activeIceServers = [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' }
+    ];
+
+    async function refreshMeteredCredentials() {
+        try {
+            const r = await fetch('https://' + METERED_APP_DOMAIN + '/api/v1/turn/credentials?apiKey=' + encodeURIComponent(METERED_API_KEY));
+            const servers = await r.json();
+            if (Array.isArray(servers) && servers.length > 0) {
+                activeIceServers = servers;
+            }
+        } catch (e) {}
+    }
+    refreshMeteredCredentials();
+    setInterval(refreshMeteredCredentials, 1000 * 60 * 30);
+
+    // মিষ্টি কলার টিউন ও রিসিভার রিংটোন
+    let soundTimer = null, audioCtx = null, currentSoundMode = null;
+    function getAudioCtx() {
+        if (!audioCtx) {
+            const Ctx = window.AudioContext || window.webkitAudioContext;
+            if (Ctx) audioCtx = new Ctx();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
+        return audioCtx;
+    }
+
+    function playSweetRingtoneCycle() {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        const melody = [
+            { f: 523.25, t: 0.00, d: 0.30 }, { f: 659.25, t: 0.16, d: 0.30 },
+            { f: 783.99, t: 0.32, d: 0.30 }, { f: 1046.50, t: 0.48, d: 0.45 },
+            { f: 880.00, t: 0.72, d: 0.30 }, { f: 1046.50, t: 0.90, d: 0.55 }
+        ];
+        melody.forEach(n => {
+            const osc = ctx.createOscillator(), gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(n.f, now + n.t);
+            gain.gain.setValueAtTime(0.001, now + n.t);
+            gain.gain.exponentialRampToValueAtTime(0.24, now + n.t + 0.03);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + n.t + n.d);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(now + n.t); osc.stop(now + n.t + n.d + 0.02);
+        });
+        if (navigator.vibrate) navigator.vibrate([300, 150, 300]);
+    }
+
+    function playSweetCallerTuneCycle() {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+        const notes = [
+            { f: 440.00, t: 0.00, d: 0.45 }, { f: 554.37, t: 0.22, d: 0.45 },
+            { f: 659.25, t: 0.44, d: 0.65 }, { f: 587.33, t: 0.85, d: 0.55 }
+        ];
+        notes.forEach(n => {
+            const osc = ctx.createOscillator(), gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(n.f, now + n.t);
+            gain.gain.setValueAtTime(0.001, now + n.t);
+            gain.gain.exponentialRampToValueAtTime(0.11, now + n.t + 0.06);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + n.t + n.d);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(now + n.t); osc.stop(now + n.t + n.d + 0.03);
+        });
+    }
+
+    window.startSutarmoraCallTone = function(mode) {
+        if (currentSoundMode === mode && soundTimer) return;
+        window.stopSutarmoraCallTone();
+        currentSoundMode = mode;
+        if (mode === 'ringtone') {
+            playSweetRingtoneCycle();
+            soundTimer = setInterval(playSweetRingtoneCycle, 2400);
+        } else if (mode === 'callertune') {
+            playSweetCallerTuneCycle();
+            soundTimer = setInterval(playSweetCallerTuneCycle, 2600);
+        }
+    };
+
+    window.stopSutarmoraCallTone = function() {
+        if (soundTimer) { clearInterval(soundTimer); soundTimer = null; }
+        currentSoundMode = null;
+        if (navigator.vibrate) navigator.vibrate(0);
+    };
+
+    ['click', 'touchstart'].forEach(evt => document.addEventListener(evt, () => getAudioCtx(), { passive: true }));
+
+    // ডেডিকেটেড Metered WebRTC ইঞ্জিন
+    const OriginalRTC = window.RTCPeerConnection;
+    window.RTCPeerConnection = function(config = {}) {
+        const pc = new OriginalRTC({
+            ...config,
+            iceServers: activeIceServers,
+            iceTransportPolicy: 'all',
+            bundlePolicy: 'max-bundle',
+            rtcpMuxPolicy: 'require',
+            iceCandidatePoolSize: 10
+        });
+
+        pc.addEventListener('track', (event) => {
+            window.stopSutarmoraCallTone();
+            const remoteVid = document.getElementById('remote-video');
+            if (remoteVid && event.streams && event.streams[0]) {
+                if (remoteVid.srcObject !== event.streams[0]) remoteVid.srcObject = event.streams[0];
+                remoteVid.muted = false;
+                remoteVid.volume = 1.0;
+                remoteVid.play().catch(() => {});
+            }
+        });
+
+        pc.addEventListener('connectionstatechange', () => {
+            if (pc.connectionState === 'connected') {
+                window.stopSutarmoraCallTone();
+                startImoCallTimer();
+            } else if (['disconnected', 'failed', 'closed'].includes(pc.connectionState)) {
+                window.stopSutarmoraCallTone();
+                stopImoCallTimer();
+            }
+        });
+
+        return pc;
+    };
+    window.RTCPeerConnection.prototype = OriginalRTC.prototype;
+
+    let currentFacingMode = 'user';
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        const origGetUserMedia = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+        navigator.mediaDevices.getUserMedia = function(constraints = {}) {
+            const enhanced = { ...constraints };
+            if (enhanced.audio) {
+                enhanced.audio = { echoCancellation: true, noiseSuppression: true, autoGainControl: true, sampleRate: 48000, channelCount: 1 };
+            }
+            if (enhanced.video) {
+                const isObj = typeof enhanced.video === 'object';
+                enhanced.video = { ...(isObj ? enhanced.video : {}), facingMode: currentFacingMode, width: { ideal: 1280, max: 1280 }, height: { ideal: 720, max: 720 }, frameRate: { ideal: 30, max: 30 } };
+            }
+            return origGetUserMedia(enhanced).catch(() => origGetUserMedia(constraints));
+        };
+    }
+
+    let callTimerInterval = null, callSeconds = 0;
+    function startImoCallTimer() {
+        if (callTimerInterval) return;
+        callSeconds = 0;
+        const badge = document.getElementById('imo-live-timer');
+        if (badge) badge.classList.remove('hidden');
+        callTimerInterval = setInterval(() => {
+            callSeconds++;
+            const mins = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+            const secs = String(callSeconds % 60).padStart(2, '0');
+            const el = document.getElementById('imo-live-timer');
+            if (el) el.textContent = '🟢 Metered HD • ' + mins + ':' + secs;
+        }, 1000);
+    }
+
+    function stopImoCallTimer() {
+        if (callTimerInterval) { clearInterval(callTimerInterval); callTimerInterval = null; }
+        callSeconds = 0;
+        const el = document.getElementById('imo-live-timer');
+        if (el) el.classList.add('hidden');
+    }
+
+    window.flipImoCamera = async function() {
+        try {
+            const localVid = document.getElementById('local-video');
+            if (!localVid || !localVid.srcObject) return;
+            currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+            const newStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode }, audio: false });
+            const newVideoTrack = newStream.getVideoTracks()[0];
+            const oldStream = localVid.srcObject;
+            const oldVideoTrack = oldStream.getVideoTracks()[0];
+            if (oldVideoTrack) { oldStream.removeTrack(oldVideoTrack); oldVideoTrack.stop(); }
+            oldStream.addTrack(newVideoTrack);
+            localVid.srcObject = oldStream;
+        } catch (e) {}
+    };
+
+    setInterval(() => {
+        const callModal = document.getElementById('call-modal');
+        const incomingModal = document.getElementById('incoming-call-modal');
+        const remoteVid = document.getElementById('remote-video');
+
+        if (callModal && !document.getElementById('imo-live-timer')) {
+            const timerDiv = document.createElement('div');
+            timerDiv.id = 'imo-live-timer';
+            timerDiv.className = 'hidden fixed top-4 left-1/2 -translate-x-1/2 z-[10005] px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-amber-300 text-xs font-extrabold border border-amber-400/40 shadow-lg';
+            timerDiv.textContent = '🟢 Metered HD • 00:00';
+            callModal.appendChild(timerDiv);
+
+            const flipBtn = document.createElement('button');
+            flipBtn.type = 'button';
+            flipBtn.onclick = window.flipImoCamera;
+            flipBtn.className = 'fixed top-4 right-4 z-[10005] w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-white flex items-center justify-center text-base shadow-lg border border-white/30';
+            flipBtn.innerHTML = '🔄';
+            callModal.appendChild(flipBtn);
+        }
+
+        const isIncomingOpen = incomingModal && !incomingModal.classList.contains('hidden') && incomingModal.style.display !== 'none';
+        const isCallOpen = callModal && !callModal.classList.contains('hidden') && callModal.style.display !== 'none';
+        const isConnected = remoteVid && remoteVid.srcObject && remoteVid.srcObject.getTracks().length > 0;
+
+        if (isIncomingOpen) {
+            window.startSutarmoraCallTone('ringtone');
+        } else if (isCallOpen && !isConnected) {
+            window.startSutarmoraCallTone('callertune');
+        } else {
+            window.stopSutarmoraCallTone();
+            if (!isCallOpen) stopImoCallTimer();
+        }
+
+        if (remoteVid && remoteVid.srcObject) {
+            remoteVid.muted = false;
+            remoteVid.volume = 1.0;
+            if (remoteVid.paused) remoteVid.play().catch(() => {});
+        }
+    }, 600);
+})();
+</script>
+<!-- IMO-MESSENGER-CALL-SYSTEM-END -->
+
 </head>
 <body class="bg-stone-100 text-gray-800 antialiased selection:bg-village-600 selection:text-white">
 
